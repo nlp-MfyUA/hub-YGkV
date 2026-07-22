@@ -184,10 +184,12 @@ def analyze_with_tool_call(text: str) -> list[dict]:
             {"role": "system", "content": system_prompt},
             {"role": "user", "content": user_message},
         ],
+        extra_body={"thinking": {"type": "enabled"}},
+        reasoning_effort="high",
         tools=tools,
         # 强制模型必须调用工具（而非自由回复）
-        tool_choice={"type": "function", "function": {"name": "extract_relationships"}},
-        temperature=0.1,
+        # tool_choice={"type": "function", "function": {"name": "extract_relationships"}},
+        # temperature=0.1,
     )
 
     # 从 tool_calls 中提取函数调用参数
@@ -197,11 +199,14 @@ def analyze_with_tool_call(text: str) -> list[dict]:
     if message.tool_calls:
         # 获取第一个工具调用的参数（JSON 字符串）
         arguments_str = message.tool_calls[0].function.arguments
+        tool_name = message.tool_calls[0].function.name
+        print(f"[Tool Call] 工具名称: {tool_name}")
         try:
             arguments = json.loads(arguments_str)
             return arguments.get("relationships", [])
         except json.JSONDecodeError as e:
             print(f"[Tool Call] 参数解析失败: {e}")
+            print(f"[Tool Call] 工具名称: {tool_name}")
             print(f"[Tool Call] 原始参数: {arguments_str}")
             return []
     else:
