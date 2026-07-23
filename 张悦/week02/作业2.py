@@ -29,7 +29,6 @@ def get_relation(text: str) -> list:
         start = idx + 1
     return relation
 
-
 #===================
 #工具描述
 #===================
