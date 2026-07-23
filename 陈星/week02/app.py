@@ -18,7 +18,7 @@ col1, col2 = st.columns(2)
 with col1:
     st.page_link("pages/1_对话.py", label="💬 智能对话", icon="💬")
     st.page_link("pages/2_知识库.py", label="📚 知识库问答 (RAG)", icon="📚")
-    st.page_link("pages/5_关系图谱.py", label="🕸️ 人物关系图谱", icon="🕸️")
+    st.page_link("pages/5_情感分析.py", label="😊 情感分析", icon="😊")
 with col2:
     st.page_link("pages/3_表格分析.py", label="📊 表格数据分析", icon="📊")
     st.page_link("pages/4_设置.py", label="⚙️ 设置", icon="⚙️")
