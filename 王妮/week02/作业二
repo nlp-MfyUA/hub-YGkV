@@ -1,0 +1,22 @@
+"""人物关系分析的数据模型。"""
+
+from pydantic import BaseModel, Field, field_validator
+
+
+class PersonRelation(BaseModel):
+    source: str = Field(..., min_length=1, description="关系发起者")
+    relation: str = Field(..., min_length=1, description="规范化后的关系")
+    target: str = Field(..., min_length=1, description="关系目标")
+
+    @field_validator("source", "relation", "target")
+    @classmethod
+    def strip_text(cls, value: str) -> str:
+        value = value.strip()
+        if not value:
+            raise ValueError("人物和关系名称不能为空")
+        return value
+
+
+class RelationResult(BaseModel):
+    relations: list[PersonRelation] = Field(default_factory=list)
+
