@@ -1,0 +1,24 @@
+1、 langchain 工具调用 和 llm function call 有什么区别？
+1）langchain 对不同模型的工具注册流程得到简化和统一
+2）langchain ai的输出ai_response 以及工具的输出tool_result可以直接加入上下文message，传给模型，llm function call不能把模型返回的全部直接添加到下一轮输入模型的input
+但是我这里有一个疑问：
+choice = response.choices[0]
+msg = choice.message  之前我们直接使用LLM接口lient.chat.completions.create 获得的response 我们会指定选择choice[0]，这个是langchain框架默认选择了吗？
+3）对于大模型返回的工具调用的函数名称和参数，langchain 有tools_by_name，它的入参数是函数的名称，返回值tool可以使用invoke进行函数执行，llm function call需要人去维护函数名称和函数的map，遍历map，比较key，执行对应函数
+4）疑问：
+Model工具调用.py 文件中
+messages.append(ai_response)
+# 运行工具
+for tool_call in ai_response.tool_calls:
+    tool_result = get_weather.invoke(tool_call)
+    messages.append(tool_result)
+
+这里直接把ai_reaponse 全部添加到上下文，然后对于可能多个工具执行的每个结果，依次加入上下文，大模型也是可以识别哪个tool_result是哪个工具调用的结果是吗？
+我看了下上周的代码 我们是添加一个模型返回的工具msg 然后添加这个工具的调用结果，接着添加工具返回的第二个工具信息msg和第二个工具返回的调用结果，这样子的顺序添加
+
+
+2、 langchain 工具调用 的 速度是受到什么影响？
+1）注册工具个数
+2）工具具体的操作，工具如果涉及很多费时的IO操作，时间应该会很慢，需要考虑异步接口
+3）工具信息返回是否涉及大量信息，比如工具查找了互联网多个文档，大模型需要读这些文档，总结结论
+
