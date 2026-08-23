@@ -1,0 +1,22 @@
+from openai import OpenAI
+
+# 初始化客户端，指向 Ollama 的本地服务（OpenAI 兼容端点）
+client = OpenAI(
+    base_url="http://localhost:11434/v1",  # Ollama API 地址
+    api_key="1111",                        # Ollama 默认无需真实 API Key，填任意值即可
+)
+
+# 发送请求
+# 注：本地安装的是 qwen3:0.6b 的 fp16 版本，标签为 qwen3:0.6b-fp16
+response = client.chat.completions.create(
+    model="qwen3:0.6b-fp16",              # 指定本地模型
+    messages=[
+        {"role": "system", "content": "你是一个有帮助的助手。"},
+        {"role": "user", "content": "你好"},
+    ],
+    temperature=0.7,                       # 控制生成多样性
+    max_tokens=512,                        # 最大生成 token 数
+)
+
+# 打印结果
+print(response.choices[0].message.content)
