@@ -1,0 +1,447 @@
+"""人物关系分析的数据模型。"""
+
+from pydantic import BaseModel, Field, field_validator
+
+
+class PersonRelation(BaseModel):
+    source: str = Field(..., min_length=1, description="关系发起者")
+    relation: str = Field(..., min_length=1, description="规范化后的关系")
+    target: str = Field(..., min_length=1, description="关系目标")
+
+    @field_validator("source", "relation", "target")
+    @classmethod
+    def strip_text(cls, value: str) -> str:
+        value = value.strip()
+        if not value:
+            raise ValueError("人物和关系名称不能为空")
+        return value
+
+
+class RelationResult(BaseModel):
+    relations: list[PersonRelation] = Field(default_factory=list)
+
+"""基于 JSON Mode、并以 Tool Calling 回退的人物关系分析智能体。"""
+
+from __future__ import annotations
+
+import json
+import re
+
+from pydantic import ValidationError
+
+from src.client import LLMClient
+from src.relation_model import RelationResult
+
+SYSTEM_PROMPT = """你是严谨的中文人物关系抽取助手。
+请从用户原文中提取全部明确表达的人物关系，并遵守以下规则：
+1. 只提取原文明示的关系，不推测、不补充。
+2. 一句话可以包含多条关系，必须完整处理“但是、然而、并且”等结构。
+3. 否定事实必须保留：“不喜欢”“不信任”“非朋友”等不得转成肯定关系。
+4. 人物名称必须原样来自用户文本；没有人物关系时 relations 返回空数组。
+5. 规范关系名：喜欢/暗恋/爱上→爱慕；朋友/好友→朋友；讨厌/厌恶→讨厌；
+   帮助/协助→帮助；信任/相信→信任；同学→同学；同事→同事；
+   上司/领导→上下级；父亲/母亲/兄弟/姐妹→亲属。
+6. 只输出合法 JSON，不要 Markdown、代码围栏或解释。
+输出结构：{"relations":[{"source":"人物","relation":"关系","target":"人物"}]}
+"""
+
+RELATION_TOOL = {
+    "type": "function",
+    "function": {
+        "name": "save_person_relations",
+        "description": "保存用户原文中明确出现的全部人物关系",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "relations": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "source": {"type": "string"},
+                            "relation": {"type": "string"},
+                            "target": {"type": "string"},
+                        },
+                        "required": ["source", "relation", "target"],
+                        "additionalProperties": False,
+                    },
+                }
+            },
+            "required": ["relations"],
+            "additionalProperties": False,
+        },
+    },
+}
+
+
+class RelationAnalysisError(RuntimeError):
+    """可安全展示给用户的关系分析错误。"""
+
+
+def parse_relation_json(text: str) -> RelationResult:
+    """解析模型 JSON，兼容 Markdown 围栏及顶层数组。"""
+    cleaned = text.strip()
+    fenced = re.fullmatch(r"```(?:json)?\s*(.*?)\s*```", cleaned, flags=re.S | re.I)
+    if fenced:
+        cleaned = fenced.group(1).strip()
+    try:
+        raw = json.loads(cleaned)
+    except json.JSONDecodeError as exc:
+        raise RelationAnalysisError("模型没有返回合法 JSON，请重试。") from exc
+    if isinstance(raw, list):
+        raw = {"relations": raw}
+    try:
+        return RelationResult.model_validate(raw)
+    except ValidationError as exc:
+        raise RelationAnalysisError("模型返回的关系字段不完整或类型错误，请重试。") from exc
+
+
+class RelationAgent:
+    """人物关系智能体：优先 JSON Mode，失败后回退 Tool Calling。"""
+
+    def __init__(self, llm: LLMClient | None = None):
+        self.llm = llm or LLMClient(timeout=60.0)
+        self.last_mode: str | None = None
+
+    @property
+    def is_configured(self) -> bool:
+        return bool(
+            self.llm.api_key
+            and "your" not in self.llm.api_key.lower()
+            and self.llm.base_url
+            and self.llm.model
+        )
+
+    @staticmethod
+    def _validate_source_names(result: RelationResult, text: str) -> RelationResult:
+        """拒绝模型凭空生成不在原文中的人物，并移除完全重复关系。"""
+        unique = []
+        seen = set()
+        for relation in result.relations:
+            if relation.source not in text or relation.target not in text:
+                raise RelationAnalysisError("模型返回了原文中不存在的人物，请重试。")
+            key = (relation.source, relation.relation, relation.target)
+            if key not in seen:
+                seen.add(key)
+                unique.append(relation)
+        return RelationResult(relations=unique)
+
+    def analyze(self, text: str) -> RelationResult:
+        text = text.strip()
+        if not text:
+            raise RelationAnalysisError("请输入需要分析的文本。")
+        if not self.is_configured:
+            raise RelationAnalysisError(
+                "大模型尚未配置。请复制 .env.example 为 .env，并填写 LLM 配置。"
+            )
+        messages = [
+            {"role": "system", "content": SYSTEM_PROMPT},
+            {"role": "user", "content": text},
+        ]
+        json_error: Exception | None = None
+        try:
+            response = self.llm.client.chat.completions.create(
+                model=self.llm.model,
+                messages=messages,
+                response_format={"type": "json_object"},
+                temperature=0,
+            )
+            self.last_mode = "JSON Mode"
+            result = parse_relation_json(response.choices[0].message.content or "")
+            return self._validate_source_names(result, text)
+        except Exception as exc:
+            json_error = exc
+        try:
+            response = self.llm.client.chat.completions.create(
+                model=self.llm.model,
+                messages=messages,
+                tools=[RELATION_TOOL],
+                tool_choice={
+                    "type": "function",
+                    "function": {"name": "save_person_relations"},
+                },
+                temperature=0,
+            )
+            message = response.choices[0].message
+            if not message.tool_calls:
+                raise RelationAnalysisError("模型未返回关系提取工具调用。")
+            arguments = json.loads(message.tool_calls[0].function.arguments)
+            self.last_mode = "Tool Calling（JSON Mode 回退）"
+            result = RelationResult.model_validate(arguments)
+            return self._validate_source_names(result, text)
+        except RelationAnalysisError:
+            raise
+        except Exception as tool_error:
+            reason = f"{type(json_error).__name__} / {type(tool_error).__name__}"
+            raise RelationAnalysisError(
+                f"模型请求失败（{reason}）。请检查 API 地址、模型名称和网络连接。"
+            ) from tool_error
+
+"""人物关系有向图渲染。"""
+
+import matplotlib.pyplot as plt
+import networkx as nx
+
+from src.plot_config import configure_chinese_font
+from src.relation_model import PersonRelation
+
+
+def build_relation_figure(relations: list[PersonRelation]):
+    """将人物关系列表渲染为适合 Streamlit 的 Matplotlib 图。"""
+    if not relations:
+        return None
+    graph = nx.MultiDiGraph()
+    for relation in relations:
+        graph.add_edge(relation.source, relation.target, label=relation.relation)
+    configure_chinese_font()
+    figure, axis = plt.subplots(figsize=(9, 5))
+    position = nx.spring_layout(graph, seed=42, k=1.8)
+    nx.draw_networkx_nodes(
+        graph, position, node_color="#dceeff", edgecolors="#2878b5",
+        node_size=2600, linewidths=1.5, ax=axis
+    )
+    nx.draw_networkx_labels(graph, position, font_size=11, ax=axis)
+    nx.draw_networkx_edges(
+        graph, position, edge_color="#666666", arrows=True, arrowsize=22,
+        connectionstyle="arc3,rad=0.08", min_source_margin=20,
+        min_target_margin=20, ax=axis
+    )
+    edge_labels = {}
+    for source, target in graph.edges():
+        labels = [
+            data["label"] for data in graph.get_edge_data(source, target).values()
+        ]
+        edge_labels[(source, target)] = " / ".join(labels)
+    nx.draw_networkx_edge_labels(
+        graph, position, edge_labels=edge_labels, font_color="#b22222",
+        font_size=10, label_pos=0.5, ax=axis
+    )
+    axis.set_axis_off()
+    figure.tight_layout()
+    return figure
+
+
+"""作业二：基于大模型的人物情感关系分析智能体。"""
+
+import json
+import sys
+from pathlib import Path
+
+import pandas as pd
+import streamlit as st
+
+_HERE = Path(__file__).resolve().parent
+_PROJECT_ROOT = _HERE.parent.parent
+if str(_PROJECT_ROOT) not in sys.path:
+    sys.path.insert(0, str(_PROJECT_ROOT))
+
+from src.relation_agent import RelationAgent, RelationAnalysisError
+from src.relation_graph import build_relation_figure
+
+st.set_page_config(page_title="人物关系分析", page_icon="🕸️", layout="wide")
+st.title("🕸️ 人物情感关系分析智能体")
+st.markdown(
+    "输入人物关系描述，智能体优先使用 **JSON Mode** 提取全部明确关系，"
+    "并在模型不支持时回退到 **Tool Calling**。"
+)
+
+
+@st.cache_resource
+def load_agent() -> RelationAgent:
+    return RelationAgent()
+
+
+agent = load_agent()
+if agent.is_configured:
+    st.success(
+        f"模型已配置：`{agent.llm.model}` ｜ API Key：已配置（内容已隐藏）",
+        icon="✅",
+    )
+else:
+    st.warning(
+        "模型尚未完整配置。请复制 `.env.example` 为 `.env` 后填写配置；"
+        "页面不会显示完整密钥。",
+        icon="⚠️",
+    )
+
+input_text = st.text_area(
+    "人物关系描述",
+    value="小明喜欢小姚，但是小姚喜欢小王。",
+    height=140,
+    placeholder="例如：小红和小丽是朋友，小丽讨厌小刚。",
+)
+
+if st.button("开始分析", type="primary", use_container_width=True):
+    try:
+        with st.spinner("正在调用大模型分析人物关系..."):
+            result = agent.analyze(input_text)
+        relations = result.relations
+        result_array = [relation.model_dump() for relation in relations]
+        result_json = json.dumps(result_array, ensure_ascii=False, indent=2)
+        st.caption(f"本次调用方式：{agent.last_mode}")
+        if not relations:
+            st.info("原文中没有提取到明确的人物关系。")
+        else:
+            st.success(f"共提取到 {len(relations)} 条人物关系。")
+            json_col, table_col = st.columns(2)
+            with json_col:
+                st.subheader("JSON 结果")
+                st.json(result_array)
+                st.download_button(
+                    "下载 JSON", data=result_json.encode("utf-8"),
+                    file_name="person_relations.json", mime="application/json",
+                    use_container_width=True
+                )
+            with table_col:
+                st.subheader("表格结果")
+                st.dataframe(
+                    pd.DataFrame(result_array).rename(
+                        columns={
+                            "source": "关系发起者",
+                            "relation": "关系",
+                            "target": "关系目标",
+                        }
+                    ),
+                    hide_index=True, use_container_width=True
+                )
+            st.subheader("人物关系图谱")
+            try:
+                figure = build_relation_figure(relations)
+                if figure is not None:
+                    st.pyplot(figure, use_container_width=True)
+            except Exception:
+                st.warning("关系已成功提取，但图谱渲染失败，请查看 JSON 或表格结果。")
+    except RelationAnalysisError as exc:
+        st.error(str(exc))
+    except Exception:
+        st.error("分析过程中发生未知错误，请检查模型配置后重试。")
+
+with st.expander("作业说明与抽取规则"):
+    st.markdown(
+        """
+        - 只提取原文明确表达的关系，不凭空推断。
+        - 支持一句话中的多条关系以及转折、并列结构。
+        - “喜欢、暗恋、爱上”规范为“爱慕”。
+        - “不喜欢、不信任、非朋友”等否定事实会原样保留。
+        - 没有人物关系时返回空数组。
+        - 朋友关系默认只保留原句表达方向，不自动生成反向重复关系。
+        """
+    )
+
+
+"""人物关系智能体的离线单元测试。"""
+
+from types import SimpleNamespace
+
+import pytest
+
+from src.relation_agent import RelationAgent, RelationAnalysisError, parse_relation_json
+
+
+class FakeCompletions:
+    def __init__(self, json_content=None, tool_arguments=None, fail_json=False):
+        self.json_content = json_content
+        self.tool_arguments = tool_arguments
+        self.fail_json = fail_json
+
+    def create(self, **kwargs):
+        if "response_format" in kwargs:
+            if self.fail_json:
+                raise RuntimeError("JSON Mode unsupported")
+            message = SimpleNamespace(content=self.json_content, tool_calls=None)
+        else:
+            tool_call = SimpleNamespace(
+                function=SimpleNamespace(arguments=self.tool_arguments)
+            )
+            message = SimpleNamespace(content=None, tool_calls=[tool_call])
+        return SimpleNamespace(choices=[SimpleNamespace(message=message)])
+
+
+class FakeLLM:
+    def __init__(self, completions):
+        self.api_key = "test-key"
+        self.base_url = "https://example.invalid"
+        self.model = "test-model"
+        self.client = SimpleNamespace(
+            chat=SimpleNamespace(completions=completions)
+        )
+
+
+def test_parse_two_relations_from_json_mode():
+    result = parse_relation_json(
+        """```json
+        {"relations":[
+          {"source":"小明","relation":"爱慕","target":"小姚"},
+          {"source":"小姚","relation":"爱慕","target":"小王"}
+        ]}
+        ```"""
+    )
+    assert len(result.relations) == 2
+    assert result.relations[1].source == "小姚"
+
+
+def test_parse_top_level_array_and_empty_array():
+    assert parse_relation_json("[]").relations == []
+    result = parse_relation_json(
+        '[{"source":"小红","relation":"朋友","target":"小丽"}]'
+    )
+    assert result.relations[0].relation == "朋友"
+
+
+def test_friends_and_dislike_sample():
+    result = parse_relation_json(
+        '{"relations":['
+        '{"source":"小红","relation":"朋友","target":"小丽"},'
+        '{"source":"小丽","relation":"讨厌","target":"小刚"}]}'
+    )
+    assert [item.relation for item in result.relations] == ["朋友", "讨厌"]
+
+
+def test_weather_sample_returns_empty_array():
+    assert parse_relation_json('{"relations":[]}').relations == []
+
+
+def test_invalid_json_has_friendly_error():
+    with pytest.raises(RelationAnalysisError, match="合法 JSON"):
+        parse_relation_json("不是 JSON")
+
+
+def test_agent_uses_json_mode_for_all_explicit_relations():
+    content = (
+        '{"relations":['
+        '{"source":"张老师","relation":"帮助","target":"李同学"},'
+        '{"source":"李同学","relation":"信任","target":"张老师"}]}'
+    )
+    agent = RelationAgent(FakeLLM(FakeCompletions(json_content=content)))
+    result = agent.analyze("张老师帮助了李同学，李同学很信任张老师。")
+    assert [item.relation for item in result.relations] == ["帮助", "信任"]
+    assert agent.last_mode == "JSON Mode"
+
+
+def test_agent_falls_back_to_tool_calling():
+    arguments = (
+        '{"relations":['
+        '{"source":"小明","relation":"不喜欢","target":"小王"},'
+        '{"source":"小王","relation":"朋友","target":"小明"}]}'
+    )
+    completions = FakeCompletions(tool_arguments=arguments, fail_json=True)
+    agent = RelationAgent(FakeLLM(completions))
+    result = agent.analyze("小明不喜欢小王，但是小王把小明当作朋友。")
+    assert result.relations[0].relation == "不喜欢"
+    assert len(result.relations) == 2
+    assert agent.last_mode.startswith("Tool Calling")
+
+
+def test_agent_rejects_person_not_present_in_source():
+    content = (
+        '{"relations":['
+        '{"source":"小明","relation":"爱慕","target":"不存在的人"}]}'
+    )
+    arguments = '{"relations":[]}'
+    completions = FakeCompletions(
+        json_content=content, tool_arguments=arguments
+    )
+    agent = RelationAgent(FakeLLM(completions))
+    result = agent.analyze("小明喜欢小姚。")
+    assert result.relations == []
+    assert agent.last_mode.startswith("Tool Calling")

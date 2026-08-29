@@ -1,0 +1,282 @@
+"""
+情感分析智能体 - 人物关系提取
+使用 LLM Tool Call 从文本中提取人物关系
+"""
+
+import sys
+print(sys.executable)
+import json
+from openai import OpenAI
+
+client = OpenAI(
+    api_key="sk-8dcd96b4ee7840fc9d97d39395391e7f",
+    base_url="https://api.deepseek.com",
+)
+
+# ═════════════════════════════════════════════════════════════════════════════
+# 定义工具函数：解析人物关系
+# ═════════════════════════════════════════════════════════════════════════════
+
+def extract_relationship(source: str, relation: str, target: str) -> dict:
+    """
+    提取并记录人物关系
+
+    Args:
+        source: 关系发起方（主体）
+        relation: 关系类型（如：爱慕、喜欢、讨厌、朋友、家人等）
+        target: 关系接收方（客体）
+
+    Returns:
+        dict: 标准化的关系数据
+    """
+    return {
+        "source": source,
+        "relation": relation,
+        "target": target
+    }
+
+
+# ═════════════════════════════════════════════════════════════════════════════
+# 工具描述（传给模型）
+# ═════════════════════════════════════════════════════════════════════════════
+
+TOOLS = [
+    {
+        "type": "function",
+        "function": {
+            "name": "extract_relationship",
+            "description": "从文本中提取人物关系。当检测到两个人物之间存在情感或社会关系时调用此工具。",
+            "parameters": {
+                "type": "object",
+                "properties": {
+                    "source": {
+                        "type": "string",
+                        "description": "关系的来源人物（主语），如：小明、张三",
+                    },
+                    "relation": {
+                        "type": "string",
+                        "description": "关系类型，可以是：爱慕、喜欢、讨厌、暗恋、追求、朋友、敌人、家人、同事、同学等",
+                        "enum": ["爱慕", "喜欢", "讨厌", "暗恋", "追求", "朋友", "敌人", "家人", "同事", "同学", "认识", "帮助", "支持", "反对"]
+                    },
+                    "target": {
+                        "type": "string",
+                        "description": "关系的目标人物（宾语），如：小姚、李四",
+                    }
+                },
+                "required": ["source", "relation", "target"],
+            },
+        },
+    }
+]
+
+# 工具名 → 本地函数映射
+FUNCTION_MAP = {
+    "extract_relationship": extract_relationship,
+}
+
+
+def run_tool_call(tc) -> dict:
+    """执行工具调用并返回关系数据"""
+    name = tc.function.name
+    args = json.loads(tc.function.arguments)
+    print(f"    → 提取关系: {args['source']} ─[{args['relation']}]→ {args['target']}")
+    result = FUNCTION_MAP[name](**args)
+    return result
+
+
+# ═════════════════════════════════════════════════════════════════════════════
+# 情感分析智能体
+# ═════════════════════════════════════════════════════════════════════════════
+
+def sentiment_analyzer(text: str) -> list:
+    """
+    情感分析智能体 - 分析文本中的人物关系
+
+    Args:
+        text: 输入的文本
+
+    Returns:
+        list: 人物关系列表
+    """
+    print(f"\n📝 输入文本: {text}")
+    print("=" * 70)
+
+    # 准备消息
+    messages = [
+        {
+            "role": "system",
+            "content": """你是一个情感分析专家，擅长从文本中提取人物之间的关系。
+            
+任务：分析用户输入的文本，识别其中所有的人物关系。
+
+规则：
+1. 只提取明确存在的关系，不要过度解读
+2. 如果文本中有多个关系，全部提取出来
+3. 关系类型尽量使用标准化的词汇：爱慕、喜欢、讨厌、暗恋、追求、朋友、敌人、家人、同事、同学、认识、帮助、支持、反对
+4. 如果遇到不确定的关系，使用"认识"作为默认关系
+5. 严格按照提供的工具格式输出
+6. 如果文本中涉及复杂情感（如"喜欢但..."等），提取主要的情感关系
+
+示例：
+输入："小明喜欢小姚，但是小姚喜欢小王。"
+输出：提取2个关系：小明→喜欢→小姚，小姚→喜欢→小王
+
+输入："张三和李四是好朋友，他们都讨厌王五。"
+输出：提取2个关系：张三→朋友→李四，张三→讨厌→王五，李四→讨厌→王五
+
+现在开始分析用户提供的文本。
+"""
+        },
+        {"role": "user", "content": text}
+    ]
+
+    # 第一次调用：让模型提取关系
+    response = client.chat.completions.create(
+        model="deepseek-v4-flash",
+        messages=messages,
+        tools=TOOLS,
+        temperature=0.1,
+        extra_body={"thinking": {"type": "disabled"}}
+    )
+
+    choice = response.choices[0]
+    msg = choice.message
+
+    relationships = []
+
+    # 处理工具调用
+    if msg.tool_calls:
+        print(f"\n🔍 检测到 {len(msg.tool_calls)} 个关系：")
+        messages.append(msg)
+
+        for tc in msg.tool_calls:
+            relation_data = run_tool_call(tc)
+            relationships.append(relation_data)
+
+            # 将工具结果添加到消息历史
+            messages.append({
+                "role": "tool",
+                "tool_call_id": tc.id,
+                "content": json.dumps(relation_data, ensure_ascii=False)
+            })
+
+        # 让模型整理和验证结果
+        final_response = client.chat.completions.create(
+            model="deepseek-v4-flash",
+            messages=messages + [
+                {"role": "user", "content": "请整理并确认提取的所有关系，以JSON数组格式输出。"}
+            ],
+            temperature=0.1,
+        )
+
+        print(f"\n✅ 最终结果:")
+        print("-" * 70)
+
+    else:
+        # 如果模型没有调用工具，尝试让模型直接输出关系
+        print("\n⚠️ 模型未自动调用工具，尝试直接解析...")
+        messages.append({"role": "assistant", "content": msg.content})
+        messages.append({"role": "user", "content": "请以JSON数组格式输出所有人物关系。"})
+
+        final_response = client.chat.completions.create(
+            model="deepseek-v4-flash",
+            messages=messages,
+            temperature=0.1,
+        )
+
+        # 尝试从回复中解析JSON
+        content = final_response.choices[0].message.content
+        try:
+            # 尝试提取JSON
+            import re
+            json_match = re.search(r'\[.*\]', content, re.DOTALL)
+            if json_match:
+                relationships = json.loads(json_match.group())
+            else:
+                # 如果没有找到JSON，构造一个默认关系
+                relationships = [{
+                    "source": "无法识别",
+                    "relation": "未知",
+                    "target": "无法识别"
+                }]
+                print("⚠️ 无法解析关系数据")
+        except:
+            print("⚠️ 解析失败，请手动检查输出")
+            relationships = []
+
+    # 输出结果
+    print(json.dumps(relationships, ensure_ascii=False, indent=2))
+
+    # 可视化显示
+    print("\n📊 人物关系图:")
+    print("-" * 70)
+    if relationships:
+        for rel in relationships:
+            print(f"  {rel['source']} ──[{rel['relation']}]── {rel['target']}")
+    else:
+        print("  （未提取到任何关系）")
+
+    return relationships
+
+
+# ═════════════════════════════════════════════════════════════════════════════
+# 测试用例
+# ═════════════════════════════════════════════════════════════════════════════
+
+def test_sentiment_analyzer():
+    """测试情感分析智能体"""
+
+    test_cases = [
+        "小明喜欢小姚，但是小姚喜欢小王。",
+        "张三和李四是好朋友，他们都讨厌王五。",
+        "小红暗恋小明，但小明只把小华当朋友。",
+        "王经理很赏识小李，经常帮助他。",
+        "小刚和丽丽是同事，小刚对小丽有好感。"
+    ]
+
+    print("\n" + "=" * 70)
+    print("🧪 情感分析智能体 - 测试开始")
+    print("=" * 70)
+
+    for i, text in enumerate(test_cases, 1):
+        print(f"\n{'='*70}")
+        print(f"测试 {i}/{len(test_cases)}")
+        print("="*70)
+
+        relationships = sentiment_analyzer(text)
+
+        # 验证输出格式
+        print(f"\n✅ 验证关系数量: {len(relationships)} 条")
+        print("=" * 70)
+
+        # 等待一下，避免API限流
+        import time
+        time.sleep(1)
+
+
+# ═════════════════════════════════════════════════════════════════════════════
+# 交互式运行
+# ═════════════════════════════════════════════════════════════════════════════
+
+if __name__ == "__main__":
+    print("=" * 70)
+    print("🤖 情感分析智能体 - 人物关系提取工具")
+    print("=" * 70)
+
+    # 先运行测试
+    test_sentiment_analyzer()
+
+    # 交互模式
+    print("\n" + "=" * 70)
+    print("💬 交互模式（输入 'exit' 退出）")
+    print("=" * 70)
+
+    while True:
+        text = input("\n请输入文本: ").strip()
+        if text.lower() in ['exit', 'quit', 'q']:
+            break
+        if not text:
+            continue
+
+        relationships = sentiment_analyzer(text)
+        print(f"\n提取到 {len(relationships)} 条关系")

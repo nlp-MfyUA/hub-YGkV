@@ -1,0 +1,29 @@
+意图识别 —— 路由对比测试结果
+测试样本数: 20
+BERT 耗时: 0.173s  |  GPT 耗时: 25.796s
+====================================================================================================
+
+  # | 测试文本                         | 期望标签                 | BERT预测               | GPT预测                | 对比
+----------------------------------------------------------------------------------------------------
+  1 | 明天早上从北京到上海的高铁有哪些             | Travel-Query         | Travel-Query         | Travel-Query         | 都正确
+  2 | 帮我查一下深圳到广州的机票                | Travel-Query         | Travel-Query         | Travel-Query         | 都正确
+  3 | 我想去杭州玩，怎么坐车                  | Travel-Query         | Travel-Query         | Travel-Query         | 都正确
+  4 | 播放一首周杰伦的稻香                   | Music-Play           | Music-Play           | Music-Play           | 都正确
+  5 | 来点轻音乐听听                      | Music-Play           | Radio-Listen         | Music-Play           | GPT正确
+  6 | 单曲循环毛不易的消愁                   | Music-Play           | Music-Play           | Music-Play           | 都正确
+  7 | 我想看流浪地球                      | FilmTele-Play        | Radio-Listen         | FilmTele-Play        | GPT正确
+  8 | 播放电视剧琅琊榜                     | FilmTele-Play        | FilmTele-Play        |                      | BERT正确
+  9 | 给我推荐一部好看的电影                  | FilmTele-Play        | FilmTele-Play        |                      | BERT正确
+ 10 | 打开客厅的空调                      | HomeAppliance-Control | HomeAppliance-Control | HomeAppliance-Control | 都正确
+ 11 | 把卧室灯关了                       | HomeAppliance-Control | HomeAppliance-Control | HomeAppliance-Control | 都正确
+ 12 | 空调温度调到26度                    | HomeAppliance-Control | HomeAppliance-Control | HomeAppliance-Control | 都正确
+ 13 | 今天北京天气怎么样                    | Weather-Query        | Weather-Query        | Weather-Query        | 都正确
+ 14 | 明天上海会下雨吗                     | Weather-Query        | Weather-Query        | Weather-Query        | 都正确
+ 15 | 查一下周末的天气                     | Weather-Query        | Weather-Query        | Weather-Query        | 都正确
+ 16 | 设置一个明天早上7点的闹钟                | Alarm-Update         | Alarm-Update         | Alarm-Update         | 都正确
+ 17 | 提醒我下午3点开会                    | Alarm-Update         | Alarm-Update         | Alarm-Update         | 都正确
+ 18 | 播放中央人民广播电台                   | Radio-Listen         | Radio-Listen         | Radio-Listen         | 都正确
+ 19 | 听一下音乐广播                      | Radio-Listen         | Radio-Listen         | Radio-Listen         | 都正确
+ 20 | 今天股市行情怎么样                    | Other                | Weather-Query        | 无法识别                 | 都错误
+----------------------------------------------------------------------------------------------------
+总体准确率: BERT=85%  GPT=85%

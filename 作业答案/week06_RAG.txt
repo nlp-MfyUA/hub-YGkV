@@ -1,0 +1,68 @@
+
+  RAG101_01_读取数据集.py — 数据加载基础
+
+  - PDF解析：使用 pdfplumber（非OCR方式）提取页面纯文本
+  - JSON数据集：加载用户问题集 questions.json
+  - 这是整个系统的数据入口
+
+  RAG101_02_RAG检索TFIDF.py — TF-IDF向量空间模型
+
+  - 中文分词：jieba.lcut() 将中文文本切分为词语序列
+  - 特征提取：TfidfVectorizer.fit_transform() 同时完成构建词典 + 计算idf
+  - 归一化：normalize() L2归一化保证相似度打分在固定范围
+  - 余弦相似度：feat @ pdf_content_feat.T 矩阵乘法等价于余弦相似度（因已归一化）
+  - 支持 Top-1 和 Top-10 两种检索模式
+
+  RAG101_03_RAG检索BM25.py — BM25排序算法
+
+  - 稀疏检索：基于倒排索引的文档排序
+  - rank_bm25.BM25Okapi：Okapi BM25变体，直接输入分词后的列表（不需要空格连接）
+  - 文档评分：bm25.get_scores(jieba.lcut(query)) 一次性计算query与所有文档的得分
+  - 对比TF-IDF，BM25对文档长度有归一化处理，更适合长文档检索
+
+  RAG101_04_RAG检索BERT.py — 稠密向量检索(Semantic Similarity)
+
+  - SentenceTransformer：基于BERT的文本编码模型，输出稠密向量
+  - 演示了两种中文embedding模型：
+    - BAAI/bge-small-zh-v1.5（阿里通义实验室，轻量级）
+    - jinaai/jina-embeddings-v2-base-zh（Jina AI，通用中文）
+  - 语义理解能力：能捕捉字词不同但含义相同的匹配（TF-IDF/BM25做不到的）
+  - normalize_embeddings=True：编码时自动归一化，直接用点积算余弦相似度
+
+  RAG101_05_RAG检索BERT_Segment.py — Chunking/文本切分
+
+  - 为什么需要Chunking：页面级粒度太大，信息太冗杂；切分为更小的chunk能提高检索精度
+  - 定长切分策略：split_text_fixed_size(text, chunk_size=40) — 每40字符一刀切（最简单但粗糙）
+  - 去重逻辑：同一页可能有多个chunk命中，通过 remove_duplicates() 映射回原始页面
+  - 从"页面级检索"进化到"段落级检索"
+
+  RAG101_06_RAG重排序.py — 多路召回 + RRF融合 + Cross-Encoder重排
+
+  - 多路召回(Multi-path Recall)：同时使用BGE(dense)和BM25(sparse)两种方法，互相弥补不足
+  - RRF(Reciprocal Rank Fusion)倒数排名融合：
+    - 公式：score = Σ 1/(k + rank)，其中 k=60 是平滑参数
+    - 不同检索路径的结果合并累加分数，排名越靠前贡献越大
+    - 优势：无需校准不同模型的分数量纲，只依赖排名
+  - Cross-Encoder重排序(Rerank)：
+    - 使用 BAAI/bge-reranker-base（本质上是一个SequenceClassification模型）
+    - 用RRF选出Top-3候选后，再用精细模型精排
+    - padding=True, truncation=True, max_length=512 处理tokenizer输入
+    - torch.no_grad() 推理时不计算梯度节省显存
+  - 完整链路：召回→融合→重排→精筛
+
+  RAG101_07_RAG多路召回.py — RRF融合精简版
+
+  - 仅实现RRF融合（不含Rerank），将BGE和BM25的结果合并后取Top-1
+  - 作为RAG101_06的前置阶段独立验证融合策略本身的效果
+
+  RAG101_08_RAG问答.py — 端到端RAG问答系统
+
+  - 大模型API调用：
+    - 智谱GLM：JWT签名认证（HS256算法），构造 api_key/exp/timestamp payload
+    - OpenAI兼容接口：Bearer Token认证，带重试机制（最多5次）
+  - Prompt工程：
+    - 角色设定："你是一个汽车专家"
+    - 边界约束："如果无法从资料中获得，请回答无法回答"
+    - 格式模板：{参考资料}\n\n{问题}
+  - 错误处理：try-except重试 + "无法"关键词兜底判断
+  - 这是整个系统的最终输出层：检索→组装prompt→大模型生成答案

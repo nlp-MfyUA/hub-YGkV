@@ -1,0 +1,16 @@
+作业1: 安装langchain 和 openai-agent，运行 langchain / 02_Model工具调用.py
+    回答如下问题：
+        1、 langchain 工具调用 和 llm function call 有什么区别？
+        2、 langchain 工具调用 的 速度是受到什么影响？
+
+
+1、从如下角度对比
+--1、编写角度：langchain工具使用@tool装饰器编写python函数搭配方法说明即可-便捷；function call需要编写原生api的json文件-繁琐。
+--2、调用角度：langchain工具自动识别和循环调用，不需要写过多逻辑代码-方便；function call需要写一切逻辑代码，有遗漏风险-麻烦。
+--3、运行角度：langchain工具需要走一层封装-速度慢；function call无需封装直接调用-速度快。
+--4、移植角度：更换框架需要重写langchain工具适配-可移植性差；更换框架不需要重新写原生function call的json文件-可移植性好。
+--5、复杂角度：langchain适用简单的逻辑，function call可以编写复杂逻辑项目。
+
+2、从两个角度分析：
+--1、推理阶段：与调用模型的速度有关，与上下文长度有关、与工具数量有关、与工具描述解析力有关、
+--2、执行阶段：与python函数的算法逻辑有关，与是否需要调用外来API有关（网速）

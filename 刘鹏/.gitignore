@@ -1,0 +1,82 @@
+# ==============================================================================
+#  Python 相关
+# ==============================================================================
+# 虚拟环境目录
+venv/
+env/
+ENV/
+.venv/
+.env/
+
+# 编译后的 Python 文件
+__pycache__/
+*.py[cod]
+*$py.class
+*.pyd
+*.pyo
+*.egg-info/
+*.egg
+dist/
+build/
+*.whl
+
+# 日志文件
+*.log
+logs/
+log/
+
+# 环境变量文件（如果需要共享模板，可以保留 .env.example）
+.env
+.env.local
+.env.*.local
+
+# 数据库文件
+*.db
+*.sqlite
+*.sqlite3
+
+# 测试覆盖率报告
+htmlcov/
+.coverage
+.coverage.*
+
+# pytest 缓存
+.pytest_cache/
+.tox/
+.nox/
+
+# ==============================================================================
+#  PyCharm / IntelliJ IDEA 相关
+# ==============================================================================
+.idea/
+*.iml
+*.iws
+*.ipr
+out/
+.idea_modules/
+
+# 编辑器备份/临时文件
+*.swp
+*.swo
+*~
+.DS_Store
+Thumbs.db
+
+# ==============================================================================
+#  操作系统相关
+# ==============================================================================
+# Windows
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+._*
+
+# Linux
+*~
+.directory

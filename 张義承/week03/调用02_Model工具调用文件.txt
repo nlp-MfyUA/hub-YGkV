@@ -1,0 +1,9 @@
+1、 langchain 工具调用 和 llm function call 有什么区别？
+    langchain不用手写tool_calls，它将其进行了封装，使用@tool注解，不同大模型的格式有不同，但是langchain相当于是一个适配器，适配不同的模型。
+
+2、 langchain 工具调用 的 速度是受到什么影响？
+    网络速度；
+    访问大模型的速度；
+    不同模型版本执行的速度；
+    messages的大小；
+    如果本地函数调用的是外部api，还会受api调用速度的影响。

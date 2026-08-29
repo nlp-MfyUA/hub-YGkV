@@ -1,0 +1,12 @@
+1、LangChain 工具调用 和 LLM Function Call 的区别
+LangChain 基于底层模型的 function call 能力做的封装，function call 仅仅是把LLM产生的消息做JSON输出，并不会帮你处理，
+而 LangChain 搭建起了整个框架，帮你处理了消息的输入输出，并且提供了很多工具，并帮你进行自动化操作和输出结果。
+
+总的来说：
+LLM Function Call 是「大脑会想出要调用什么」；
+LangChain 工具调用 是「大脑想完之后，框架帮你把工具跑起来并把结果接回去」。
+
+
+
+2、langchain 工具调用 的 速度是受到什么影响？
+底层 LLM 推理延迟、网络往返、多轮 Agent 循环、Prompt 长度 / Token 量、工具本身的执行时间等因素

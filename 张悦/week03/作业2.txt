@@ -1,0 +1,13 @@
+作业2: 阅读意图识别 01-intent-classify 代码，梳理源文件的作用，绘制从fastapi 接受请求到
+     到返回结果的流程，绘制流程图（手绘、自然语言表达）。
+
+1、用户发送POST请求到fastapi（main.py）
+2、fastapi判断请求的是那个接口（regex、tfidf、bert、gpt）
+2.1、若请求的是regex接口，则调用model文件夹下的regex_rule.py中的model_for_regex方法
+2.1.1、model_for_regex方法会读取config.py中的REGEX_RULE，用来判断请求的文本中是否有符合意图规则的关键词，并返回意图结果
+2.2、若请求的是tfidf接口，则调用model文件夹下的tfidf_ml.py中的model_for_tfidf方法
+2.2.1、model_for_tfidf方法会加载训练好的模型，路径在config.py中的TFIDF_MODEL_PKL_PATH，过滤掉停用词，根据请求的文本判断分类并返回结果
+2.3、若请求的是bert接口，则调用model文件夹下的bert.py中的model_for_bert方法
+2.3.1、model_for_bert方法会加载训练好的模型及意图分类，判断请求的文本对于的分类并返回结果
+2.4、若请求的是gpt接口，则调用model文件夹下的prompt.py中的model_for_gpt方法
+2.4.1、model_for_gpt方法读取config.py中的大模型相关配置，以少样本提示的方式请求大模型进行判断，并返回判断结果

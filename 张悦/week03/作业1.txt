@@ -1,0 +1,8 @@
+作业1: 安装langchain 和 openai-agent，运行 langchain / 02_Model工具调用.py
+    回答如下问题：
+        1、 langchain 工具调用 和 llm function call 有什么区别？
+        2、 langchain 工具调用 的 速度是受到什么影响？
+
+
+1、langchain中工具不用TOOLS进行工具描述，也不用做工具和函数映射，可以直接调用
+2、模型推理能力，解析prompt中与工具相关的内容，判断是否调用工具

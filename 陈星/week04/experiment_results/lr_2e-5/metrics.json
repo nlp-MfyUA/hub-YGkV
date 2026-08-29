@@ -1,0 +1,30 @@
+{
+  "run_name": "lr_2e-5",
+  "model": "google-bert/bert-base-chinese",
+  "device": "cpu",
+  "samples": 500,
+  "train_samples": 400,
+  "test_samples": 100,
+  "num_labels": 11,
+  "labels": [
+    "Alarm-Update",
+    "Audio-Play",
+    "Calendar-Query",
+    "FilmTele-Play",
+    "HomeAppliance-Control",
+    "Music-Play",
+    "Radio-Listen",
+    "TVProgram-Play",
+    "Travel-Query",
+    "Video-Play",
+    "Weather-Query"
+  ],
+  "epochs": 4,
+  "batch_size": 16,
+  "learning_rate": 2e-05,
+  "seed": 42,
+  "train_runtime_seconds": 203.9038,
+  "eval_loss": 0.6320130825042725,
+  "eval_accuracy": 0.94,
+  "model_saved": false
+}

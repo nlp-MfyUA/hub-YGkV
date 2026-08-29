@@ -1,0 +1,7 @@
+作业1: 安装langchain 和 openai-agent，运行 langchain / 02_Model工具调用.py
+    回答如下问题：
+        1、 langchain 工具调用 和 llm function call 有什么区别？
+	      langchain 通过框架组装注解识别方法为BaseTool类型，调用bind_tools方法，将传入的方法体转换为llm规定范式识别的json格式，添加到对话的文本中，
+	      不需要再手动写入message中
+        2、 langchain 工具调用 的 速度是受到什么影响？
+		框架加载和模型传递，加载bind_tools方法，识别传入tools的方法体参数解析，返回_ChatModelBinding类添加kwargs参数，执行这一部分逻辑会消耗时间

@@ -1,0 +1,109 @@
+{
+  "raw_samples": 12100,
+  "samples": 12073,
+  "removed_rows": 27,
+  "train_samples": 9658,
+  "test_samples": 2415,
+  "labels": [
+    "Alarm-Update",
+    "Audio-Play",
+    "Calendar-Query",
+    "FilmTele-Play",
+    "HomeAppliance-Control",
+    "Music-Play",
+    "Other",
+    "Radio-Listen",
+    "TVProgram-Play",
+    "Travel-Query",
+    "Video-Play",
+    "Weather-Query"
+  ],
+  "accuracy": 0.9213250517598344,
+  "classification_report": {
+    "Alarm-Update": {
+      "precision": 0.9758064516129032,
+      "recall": 0.9565217391304348,
+      "f1-score": 0.9660678642714571,
+      "support": 253.0
+    },
+    "Audio-Play": {
+      "precision": 0.6101694915254238,
+      "recall": 0.8,
+      "f1-score": 0.6923076923076923,
+      "support": 45.0
+    },
+    "Calendar-Query": {
+      "precision": 1.0,
+      "recall": 0.991701244813278,
+      "f1-score": 0.9958333333333333,
+      "support": 241.0
+    },
+    "FilmTele-Play": {
+      "precision": 0.8235294117647058,
+      "recall": 0.9298892988929889,
+      "f1-score": 0.8734835355285961,
+      "support": 271.0
+    },
+    "HomeAppliance-Control": {
+      "precision": 0.9916666666666667,
+      "recall": 0.9794238683127572,
+      "f1-score": 0.9855072463768116,
+      "support": 243.0
+    },
+    "Music-Play": {
+      "precision": 0.9435483870967742,
+      "recall": 0.896551724137931,
+      "f1-score": 0.9194499017681729,
+      "support": 261.0
+    },
+    "Other": {
+      "precision": 0.3783783783783784,
+      "recall": 0.32558139534883723,
+      "f1-score": 0.35,
+      "support": 43.0
+    },
+    "Radio-Listen": {
+      "precision": 0.9465020576131687,
+      "recall": 0.8949416342412452,
+      "f1-score": 0.92,
+      "support": 257.0
+    },
+    "TVProgram-Play": {
+      "precision": 0.6326530612244898,
+      "recall": 0.6739130434782609,
+      "f1-score": 0.6526315789473685,
+      "support": 46.0
+    },
+    "Travel-Query": {
+      "precision": 0.963855421686747,
+      "recall": 0.9836065573770492,
+      "f1-score": 0.973630831643002,
+      "support": 244.0
+    },
+    "Video-Play": {
+      "precision": 0.9166666666666666,
+      "recall": 0.8651685393258427,
+      "f1-score": 0.8901734104046243,
+      "support": 267.0
+    },
+    "Weather-Query": {
+      "precision": 0.9714285714285714,
+      "recall": 0.9754098360655737,
+      "f1-score": 0.9734151329243353,
+      "support": 244.0
+    },
+    "accuracy": 0.9213250517598344,
+    "macro avg": {
+      "precision": 0.8461837138053746,
+      "recall": 0.8560590734270165,
+      "f1-score": 0.8493750439587829,
+      "support": 2415.0
+    },
+    "weighted avg": {
+      "precision": 0.9239490241037354,
+      "recall": 0.9213250517598344,
+      "f1-score": 0.9217391888493622,
+      "support": 2415.0
+    }
+  }
+}
