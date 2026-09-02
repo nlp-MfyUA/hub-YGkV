@@ -1,0 +1,181 @@
+2026-09-02 09:37:19,085 - logger - INFO - 1 电视剧
+2026-09-02 09:39:23,017 - logger - INFO - 1 [电视剧, 广播, 你好]
+2026-09-02 09:41:35,886 - logger - INFO - 1 [电视剧, 广播, 你好]
+2026-09-02 09:42:06,550 - logger - INFO - 1 [电视剧, 广播, 你好]
+2026-09-02 09:42:47,080 - logger - INFO - 1 ['电视剧', '广播', '你好']
+2026-09-02 09:42:47,080 - logger - INFO - ['电视剧', '广播', '你好']
+2026-09-02 11:19:12,464 - numexpr.utils - INFO - NumExpr defaulting to 12 threads.
+2026-09-02 11:20:05,864 - logger - INFO - Get request:1 播放
+2026-09-02 11:20:05,865 - jieba - DEBUG - Building prefix dict from the default dictionary ...
+2026-09-02 11:20:05,865 - jieba - DEBUG - Loading model from cache C:\Users\82445\AppData\Local\Temp\jieba.cache
+2026-09-02 11:20:06,629 - jieba - DEBUG - Loading model cost 0.764 seconds.
+2026-09-02 11:20:06,629 - jieba - DEBUG - Prefix dict has been built successfully.
+2026-09-02 11:31:10,937 - logger - INFO - Get request:1 空调
+2026-09-02 11:33:37,361 - logger - INFO - Get request:1 ['播放', '空调', '人力']
+2026-09-02 11:35:39,715 - logger - INFO - Get request:1 ['播放', '空调']
+2026-09-02 11:37:15,084 - numexpr.utils - INFO - NumExpr defaulting to 12 threads.
+2026-09-02 11:37:21,818 - logger - INFO - Get request:1 ['播放', '空调']
+2026-09-02 11:37:21,818 - logger - INFO - Get request:['播放', '空调']
+2026-09-02 11:37:21,819 - jieba - DEBUG - Building prefix dict from the default dictionary ...
+2026-09-02 11:37:21,819 - jieba - DEBUG - Loading model from cache C:\Users\82445\AppData\Local\Temp\jieba.cache
+2026-09-02 11:37:22,847 - jieba - DEBUG - Loading model cost 1.027 seconds.
+2026-09-02 11:37:22,847 - jieba - DEBUG - Prefix dict has been built successfully.
+2026-09-02 11:37:50,167 - logger - INFO - Get request:1 ['播放', '空调']
+2026-09-02 11:37:50,167 - logger - INFO - Get request:['播放', '空调']
+2026-09-02 11:39:38,531 - numexpr.utils - INFO - NumExpr defaulting to 12 threads.
+2026-09-02 11:39:41,773 - logger - INFO - Get request:1 ['播放', '空调']
+2026-09-02 11:39:41,773 - jieba - DEBUG - Building prefix dict from the default dictionary ...
+2026-09-02 11:39:41,774 - jieba - DEBUG - Loading model from cache C:\Users\82445\AppData\Local\Temp\jieba.cache
+2026-09-02 11:39:42,539 - jieba - DEBUG - Loading model cost 0.765 seconds.
+2026-09-02 11:39:42,540 - jieba - DEBUG - Prefix dict has been built successfully.
+2026-09-02 11:39:42,540 - logger - INFO - Finish query_words:
+2026-09-02 11:39:56,718 - logger - INFO - Get request:1 ['播放', '空调']
+2026-09-02 11:39:56,718 - logger - INFO - Finish query_words:
+2026-09-02 11:40:22,885 - numexpr.utils - INFO - NumExpr defaulting to 12 threads.
+2026-09-02 11:40:26,022 - logger - INFO - Get request:1 ['播放', '空调']
+2026-09-02 11:40:26,022 - jieba - DEBUG - Building prefix dict from the default dictionary ...
+2026-09-02 11:40:26,023 - jieba - DEBUG - Loading model from cache C:\Users\82445\AppData\Local\Temp\jieba.cache
+2026-09-02 11:40:26,877 - jieba - DEBUG - Loading model cost 0.855 seconds.
+2026-09-02 11:40:26,878 - jieba - DEBUG - Prefix dict has been built successfully.
+2026-09-02 11:40:36,852 - logger - INFO - Get request:1 ['播放', '空调', '人力']
+2026-09-02 11:40:50,133 - logger - INFO - Get request:1 ['播放', '空调', '人力', '你好']
+2026-09-02 11:41:10,172 - logger - INFO - Get request:1 ['播放', '空调', '人力', '你好', '电影']
+2026-09-02 11:41:21,759 - logger - INFO - Get request:1 ['播放', '空调', '人力', '你好', '电视']
+2026-09-02 15:11:58,310 - numexpr.utils - INFO - NumExpr defaulting to 12 threads.
+2026-09-02 15:12:29,624 - logger - INFO - Get request:1 播放
+2026-09-02 15:13:08,883 - numexpr.utils - INFO - NumExpr defaulting to 12 threads.
+2026-09-02 15:13:21,167 - logger - INFO - Get request:1 播放
+2026-09-02 15:14:41,423 - numexpr.utils - INFO - NumExpr defaulting to 12 threads.
+2026-09-02 16:27:06,669 - numexpr.utils - INFO - NumExpr defaulting to 12 threads.
+2026-09-02 16:27:42,161 - numexpr.utils - INFO - NumExpr defaulting to 12 threads.
+2026-09-02 16:28:11,067 - numexpr.utils - INFO - NumExpr defaulting to 12 threads.
+2026-09-02 16:28:34,927 - logger - INFO - Get request:1 播放
+2026-09-02 16:28:57,326 - logger - INFO - Get request:1 ['播放', '天气']
+2026-09-02 16:29:37,756 - numexpr.utils - INFO - NumExpr defaulting to 12 threads.
+2026-09-02 16:40:25,003 - numexpr.utils - INFO - NumExpr defaulting to 12 threads.
+2026-09-02 16:44:18,896 - numexpr.utils - INFO - NumExpr defaulting to 12 threads.
+2026-09-02 16:48:33,369 - numexpr.utils - INFO - NumExpr defaulting to 12 threads.
+2026-09-02 17:07:03,869 - numexpr.utils - INFO - NumExpr defaulting to 12 threads.
+2026-09-02 17:09:15,023 - numexpr.utils - INFO - NumExpr defaulting to 12 threads.
+2026-09-02 17:09:51,048 - numexpr.utils - INFO - NumExpr defaulting to 12 threads.
+2026-09-02 17:10:05,200 - numexpr.utils - INFO - NumExpr defaulting to 12 threads.
+2026-09-02 17:13:22,117 - numexpr.utils - INFO - NumExpr defaulting to 12 threads.
+2026-09-02 17:16:46,206 - numexpr.utils - INFO - NumExpr defaulting to 12 threads.
+2026-09-02 17:19:26,150 - numexpr.utils - INFO - NumExpr defaulting to 12 threads.
+2026-09-02 17:19:46,253 - numexpr.utils - INFO - NumExpr defaulting to 12 threads.
+2026-09-02 17:23:20,604 - numexpr.utils - INFO - NumExpr defaulting to 12 threads.
+2026-09-02 17:28:33,449 - numexpr.utils - INFO - NumExpr defaulting to 12 threads.
+2026-09-02 17:28:53,562 - numexpr.utils - INFO - NumExpr defaulting to 12 threads.
+2026-09-02 17:35:21,046 - numexpr.utils - INFO - NumExpr defaulting to 12 threads.
+2026-09-02 17:36:39,627 - numexpr.utils - INFO - NumExpr defaulting to 12 threads.
+2026-09-02 17:38:40,364 - numexpr.utils - INFO - NumExpr defaulting to 12 threads.
+2026-09-02 17:39:02,293 - numexpr.utils - INFO - NumExpr defaulting to 12 threads.
+2026-09-02 17:39:12,396 - numexpr.utils - INFO - NumExpr defaulting to 12 threads.
+2026-09-02 17:39:20,844 - numexpr.utils - INFO - NumExpr defaulting to 12 threads.
+2026-09-02 17:39:40,703 - numexpr.utils - INFO - NumExpr defaulting to 12 threads.
+2026-09-02 17:39:55,326 - numexpr.utils - INFO - NumExpr defaulting to 12 threads.
+2026-09-02 17:40:34,578 - numexpr.utils - INFO - NumExpr defaulting to 12 threads.
+2026-09-02 17:41:02,510 - numexpr.utils - INFO - NumExpr defaulting to 12 threads.
+2026-09-02 17:41:25,165 - numexpr.utils - INFO - NumExpr defaulting to 12 threads.
+2026-09-02 17:42:09,194 - numexpr.utils - INFO - NumExpr defaulting to 12 threads.
+2026-09-02 17:42:13,144 - numexpr.utils - INFO - NumExpr defaulting to 12 threads.
+2026-09-02 17:42:19,238 - numexpr.utils - INFO - NumExpr defaulting to 12 threads.
+2026-09-02 17:44:00,545 - numexpr.utils - INFO - NumExpr defaulting to 12 threads.
+2026-09-02 17:47:50,628 - numexpr.utils - INFO - NumExpr defaulting to 12 threads.
+2026-09-02 17:48:26,663 - logger - INFO - Get reqeust:1 你好
+2026-09-02 17:48:27,690 - httpx - INFO - HTTP Request: POST https://api.deepseek.com/chat/completions "HTTP/1.1 200 OK"
+2026-09-02 17:48:41,828 - logger - INFO - Get reqeust:1 ['你好', '我今天想去购物']
+2026-09-02 17:48:42,011 - httpx - INFO - HTTP Request: POST https://api.deepseek.com/chat/completions "HTTP/1.1 200 OK"
+2026-09-02 17:48:42,789 - httpx - INFO - HTTP Request: POST https://api.deepseek.com/chat/completions "HTTP/1.1 200 OK"
+2026-09-02 17:50:23,539 - numexpr.utils - INFO - NumExpr defaulting to 12 threads.
+2026-09-02 17:50:38,170 - numexpr.utils - INFO - NumExpr defaulting to 12 threads.
+2026-09-02 17:51:26,724 - numexpr.utils - INFO - NumExpr defaulting to 12 threads.
+2026-09-02 17:52:14,800 - numexpr.utils - INFO - NumExpr defaulting to 12 threads.
+2026-09-02 17:52:27,689 - logger - INFO - Get request:1 ['你好', '我今天想去购物']
+2026-09-02 17:52:28,703 - httpx - INFO - HTTP Request: POST https://api.deepseek.com/chat/completions "HTTP/1.1 200 OK"
+2026-09-02 17:52:29,675 - httpx - INFO - HTTP Request: POST https://api.deepseek.com/chat/completions "HTTP/1.1 200 OK"
+2026-09-02 17:53:16,333 - numexpr.utils - INFO - NumExpr defaulting to 12 threads.
+2026-09-02 17:53:48,871 - logger - INFO - Get request:1 ['你好', '我今天想去购物']
+2026-09-02 17:53:49,922 - httpx - INFO - HTTP Request: POST https://api.deepseek.com/chat/completions "HTTP/1.1 200 OK"
+2026-09-02 17:53:50,836 - httpx - INFO - HTTP Request: POST https://api.deepseek.com/chat/completions "HTTP/1.1 200 OK"
+2026-09-02 17:53:51,357 - logger - INFO - Get:['Other', 'Travel-Query']
+2026-09-02 17:54:09,702 - logger - INFO - Get request:1 ['你好', '我今天想去购物']
+2026-09-02 17:54:09,905 - httpx - INFO - HTTP Request: POST https://api.deepseek.com/chat/completions "HTTP/1.1 200 OK"
+2026-09-02 17:54:10,569 - httpx - INFO - HTTP Request: POST https://api.deepseek.com/chat/completions "HTTP/1.1 200 OK"
+2026-09-02 17:54:11,327 - logger - INFO - Get:['Other', 'Travel-Query']
+2026-09-02 17:54:21,647 - numexpr.utils - INFO - NumExpr defaulting to 12 threads.
+2026-09-02 17:54:35,725 - logger - INFO - Get request:1 ['你好', '我今天想去购物']
+2026-09-02 17:54:36,802 - httpx - INFO - HTTP Request: POST https://api.deepseek.com/chat/completions "HTTP/1.1 200 OK"
+2026-09-02 17:54:37,577 - httpx - INFO - HTTP Request: POST https://api.deepseek.com/chat/completions "HTTP/1.1 200 OK"
+2026-09-02 17:54:42,230 - logger - INFO - Get request:1 ['你好', '我今天想去购物']
+2026-09-02 17:54:42,336 - httpx - INFO - HTTP Request: POST https://api.deepseek.com/chat/completions "HTTP/1.1 200 OK"
+2026-09-02 17:54:42,991 - httpx - INFO - HTTP Request: POST https://api.deepseek.com/chat/completions "HTTP/1.1 200 OK"
+2026-09-02 17:55:01,093 - logger - INFO - Get request:1 ['你好', '我今天想去购物']
+2026-09-02 17:55:01,283 - httpx - INFO - HTTP Request: POST https://api.deepseek.com/chat/completions "HTTP/1.1 200 OK"
+2026-09-02 17:55:01,765 - httpx - INFO - HTTP Request: POST https://api.deepseek.com/chat/completions "HTTP/1.1 200 OK"
+2026-09-02 17:55:04,997 - logger - INFO - Get request:1 ['你好', '我今天想去购物']
+2026-09-02 17:55:05,107 - httpx - INFO - HTTP Request: POST https://api.deepseek.com/chat/completions "HTTP/1.1 200 OK"
+2026-09-02 17:55:05,766 - httpx - INFO - HTTP Request: POST https://api.deepseek.com/chat/completions "HTTP/1.1 200 OK"
+2026-09-02 17:55:21,091 - logger - INFO - Get request:1 ['你好', '我今天想去购物']
+2026-09-02 17:55:21,239 - httpx - INFO - HTTP Request: POST https://api.deepseek.com/chat/completions "HTTP/1.1 200 OK"
+2026-09-02 17:55:22,072 - httpx - INFO - HTTP Request: POST https://api.deepseek.com/chat/completions "HTTP/1.1 200 OK"
+2026-09-02 17:55:24,627 - numexpr.utils - INFO - NumExpr defaulting to 12 threads.
+2026-09-02 17:55:42,171 - logger - INFO - Get request:1 ['你好', '我今天想去购物']
+2026-09-02 17:55:43,582 - httpx - INFO - HTTP Request: POST https://api.deepseek.com/chat/completions "HTTP/1.1 200 OK"
+2026-09-02 17:55:44,231 - httpx - INFO - HTTP Request: POST https://api.deepseek.com/chat/completions "HTTP/1.1 200 OK"
+2026-09-02 17:55:44,945 - logger - INFO - Get:['Other', 'Other']
+2026-09-02 17:55:49,082 - logger - INFO - Get request:1 ['你好', '我今天想去购物']
+2026-09-02 17:55:49,202 - httpx - INFO - HTTP Request: POST https://api.deepseek.com/chat/completions "HTTP/1.1 200 OK"
+2026-09-02 17:55:50,187 - httpx - INFO - HTTP Request: POST https://api.deepseek.com/chat/completions "HTTP/1.1 200 OK"
+2026-09-02 17:55:51,153 - logger - INFO - Get:['Other', 'Travel-Query']
+2026-09-02 17:55:53,751 - logger - INFO - Get request:1 ['你好', '我今天想去购物']
+2026-09-02 17:55:53,851 - httpx - INFO - HTTP Request: POST https://api.deepseek.com/chat/completions "HTTP/1.1 200 OK"
+2026-09-02 17:55:54,535 - httpx - INFO - HTTP Request: POST https://api.deepseek.com/chat/completions "HTTP/1.1 200 OK"
+2026-09-02 17:55:54,988 - logger - INFO - Get:['Other', 'Travel-Query']
+2026-09-02 17:55:57,500 - logger - INFO - Get request:1 ['你好', '我今天想去购物']
+2026-09-02 17:55:57,634 - httpx - INFO - HTTP Request: POST https://api.deepseek.com/chat/completions "HTTP/1.1 200 OK"
+2026-09-02 17:55:58,382 - httpx - INFO - HTTP Request: POST https://api.deepseek.com/chat/completions "HTTP/1.1 200 OK"
+2026-09-02 17:55:58,972 - logger - INFO - Get:['Other', 'Travel-Query']
+2026-09-02 17:56:01,381 - logger - INFO - Get request:1 ['你好', '我今天想去购物']
+2026-09-02 17:56:01,489 - httpx - INFO - HTTP Request: POST https://api.deepseek.com/chat/completions "HTTP/1.1 200 OK"
+2026-09-02 17:56:02,344 - httpx - INFO - HTTP Request: POST https://api.deepseek.com/chat/completions "HTTP/1.1 200 OK"
+2026-09-02 17:56:03,135 - logger - INFO - Get:['Other', 'Travel-Query']
+2026-09-02 17:56:04,560 - logger - INFO - Get request:1 ['你好', '我今天想去购物']
+2026-09-02 17:56:04,672 - httpx - INFO - HTTP Request: POST https://api.deepseek.com/chat/completions "HTTP/1.1 200 OK"
+2026-09-02 17:56:05,214 - httpx - INFO - HTTP Request: POST https://api.deepseek.com/chat/completions "HTTP/1.1 200 OK"
+2026-09-02 17:56:05,969 - logger - INFO - Get:['Other', '']
+2026-09-02 17:58:54,014 - numexpr.utils - INFO - NumExpr defaulting to 12 threads.
+2026-09-02 17:59:06,129 - logger - INFO - Get request:1 ['你好', '我今天想去购物']
+2026-09-02 17:59:06,980 - httpx - INFO - HTTP Request: POST https://api.deepseek.com/chat/completions "HTTP/1.1 200 OK"
+2026-09-02 17:59:07,986 - httpx - INFO - HTTP Request: POST https://api.deepseek.com/chat/completions "HTTP/1.1 200 OK"
+2026-09-02 17:59:08,723 - logger - INFO - Get:['Other', '']
+2026-09-02 18:01:17,208 - numexpr.utils - INFO - NumExpr defaulting to 12 threads.
+2026-09-02 18:01:32,442 - numexpr.utils - INFO - NumExpr defaulting to 12 threads.
+2026-09-02 18:01:48,103 - numexpr.utils - INFO - NumExpr defaulting to 12 threads.
+2026-09-02 18:02:18,973 - logger - INFO - Get request:1 ['你好', '我今天想去购物']
+2026-09-02 18:02:20,118 - httpx - INFO - HTTP Request: POST https://api.deepseek.com/chat/completions "HTTP/1.1 200 OK"
+2026-09-02 18:02:20,636 - httpx - INFO - HTTP Request: POST https://api.deepseek.com/chat/completions "HTTP/1.1 200 OK"
+2026-09-02 18:02:22,777 - logger - INFO - Get:['Other', 'Other']
+2026-09-02 18:02:25,617 - logger - INFO - Get request:1 ['你好', '我今天想去购物']
+2026-09-02 18:02:25,728 - httpx - INFO - HTTP Request: POST https://api.deepseek.com/chat/completions "HTTP/1.1 200 OK"
+2026-09-02 18:02:26,778 - httpx - INFO - HTTP Request: POST https://api.deepseek.com/chat/completions "HTTP/1.1 200 OK"
+2026-09-02 18:02:28,118 - logger - INFO - Get:['Other', 'Other']
+2026-09-02 18:02:29,667 - logger - INFO - Get request:1 ['你好', '我今天想去购物']
+2026-09-02 18:02:29,763 - httpx - INFO - HTTP Request: POST https://api.deepseek.com/chat/completions "HTTP/1.1 200 OK"
+2026-09-02 18:02:30,883 - httpx - INFO - HTTP Request: POST https://api.deepseek.com/chat/completions "HTTP/1.1 200 OK"
+2026-09-02 18:02:32,254 - logger - INFO - Get:['Other', 'Other']
+2026-09-02 18:02:41,539 - logger - INFO - Get request:1 ['你好', '我今天想去看电影']
+2026-09-02 18:02:41,667 - httpx - INFO - HTTP Request: POST https://api.deepseek.com/chat/completions "HTTP/1.1 200 OK"
+2026-09-02 18:02:42,227 - httpx - INFO - HTTP Request: POST https://api.deepseek.com/chat/completions "HTTP/1.1 200 OK"
+2026-09-02 18:02:47,660 - logger - INFO - Get:['Other', '']
+2026-09-02 18:03:12,343 - numexpr.utils - INFO - NumExpr defaulting to 12 threads.
+2026-09-02 18:03:34,638 - logger - INFO - Get request:1 ['你好', '我今天想去看电影']
+2026-09-02 18:03:35,691 - httpx - INFO - HTTP Request: POST https://api.deepseek.com/chat/completions "HTTP/1.1 200 OK"
+2026-09-02 18:03:36,549 - httpx - INFO - HTTP Request: POST https://api.deepseek.com/chat/completions "HTTP/1.1 200 OK"
+2026-09-02 18:03:41,794 - logger - INFO - Get:['Other', '']
+2026-09-02 18:05:21,129 - numexpr.utils - INFO - NumExpr defaulting to 12 threads.
+2026-09-02 18:05:51,731 - numexpr.utils - INFO - NumExpr defaulting to 12 threads.
+2026-09-02 18:06:06,461 - logger - INFO - Get request:1 ['你好', '我今天想去看电影']
+2026-09-02 18:06:07,424 - httpx - INFO - HTTP Request: POST https://api.deepseek.com/chat/completions "HTTP/1.1 200 OK"
+2026-09-02 18:06:07,975 - httpx - INFO - HTTP Request: POST https://api.deepseek.com/chat/completions "HTTP/1.1 200 OK"
+2026-09-02 18:06:09,257 - logger - INFO - Get:['Other', 'Travel-Query']
