@@ -1,0 +1,2 @@
+# 显示使用apikey，则使用云端模式，支持pdf和markdown
+# 使用环境变量加载apikey，则使用本地LLM模式，仅支持pdf
