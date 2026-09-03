@@ -1,0 +1,51 @@
+--- 正在测试 Elasticsearch 连接 ---
+连接成功！
+{
+  "name": "node-1",
+  "cluster_name": "rag-cluster",
+  "cluster_uuid": "NAhGO-z3RtSRqzZXkfnyXQ",
+  "version": {
+    "number": "8.17.4",
+    "build_flavor": "default",
+    "build_type": "zip",
+    "build_hash": "c63c7f5f8ce7d2e4805b7b3d842e7e792d84dda1",
+    "build_date": "2025-03-20T15:39:59.811110136Z",
+    "build_snapshot": false,
+    "lucene_version": "9.12.0",
+    "minimum_wire_compatibility_version": "7.17.0",
+    "minimum_index_compatibility_version": "7.0.0"
+  },
+  "tagline": "You Know, for Search"
+}
+
+==================================================
+
+--- 正在测试常见的 Elasticsearch 内置分词器 ---
+
+使用分词器：standard
+原始文本: 'Hello, world! This is a test.'
+分词结果: ['hello', 'world', 'this', 'is', 'a', 'test']
+
+使用分词器：simple
+原始文本: 'Hello, world! This is a test.'
+分词结果: ['hello', 'world', 'this', 'is', 'a', 'test']
+
+使用分词器：whitespace
+原始文本: 'Hello, world! This is a test.'
+分词结果: ['Hello,', 'world!', 'This', 'is', 'a', 'test.']
+
+使用分词器：english
+原始文本: 'Hello, world! This is a test.'
+分词结果: ['hello', 'world', 'test']
+
+==================================================
+
+--- 正在测试 IK 分词器 ---
+
+使用 IK 分词器：ik_smart
+原始文本: '我在使用Elasticsearch，这是我的测试。'
+分词结果: ['我', '在', '使用', 'elasticsearch', '这是', '我', '的', '测试']
+
+使用 IK 分词器：ik_max_word
+原始文本: '我在使用Elasticsearch，这是我的测试。'
+分词结果: ['我', '在', '使用', 'elasticsearch', '这是', '我', '的', '测试']
