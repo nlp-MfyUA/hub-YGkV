@@ -1,0 +1,13 @@
+{
+    "0": "Alarm-Update",
+    "1": "Audio-Play",
+    "2": "Calendar-Query",
+    "3": "FilmTele-Play",
+    "4": "HomeAppliance-Control",
+    "5": "Music-Play",
+    "6": "Radio-Listen",
+    "7": "TVProgram-Play",
+    "8": "Travel-Query",
+    "9": "Video-Play",
+    "10": "Weather-Query"
+}
