@@ -1,0 +1,6 @@
+# 作业二专属 gitignore
+cache/
+.env
+.env.local
+!.env.example
+__pycache__/
