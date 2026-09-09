@@ -113,3 +113,48 @@ BOCHA_API_KEY=sk-xxx
 - **来源可追溯**：每条结论抽取时绑定 `source_url`，正文 [n] 引用与 `sources.md` 一一对应；报告生成后自动剔除超出来源范围的编号，防止模型"编造引用"。
 - **置信度分级**：结论按 high（多源/官方）/ medium / low / inference（模型推断、无来源）标注，时间口径取运行时当前时间。
 - **缓存可复现**：bocha 检索与页面抓取落盘缓存，重跑同主题不重复消耗配额；`--no-cache` 强制刷新。
+
+---
+
+# FastAPI 服务化
+
+同一个 agent 已封装为可部署的 FastAPI 服务（`api.py`），采用 **提交任务 → 轮询状态 → 取成品** 的异步模型。
+
+## 启动
+
+```bash
+pip install -r requirements.txt      # 已含 fastapi / uvicorn
+uvicorn api:app --host 127.0.0.1 --port 8000
+# 浏览器打开 http://127.0.0.1:8000/docs 查看 Swagger
+```
+
+## 接口
+
+| 方法 | 路径 | 说明 |
+|---|---|---|
+| POST | `/research` | 提交研究任务，请求体 `{"topic": "...", "max_subs"?, "max_rounds"?=2, "no_cache"?=false}`，立即返回 `job_id` |
+| GET | `/jobs/{id}` | 轮询状态：`queued → running → done/failed`，含 `stage`/`detail`（如 `researching 第 2/6 个子问题`） |
+| GET | `/jobs/{id}/files` | 任务完成后返回四类成品全文：`{report, sources, process, confidence}` |
+| GET | `/jobs` | 任务列表 |
+| GET | `/health` | 健康检查 |
+
+示例：
+
+```bash
+# 提交任务
+curl -X POST http://127.0.0.1:8000/research \
+  -H "Content-Type: application/json" \
+  -d '{"topic":"2026年中国新能源车竞争格局","max_subs":4}'
+
+# 轮询（status 变为 done 后取文件）
+curl http://127.0.0.1:8000/jobs/job-xxx
+curl http://127.0.0.1:8000/jobs/job-xxx/files
+```
+
+## 设计说明
+
+- **任务模型**：研究耗时数分钟，HTTP 请求无法同步等待，故提交即返回 `job_id`，后台线程串行执行（并发上限默认 1，避免打爆 DeepSeek/bocha 配额）。
+- **Job 隔离**：每次任务成品落盘到 `output/jobs/<job_id>/`，与 CLI 的 `output/<主题>/` 互不干扰；`output/jobs/` 已在 `.gitignore` 中。
+- **重启恢复**：任务状态同步写 `output/jobs/<job_id>/job.json`，服务重启后启动时扫描该目录，已完成任务仍可通过 `/jobs/{id}/files` 取回。
+- **Key 管理**：真实 key 只放 gitignored 的 `.env`；仓库内的 `.env.example` 与 README 均为占位符。
+- CLI 与研究逻辑共用 `main.run_research(...)`，保证两种入口行为一致。

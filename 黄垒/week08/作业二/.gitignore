@@ -4,3 +4,4 @@ cache/
 .env.local
 !.env.example
 __pycache__/
+output/jobs/

@@ -67,8 +67,9 @@ def slugify(topic: str) -> str:
 
 
 # ---------------------------------------------------------------- plan
-def plan_research(topic: str, use_cache: bool = True) -> list[dict]:
-    plan_file = BASE_DIR / "output" / slugify(topic) / "plan.json"
+def plan_research(topic: str, use_cache: bool = True,
+                  plan_path: Path | None = None) -> list[dict]:
+    plan_file = plan_path or (BASE_DIR / "output" / slugify(topic) / "plan.json")
     if use_cache and plan_file.exists():
         return json.loads(plan_file.read_text(encoding="utf-8"))
     messages = [
@@ -245,11 +246,81 @@ def synthesize_report(topic: str, all_findings: list[dict], sources: list[dict],
     return llm.chat(messages, temperature=0.4, max_tokens=6000)
 
 
-# ---------------------------------------------------------------- cli
+# ---------------------------------------------------------------- core
 def _now() -> str:
     return _dt.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
 
+def run_research(topic: str, *, use_cache: bool = True, max_subs: int | None = None,
+                 max_rounds: int = 2, out_dir: Path | None = None,
+                 process: list[dict] | None = None,
+                 on_stage: callable | None = None) -> dict:
+    """深度研究全流程（CLI 与 FastAPI 共用）：规划→逐子问题研究→综合成稿→落盘。
+
+    参数:
+        topic:      研究主题
+        use_cache:  是否使用磁盘缓存（检索/抓取/规划）
+        max_subs:   最多研究的子问题数
+        max_rounds: 每个子问题最大检索轮次
+        out_dir:    成品输出目录；缺省 output/<主题>/
+        process:    过程记录容器（可变列表，可外部传入以获取过程）
+        on_stage:   进度回调 on_stage(stage: str, detail: str)，
+                    如 "planning"/"researching"/"synthesizing"/"done"
+    返回: 结果字典（含 out_dir / 统计信息）。
+    """
+    topic = topic.strip()
+    out_dir = out_dir or (BASE_DIR / "output" / slugify(topic))
+    out_dir.mkdir(parents=True, exist_ok=True)
+    if process is None:
+        process = [{"start": _now(), "topic": topic}]
+    if on_stage is None:
+        on_stage = lambda stage, detail: None
+
+    # 【1/3】规划子问题
+    on_stage("planning", "拆解子问题")
+    subs = plan_research(topic, use_cache=use_cache, plan_path=out_dir / "plan.json")
+    if max_subs:
+        subs = subs[: max_subs]
+    process.append({"step": "plan", "count": len(subs),
+                    "sub_questions": [s["question"] for s in subs]})
+
+    # 【2/3】逐子问题研究
+    url_meta: dict[str, dict] = {}
+    all_findings: list[dict] = []
+    total = len(subs)
+    for i, sub in enumerate(subs, 1):
+        on_stage("researching", f"第 {i}/{total} 个子问题：{sub['question'][:40]}")
+        all_findings.extend(
+            research_subquestion(sub, use_cache, max_rounds, process, url_meta))
+    (out_dir / "url_meta.json").write_text(
+        json.dumps(url_meta, ensure_ascii=False, indent=2), encoding="utf-8")
+    (out_dir / "process.json").write_text(
+        json.dumps(process, ensure_ascii=False, indent=2), encoding="utf-8")
+
+    # 【3/3】综合成稿
+    on_stage("synthesizing", f"对 {len(all_findings)} 条证据综合成稿")
+    sources, idmap = build_source_registry(all_findings, url_meta)
+    report_md = synthesize_report(topic, all_findings, sources, idmap)
+    reporter.write_outputs(out_dir, topic, process, all_findings, report_md, sources=sources)
+
+    on_stage("done", f"已生成 4 类成品于 {out_dir}")
+    return {"out_dir": out_dir, "topic": topic, "subs": total,
+            "findings": len(all_findings), "sources": len(sources)}
+
+
+def synth_only(topic: str, out_dir: Path) -> None:
+    """--synth-only：跳过检索，用缓存证据重新综合成稿。"""
+    all_findings = json.loads((out_dir / "findings.json").read_text(encoding="utf-8"))
+    url_meta = json.loads((out_dir / "url_meta.json").read_text(encoding="utf-8"))
+    process = []
+    if (out_dir / "process.json").exists():
+        process = json.loads((out_dir / "process.json").read_text(encoding="utf-8"))
+    sources, idmap = build_source_registry(all_findings, url_meta)
+    report_md = synthesize_report(topic, all_findings, sources, idmap)
+    reporter.write_outputs(out_dir, topic, process, all_findings, report_md, sources=sources)
+
+
+# ---------------------------------------------------------------- cli
 def main() -> int:
     parser = argparse.ArgumentParser(description="深度研究助手")
     parser.add_argument("topic", nargs="?", default="大非农数据及即将到来的议息会议的影响与挑战",
@@ -265,61 +336,37 @@ def main() -> int:
     use_cache = not args.no_cache
     topic = args.topic.strip()
     out_dir = BASE_DIR / "output" / slugify(topic)
-    out_dir.mkdir(parents=True, exist_ok=True)
-
     print(f"研究主题: {topic}", flush=True)
     print(f"输出目录: {out_dir}", flush=True)
-    process: list[dict] = [{"start": _now(), "topic": topic}]
 
-    print("\n【1/3】规划子问题 ...", flush=True)
-    subs = plan_research(topic, use_cache=use_cache)
-    for i, s in enumerate(subs, 1):
-        q = s.get("question", "")
-        nq = len(_queries_for(s))
-        print(f"  S{i}: {q}  ({nq} 条检索词)", flush=True)
-    if args.max_subs:
-        subs = subs[: args.max_subs]
-    process.append({"step": "plan", "count": len(subs), "sub_questions": [s["question"] for s in subs]})
+    def _print_stage(stage: str, detail: str) -> None:
+        if stage == "done":
+            print(f"\n完成。{detail}", flush=True)
+        else:
+            print(f"  [{stage}] {detail}", flush=True)
 
     if args.plan_only:
-        print("\n--plan-only 已打印规划，未执行检索。", flush=True)
-        reporter.write_outputs(out_dir, topic, process, all_findings=[], report_md="", sources=[])
-        print("规划已写入 plan.json / process.md。", flush=True)
+        print("\n【1/3】规划子问题 ...", flush=True)
+        subs = plan_research(topic, use_cache=use_cache, plan_path=out_dir / "plan.json")
+        for i, s in enumerate(subs, 1):
+            q = s.get("question", "")
+            nq = len(_queries_for(s))
+            print(f"  S{i}: {q}  ({nq} 条检索词)", flush=True)
+        # 只落 plan.json，不写 4 类成品，避免误清空该主题已有的研究报告
+        print(f"规划已写入 {out_dir / 'plan.json'}。", flush=True)
         return 0
 
     if args.synth_only:
         print("\n--synth-only：复用缓存证据，仅重新综合成稿 ...", flush=True)
-        all_findings = json.loads((out_dir / "findings.json").read_text(encoding="utf-8"))
-        url_meta = json.loads((out_dir / "url_meta.json").read_text(encoding="utf-8"))
-        # 过程记录优先复用研究阶段持久化的版本，避免被覆盖成只有规划
-        if (out_dir / "process.json").exists():
-            process = json.loads((out_dir / "process.json").read_text(encoding="utf-8"))
-        sources, idmap = build_source_registry(all_findings, url_meta)
-        report_md = synthesize_report(topic, all_findings, sources, idmap)
-        reporter.write_outputs(out_dir, topic, process, all_findings, report_md, sources=sources)
+        synth_only(topic, out_dir)
         print(f"完成。成品位于:\n  {out_dir}", flush=True)
         return 0
 
-    # 【2/3】逐个研究子问题
-    print("\n【2/3】逐子问题检索研究 ...", flush=True)
-    url_meta: dict[str, dict] = {}
-    all_findings: list[dict] = []
-    for sub in subs:
-        all_findings.extend(research_subquestion(sub, use_cache, args.max_rounds, process, url_meta))
-    print(f"\n共抽取 {len(all_findings)} 条证据", flush=True)
-    (out_dir / "url_meta.json").write_text(
-        json.dumps(url_meta, ensure_ascii=False, indent=2), encoding="utf-8")
-    (out_dir / "process.json").write_text(
-        json.dumps(process, ensure_ascii=False, indent=2), encoding="utf-8")
-
-    sources, idmap = build_source_registry(all_findings, url_meta)
-
-    # 【3/3】综合成稿
-    print("\n【3/3】综合成稿 ...", flush=True)
-    report_md = synthesize_report(topic, all_findings, sources, idmap)
-
-    reporter.write_outputs(out_dir, topic, process, all_findings, report_md, sources=sources)
-    print(f"\n完成。成品位于:\n  {out_dir}", flush=True)
+    result = run_research(topic, use_cache=use_cache, max_subs=args.max_subs,
+                          max_rounds=args.max_rounds, out_dir=out_dir,
+                          on_stage=_print_stage)
+    print(f"统计: {result['subs']} 个子问题, {result['findings']} 条证据, "
+          f"{result['sources']} 条来源", flush=True)
     return 0
 
 
