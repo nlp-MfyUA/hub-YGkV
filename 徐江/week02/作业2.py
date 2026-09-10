@@ -2,7 +2,6 @@ import json
 import math
 from openai import OpenAI
 
-
 client = OpenAI(
     api_key="sk-djdzrwnmzqtcbbagdrmcychkfwyuiwahoetdoketuzpvdjkt",
     base_url="https://api.siliconflow.cn/v1",
@@ -27,7 +26,7 @@ def safe_json_parse(text: str) -> dict | list | None:
             return None
 
 
-system_content="""
+system_content = """
 从用户的文字描述中提取人物之间的信息，以 JSON 格式输出，包含以下字段：
 - source: 描述开头内容，例如张三喜欢李四，返回张三
 - relation: 行为，例如喜欢、爱慕
@@ -45,22 +44,18 @@ JSON 输出示例：
 messages = [
     {"role": "system", "content": system_content},
     {"role": "user", "content": "帮我整理以下内容，小明喜欢小桃，但是小桃喜欢小王"
-    }
+     }
 ]
 
-
-
-
-
-response=client.chat.completions.create(
+response = client.chat.completions.create(
     model="deepseek-ai/DeepSeek-V4-Flash",
     messages=messages,
     response_format={"type": "json_object"},
     # tools=TOOLS,
     temperature=0.0,
-    max_tokens=512,      # 最大输出长度
-    n=1,                 # 只生成一个回答（默认值就是1，但显式写出来更明确）
-    stop=None            # 不设停止词，让模型自然结束
+    max_tokens=512,  # 最大输出长度
+    n=1,  # 只生成一个回答（默认值就是1，但显式写出来更明确）
+    stop=None  # 不设停止词，让模型自然结束
 
 )
 
@@ -68,4 +63,3 @@ content = response.choices[0].message.content
 print(f"模型返回内容：{content}")
 result = safe_json_parse(content)
 print(f"json解析后的内容：{result}")
-
