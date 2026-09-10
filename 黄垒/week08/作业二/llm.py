@@ -120,12 +120,22 @@ def chat_json(
     max_tokens: int | None = None,
     retries: int = 2,
 ) -> dict | list:
-    """请求模型输出 JSON 并解析；失败自动重试。"""
+    """请求模型输出 JSON 并解析；失败自动重试。
+
+    解析失败的常见原因是模型输出被 max_tokens 截断成不完整 JSON，
+    因此每次重试把 token 预算放大（默认 2 倍递增），提高一次成功的概率。
+    """
+    budget = max_tokens
     for attempt in range(retries + 1):
-        content = chat(messages, temperature=temperature, max_tokens=max_tokens)
+        try:
+            content = chat(messages, temperature=temperature, max_tokens=budget)
+        except Exception:
+            raise
         try:
             return extract_json(content)
         except ValueError:
             if attempt == retries:
                 raise ValueError(f"模型输出无法解析为 JSON，已重试 {retries} 次。原文: {content[:500]}")
+            # 截断疑似元凶：给下次更大预算
+            budget = None if budget is None else int(budget * 2)
     raise RuntimeError("unreachable")

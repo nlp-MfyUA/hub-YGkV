@@ -118,7 +118,8 @@ BOCHA_API_KEY=sk-xxx
 
 # FastAPI 服务化
 
-同一个 agent 已封装为可部署的 FastAPI 服务（`api.py`），采用 **提交任务 → 轮询状态 → 取成品** 的异步模型。
+同一个 agent 已封装为可部署的 FastAPI 服务（`api.py`）。**默认一次调用拿全量成品**：
+`POST /research` 会阻塞等待研究跑完，直接返回四类成品全文；底层用后台 worker 串行执行。
 
 ## 启动
 
@@ -128,33 +129,61 @@ uvicorn api:app --host 127.0.0.1 --port 8000
 # 浏览器打开 http://127.0.0.1:8000/docs 查看 Swagger
 ```
 
+> ⚠️ **须单进程运行**（勿加 `--workers` 或 `--workers>1`）：job 队列与注册表在进程内，多 worker 会互相找不到任务。
+
 ## 接口
 
 | 方法 | 路径 | 说明 |
 |---|---|---|
-| POST | `/research` | 提交研究任务，请求体 `{"topic": "...", "max_subs"?, "max_rounds"?=2, "no_cache"?=false}`，立即返回 `job_id` |
-| GET | `/jobs/{id}` | 轮询状态：`queued → running → done/failed`，含 `stage`/`detail`（如 `researching 第 2/6 个子问题`） |
-| GET | `/jobs/{id}/files` | 任务完成后返回四类成品全文：`{report, sources, process, confidence}` |
-| GET | `/jobs` | 任务列表 |
+| POST | `/research` | **默认阻塞直取**：等研究完成，一次返回 `{job_id, status:"done", stats, files:{report,sources,process,confidence}}`。请求体见下 |
+| GET | `/jobs` | 任务列表，可选 `?status=running\|done\|failed` 与 `?topic=<关键词>`，按创建时间倒序 |
+| GET | `/jobs/{id}` | 轮询状态：`queued → running → done/failed`，含 `stage`/`detail` |
+| GET | `/jobs/{id}/files` | 按 job_id 取回四类成品全文（断线恢复用） |
 | GET | `/health` | 健康检查 |
 
-示例：
+`POST /research` 请求体：
+
+```jsonc
+{
+  "topic": "研究主题",        // 必填
+  "max_subs": 4,            // 可选，最多子问题数
+  "max_rounds": 2,          // 可选，每子问题最大检索轮次
+  "no_cache": false,        // 可选，忽略磁盘缓存强制重跑
+  "async": false,           // 可选，true=立即返回 job_id（轮询模式），false=默认阻塞直取
+  "wait_timeout": null      // 可选(秒)，阻塞等待上限；超时返回 202 + job_id(任务继续后台跑)
+}
+```
+
+三种返回：
+- **200** — 研究完成：`{job_id, topic, status:"done", stats:{subs,findings,sources}, summary, files:{...四类全文}}`
+- **202** — `wait_timeout` 到期仍在跑：`{job_id, status:"running", stage, detail}`（用 job_id 轮询或稍后取）
+- **500** — 研究失败：`{job_id, status:"failed", error}`
+
+## 示例
 
 ```bash
-# 提交任务
-curl -X POST http://127.0.0.1:8000/research \
-  -H "Content-Type: application/json" \
-  -d '{"topic":"2026年中国新能源车竞争格局","max_subs":4}'
+# 方式一（默认）：一次调用，阻塞到跑完直接拿数据
+curl -X POST http://127.0.0.1:8000/research -H "Content-Type: application/json"
+ -d '{"topic":"2026大非农数据和即将到来的议息会议的影响","max_subs":4}'
 
-# 轮询（status 变为 done 后取文件）
-curl http://127.0.0.1:8000/jobs/job-xxx
-curl http://127.0.0.1:8000/jobs/job-xxx/files
+# 方式二（进阶）：异步提交 + 轮询 + 取文件
+curl.exe -X POST http://127.0.0.1:8000/research \
+  -H "Content-Type: application/json" \
+  -d '{"topic":"...","max_subs":4,"async":true}'     # -> {"job_id":"job-..."}
+curl.exe http://127.0.0.1:8000/jobs/job-xxx                     # 轮询直到 done
+curl.exe http://127.0.0.1:8000/jobs/job-xxx/files               # 取 4 文件全文
 ```
 
 ## 设计说明
 
-- **任务模型**：研究耗时数分钟，HTTP 请求无法同步等待，故提交即返回 `job_id`，后台线程串行执行（并发上限默认 1，避免打爆 DeepSeek/bocha 配额）。
+- **一次拿数据**：阻塞模式在后台单 worker 串行执行研究，完成后 `threading.Event` 唤醒请求线程返回全量成品，无需手动轮询。
+- **断线不丢**：job 一进队即注册并落盘 `output/jobs/<job_id>/`；阻塞请求中途断开，研究仍继续，事后用 `GET /jobs` 过滤 topic 找回或按已知 job_id 取文件。
 - **Job 隔离**：每次任务成品落盘到 `output/jobs/<job_id>/`，与 CLI 的 `output/<主题>/` 互不干扰；`output/jobs/` 已在 `.gitignore` 中。
-- **重启恢复**：任务状态同步写 `output/jobs/<job_id>/job.json`，服务重启后启动时扫描该目录，已完成任务仍可通过 `/jobs/{id}/files` 取回。
+- **重启恢复**：启动时扫描 `output/jobs/`，已完成任务可继续通过 `/jobs/{id}/files` 取回；被中断的任务标记 `failed/interrupted_by_restart`。
 - **Key 管理**：真实 key 只放 gitignored 的 `.env`；仓库内的 `.env.example` 与 README 均为占位符。
+- **可靠性**：模型输出若被 `max_tokens` 截断成不完整 JSON，`llm.chat_json` 会逐次翻倍 token 预算重试，减少随机失败。
 - CLI 与研究逻辑共用 `main.run_research(...)`，保证两种入口行为一致。
+
+## 测试结果
+![](测试1.png)
+![](测试1_1.png)

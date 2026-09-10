@@ -177,7 +177,7 @@ def research_subquestion(sub: dict, use_cache: bool, max_rounds: int, process: l
             {"role": "user",
              "content": f"子问题：{question}\n\n检索材料：\n{block}\n\n请输出 JSON（含 findings/sufficient/extra_queries）。"},
         ]
-        data = llm.chat_json(messages, max_tokens=3000)
+        data = llm.chat_json(messages, max_tokens=6000)
         findings = data.get("findings", []) if isinstance(data, dict) else []
         for f in findings:
             f.setdefault("sub_question", question)
