@@ -1,0 +1,851 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>深度研究助手</title>
+<style>
+:root {
+  --bg: #f5f6fa; --panel: #ffffff; --border: #e3e6ee; --text: #1f2430; --muted: #6b7280;
+  --primary: #2f54fd; --primary-soft: #eef1ff; --ok: #16a34a; --fail: #dc2626; --warn: #d97706;
+  --radius: 10px;
+  --pad: 18px;  /* 弹窗内标题栏 / meta 栏 / 正文的统一左右内边距（顶头对齐基准） */
+}
+* { box-sizing: border-box; }
+body { margin: 0; font-family: "Segoe UI", "Microsoft YaHei", sans-serif; background: var(--bg); color: var(--text); }
+#app { display: flex; min-height: 100vh; }
+
+/* 左侧菜单 */
+aside {
+  width: 200px; background: var(--panel); border-right: 1px solid var(--border);
+  display: flex; flex-direction: column; position: sticky; top: 0; height: 100vh;
+}
+aside .logo { padding: 18px 16px; font-size: 16px; font-weight: 700; border-bottom: 1px solid var(--border); }
+aside nav { flex: 1; padding: 10px 8px; display: flex; flex-direction: column; gap: 4px; }
+aside nav button {
+  text-align: left; padding: 10px 12px; border: none; background: none; border-radius: 8px;
+  font-size: 14px; cursor: pointer; color: var(--text); width: 100%;
+}
+aside nav button:hover { background: var(--primary-soft); }
+aside nav button.active { background: var(--primary); color: #fff; }
+aside .footer { padding: 12px 16px; border-top: 1px solid var(--border); font-size: 13px; color: var(--muted);
+  display: flex; justify-content: space-between; align-items: center; }
+aside .footer a { color: var(--primary); cursor: pointer; text-decoration: none; }
+
+main { flex: 1; padding: 28px 36px; max-width: 1080px; }
+main.wide { max-width: none; } /* 历史列表等表格页：占满右侧空间 */
+h1 { font-size: 22px; margin: 0 0 18px; }
+.card { background: var(--panel); border: 1px solid var(--border); border-radius: var(--radius); padding: 20px; margin-bottom: 16px; }
+.card h2 { font-size: 16px; margin: 0 0 12px; }
+label { font-size: 13px; color: var(--muted); display: block; margin: 10px 0 4px; }
+input[type=text], input[type=password], input[type=number], select, textarea {
+  width: 100%; padding: 9px 10px; border: 1px solid var(--border); border-radius: 8px; font-size: 14px; background: #fff;
+}
+button.btn {
+  background: var(--primary); color: #fff; border: none; padding: 9px 16px; border-radius: 8px;
+  font-size: 14px; cursor: pointer;
+}
+button.btn:disabled { opacity: .5; cursor: not-allowed; }
+button.btn.ghost { background: none; color: var(--primary); border: 1px solid var(--primary); }
+button.btn.sm { padding: 5px 10px; font-size: 12px; }
+.row { display: flex; gap: 10px; align-items: flex-end; }
+.row > div { flex: 1; }
+.badge { font-size: 11px; padding: 2px 8px; border-radius: 99px; }
+.badge.ok { background: #e6f7ec; color: var(--ok); }
+.badge.fail { background: #fdeaea; color: var(--fail); }
+.badge.unknown { background: #f1f2f6; color: var(--muted); }
+.badge.default { background: var(--primary-soft); color: var(--primary); }
+table { width: 100%; border-collapse: collapse; font-size: 13px; }
+th, td { text-align: left; padding: 9px 8px; border-bottom: 1px solid var(--border); vertical-align: top; }
+th { color: var(--muted); font-weight: 600; font-size: 12px; }
+.muted { color: var(--muted); font-size: 12px; }
+.error { color: var(--fail); font-size: 13px; margin-top: 8px; }
+.empty { text-align: center; color: var(--muted); padding: 30px 0; font-size: 14px; }
+
+/* 研究页过程流 */
+.timeline { list-style: none; margin: 0; padding: 0; }
+.timeline li { display: flex; gap: 10px; padding: 7px 0; border-bottom: 1px dashed var(--border); font-size: 13px; }
+.timeline li .t { color: var(--muted); min-width: 150px; flex-shrink: 0; }
+.timeline li .m { flex: 1; word-break: break-all; }
+.timeline li .t .badge { margin-right: 6px; }
+
+/* 报告渲染 */
+.report { font-size: 14px; line-height: 1.7; }
+.report h1 { font-size: 20px; } .report h2 { font-size: 16px; color: var(--primary); }
+.report p, .report li { margin: 6px 0; }
+.report .src { color: var(--primary); }
+.login-wrap { max-width: 360px; margin: 120px auto; }
+.login-wrap .card { padding: 28px; }
+.hint { font-size: 12px; color: var(--muted); margin-top: 8px; line-height: 1.5; }
+
+/* 研究历史：隔行变色 + 自适应列宽（各列按内容收缩，主题列占满剩余宽度） */
+table.zebra tbody tr:nth-child(even) { background: #f8f9fd; }
+table.zebra tbody tr:hover { background: #eef1ff; }
+table.zebra th, table.zebra td { white-space: nowrap; }
+table.zebra th:nth-child(2), table.zebra td:nth-child(2) {
+  width: 100%; /* 主题列吃掉剩余宽度，其余列收缩到内容宽 */
+  overflow: hidden; text-overflow: ellipsis;
+}
+
+/* 研究历史页：搜索行（标签与控件同行，整行不换行） */
+.search-row { display: flex; align-items: center; gap: 14px; flex-wrap: nowrap; }
+.search-row .field { display: flex; align-items: center; gap: 8px; flex: 0 0 auto; }
+.search-row .field.grow { flex: 1; }
+.search-row .field label { margin: 0; white-space: nowrap; }
+.search-row .field input, .search-row .field select { width: auto; }
+.search-row .field.grow input { width: 100%; flex: 1; }
+.range-sep { color: var(--muted); font-size: 13px; padding: 0 2px; }
+/* 日期输入框美化：与其他控件同高、圆角、聚焦光圈 */
+input[type="date"] {
+  min-width: 155px; padding: 8px 12px; font-family: inherit; font-size: 13.5px;
+  color: var(--text); background: #fff; border: 1px solid var(--border); border-radius: 8px;
+  transition: border-color .15s, box-shadow .15s;
+}
+input[type="date"]:hover { border-color: #b8c0d8; }
+input[type="date"]:focus {
+  outline: none; border-color: var(--primary);
+  box-shadow: 0 0 0 3px var(--primary-soft);
+}
+
+/* 研究历史页：日期快捷筛选 chips */
+.chip-row { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+.chip {
+  padding: 4px 14px; border-radius: 99px; font-size: 12.5px; cursor: pointer;
+  border: 1px solid var(--border); background: #fff; color: var(--muted); transition: all .15s;
+}
+.chip:hover { border-color: var(--primary); color: var(--primary); }
+.chip.active { background: var(--primary); border-color: var(--primary); color: #fff; }
+.chip-sep { color: var(--border); font-size: 12px; }
+
+/* 报告弹窗 */
+.modal-mask {
+  position: fixed; inset: 0; background: rgba(15, 20, 40, .45); z-index: 50;
+  display: flex; align-items: center; justify-content: center; padding: 24px;
+}
+.modal {
+  background: var(--panel); border-radius: 14px; width: 100%; max-width: 860px; max-height: 90vh;
+  display: flex; flex-direction: column; box-shadow: 0 18px 60px rgba(0,0,0,.25);
+}
+.modal-head {
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 14px var(--pad); border-bottom: 1px solid var(--border); flex-wrap: wrap; gap: 8px;
+}
+.modal-body { padding: 6px var(--pad) 20px; overflow: auto; }
+.src-list { font-size: 13px; line-height: 1.7; padding-left: 20px }
+.src-list .srcurl { font-size: 11px; color: var(--muted); word-break: break-all }
+
+/* 报告 meta 信息条：内缩卡片式，与正文同一左内边距（不顶头、不通栏） */
+.meta-bar {
+  display: flex; flex-wrap: wrap; align-items: center; gap: 8px 24px;
+  background: #f8f9fd; border: 1px solid var(--border); border-radius: 10px;
+  padding: 10px 14px; margin: 4px 0 14px;
+}
+.meta-item { display: inline-flex; align-items: baseline; gap: 6px; font-size: 13px; white-space: nowrap; }
+.meta-k { font-size: 12px; color: var(--muted); }
+.meta-v { font-size: 13px; font-weight: 600; color: var(--text); }
+.meta-push { margin-left: auto; } /* 状态标签顶到卡片右内边距 */
+.badge.warn { background: #fdf3e3; color: var(--warn); }
+@media (max-width: 720px) {
+  .meta-bar { gap: 8px 16px; }
+  .meta-push { margin-left: 0; width: 100%; text-align: center; }
+}
+
+/* 导出格式选择弹窗 */
+.radio-row {
+  display: flex; align-items: flex-start; gap: 10px; padding: 12px 14px;
+  border: 1px solid var(--border); border-radius: 10px; margin: 10px 0;
+  cursor: pointer; font-size: 14px; color: var(--text);
+}
+.radio-row:has(input:checked) { border-color: var(--primary); background: var(--primary-soft); }
+.radio-row input { width: auto; margin-top: 3px; }
+
+/* Markdown 表格 / 引用 / 行内代码 */
+.md-table-wrap { overflow-x: auto; margin: 10px 0; }
+.md-table { width: 100%; border-collapse: collapse; font-size: 13px; }
+.md-table th, .md-table td { border: 1px solid var(--border); padding: 7px 10px; text-align: left; }
+.md-table th { background: #f8f9fd; font-weight: 600; }
+.report code { background: #f1f2f6; border-radius: 4px; padding: 1px 5px; font-size: 12.5px; }
+.report blockquote {
+  margin: 8px 0; padding: 6px 12px; border-left: 3px solid var(--primary);
+  background: var(--primary-soft); border-radius: 0 8px 8px 0; color: #3a4160;
+}
+.report blockquote p { margin: 4px 0; }
+.report hr { border: none; border-top: 1px solid var(--border); margin: 14px 0; }
+.report h4, .report h5, .report h6 { font-size: 14px; }
+.report ul, .report ol { padding-left: 22px; }
+</style>
+</head>
+<body>
+<div id="app"></div>
+<script>
+/* ---------------- 全局状态 ---------------- */
+const state = {
+  token: localStorage.getItem('token') || null,
+  user: null,
+  page: 'research',           // research | history | models
+  models: [],
+  events: [],
+  es: null,                  // 当前任务的 EventSource
+  researching: false,
+};
+
+const $app = document.getElementById('app');
+const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+
+/* ---------------- API 封装（token 走查询参数） ---------------- */
+async function api(path, opts = {}) {
+  const url = path + (path.includes('?') ? '&' : '?') + 'token=' + encodeURIComponent(state.token);
+  const resp = await fetch(url, {
+    ...opts,
+    headers: { 'Content-Type': 'application/json', ...(opts.headers || {}) },
+  });
+  if (resp.status === 401) { logout(); throw new Error('未登录'); }
+  const text = await resp.text();
+  let data = null;
+  try { data = text ? JSON.parse(text) : null; } catch { data = text; }
+  if (!resp.ok) throw new Error((data && data.detail) || resp.statusText);
+  return data;
+}
+
+/* ---------------- Markdown 轻量渲染 ---------------- */
+function renderInline(s) {
+  return s
+    .replace(/`([^`]+)`/g, '<code>$1</code>')
+    .replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>')
+    .replace(/(^|[^*])\*([^*\s][^*]*)\*/g, '$1<em>$2</em>')
+    .replace(/~~([^~]+)~~/g, '<del>$1</del>')
+    .replace(/(^|\s)(https?:\/\/[^\s<)]+)/g, '$1<a href="$2" target="_blank" rel="noopener" style="color:var(--primary)">$2</a>');
+}
+
+function renderMarkdown(md) {
+  const lines = esc(md).split('\n');
+  let html = '';
+
+  // 表格缓冲：首行暂存，遇分隔行确认后作为表头输出
+  let tableBuf = null; // null=不在表格；[] 正在收集行
+  const flushTable = () => {
+    if (!tableBuf) return;
+    if (tableBuf.length) {
+      html += '<div class="md-table-wrap"><table class="md-table">' +
+        tableBuf.map((cells, ri) =>
+          `<tr>${cells.map(c => `<${ri === 0 ? 'th' : 'td'}>${c}</${ri === 0 ? 'th' : 'td'}>`).join('')}</tr>`
+        ).join('') + '</table></div>';
+    }
+    tableBuf = null;
+  };
+  const parseRow = raw => raw.trim().replace(/^\||\|$/g, '').split('|').map(c => renderInline(c.trim()));
+
+  for (const raw of lines) {
+    const l = raw.replace(/\[来源\s*([0-9]+)\]/g, '<span class="src">[来源$1]</span>')
+                 .replace(/\[(\d+)\]/g, '<span class="src">[$1]</span>');
+
+    // 表格分隔行（| --- | :---: |）
+    if (/^\s*\|?\s*:?-{2,}:?\s*(\|\s*:?-{2,}:?\s*)*\|?\s*$/.test(raw) && tableBuf) continue; // 分隔行本身不输出
+
+    // 表格数据行
+    if (tableBuf && /^\s*\|.*\|\s*$/.test(raw)) { tableBuf.push(parseRow(raw)); continue; }
+
+    flushTable();
+
+    // 引用块（esc 已把 > 转成 &gt;）
+    if (/^&gt;\s?/.test(l)) {
+      html += `<blockquote><p>${renderInline(l.replace(/^&gt;\s?/, ''))}</p></blockquote>`;
+      continue;
+    }
+
+    // 分割线
+    if (/^\s*(-{3,}|\*{3,})\s*$/.test(raw)) { html += '<hr/>'; continue; }
+
+    // 标题
+    const hm = l.match(/^(\s*#{1,6})\s(.*)/);
+    if (hm) {
+      const lv = hm[1].trim().length;
+      html += `<h${lv}>${renderInline(hm[2])}</h${lv}>`;
+      continue;
+    }
+
+    // 有序列表
+    const om = raw.match(/^\s*\d+\.\s+(.*)/);
+    if (om) {
+      const li = om[1].replace(/\[来源\s*([0-9]+)\]/g, '<span class="src">[来源$1]</span>')
+                      .replace(/\[(\d+)\]/g, '<span class="src">[$1]</span>');
+      html += `<li class="oli">${renderInline(li)}</li>`;
+      continue;
+    }
+
+    // 无序列表
+    const um = raw.match(/^\s*[-*]\s(.*)/);
+    if (um) {
+      const li = um[1].replace(/\[来源\s*([0-9]+)\]/g, '<span class="src">[来源$1]</span>')
+                      .replace(/\[(\d+)\]/g, '<span class="src">[$1]</span>');
+      html += `<li>${renderInline(li)}</li>`;
+      continue;
+    }
+
+    // 表格开始
+    if (/^\s*\|.*\|\s*$/.test(raw)) { tableBuf = [parseRow(raw)]; continue; }
+
+    // 普通段落
+    if (l.trim()) html += `<p>${renderInline(l)}</p>`;
+  }
+  flushTable();
+  return html;
+}
+
+/* ---------------- 布局 ---------------- */
+function render() {
+  if (!state.token) return renderLogin();
+  $app.innerHTML = `
+    <aside>
+      <div class="logo">🔍 深度研究助手</div>
+      <nav>
+        <button data-page="research" class="${state.page==='research'?'active':''}">研究</button>
+        <button data-page="history" class="${state.page==='history'?'active':''}">研究历史</button>
+        <button data-page="models" class="${state.page==='models'?'active':''}">模型管理</button>
+      </nav>
+      <div class="footer">
+        <span>${esc(state.user?.username || '')}</span>
+        <a id="logout" data-action="logout">退出</a>
+      </div>
+    </aside>
+    <main id="main"></main>`;
+  $app.querySelectorAll('aside nav button').forEach(b => b.onclick = () => { state.page = b.dataset.page; render(); });
+  document.getElementById('logout').onclick = logout;
+  const main = document.getElementById('main');
+  main.classList.toggle('wide', state.page === 'history'); // 历史列表占满右侧空间
+  if (state.page === 'research') renderResearch(main);
+  else if (state.page === 'history') renderHistory(main);
+  else renderModels(main);
+}
+
+function renderLogin() {
+  $app.innerHTML = `
+    <div class="login-wrap">
+      <div class="card">
+        <h2>登录</h2>
+        <label>用户名</label><input type="text" id="lu" placeholder="admin" />
+        <label>密码</label><input type="password" id="lp" placeholder="admin123" />
+        <div class="hint">首次使用：admin / admin123（启动时自动种子）</div>
+        <div id="lerr" class="error"></div>
+        <div style="margin-top:14px"><button class="btn" id="lbtn" style="width:100%">登录</button></div>
+      </div>
+    </div>`;
+  document.getElementById('lbtn').onclick = async () => {
+    try {
+      const r = await fetch('/api/login', { method: 'POST', headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ username: document.getElementById('lu').value.trim(), password: document.getElementById('lp').value }) });
+      const data = await r.json();
+      if (!r.ok) throw new Error(data.detail || '登录失败');
+      state.token = data.token; state.user = data.user;
+      localStorage.setItem('token', data.token);
+      state.page = 'research';
+      boot();
+    } catch (e) { document.getElementById('lerr').textContent = e.message; }
+  };
+  document.getElementById('lp').onkeydown = e => { if (e.key === 'Enter') document.getElementById('lbtn').click(); };
+}
+
+function logout() {
+  closeSSE();
+  state.token = null; state.user = null;
+  localStorage.removeItem('token');
+  render();
+}
+
+async function boot() {
+  try {
+    state.user = await api('/api/me');
+    state.models = await api('/api/models');
+    render();
+  } catch {
+    // token 失效时回到登录页
+  }
+}
+
+/* ---------------- 研究页 ---------------- */
+async function renderResearch(main) {
+  state.models = await api('/api/models');
+  const hasModel = state.models.length > 0;
+  const defaultM = state.models.find(m => m.is_default) || state.models[0];
+
+  main.innerHTML = `
+    <h1>深度研究</h1>
+    ${hasModel ? `
+    <div class="card">
+      <h2>新研究</h2>
+      <label>研究主题</label>
+      <textarea id="topic" rows="2" placeholder="例如：2025 年大模型在代码生成领域的商业化进展"></textarea>
+      <div class="row" style="margin-top:12px">
+        <div><label>模型</label>
+          <select id="model">${state.models.map(m => `<option value="${m.id}" ${m.id===defaultM?.id?'selected':''}>${esc(m.name)}（${esc(m.model_name)}）</option>`).join('')}</select>
+        </div>
+        <div style="max-width:130px"><label>最大轮次</label>
+          <input type="number" id="rounds" min="1" max="10" value="${defaultM ? 3 : 3}"/>
+        </div>
+        <button class="btn" id="startBtn">开始研究</button>
+      </div>
+      <div class="hint">轮次 = 检索 → 抽取 → 判断 的迭代次数；达到上限后不再补检，直接综合。</div>
+      <div id="serr" class="error"></div>
+    </div>` : `
+    <div class="card">
+      <h2>还没有配置模型</h2>
+      <p class="muted">请先在「模型管理」添加 OpenAI 兼容模型（base_url / api_key / model_name），再发起研究。本服务不使用兜底模型。</p>
+      <button class="btn" onclick="state.page='models';render()">去模型管理 →</button>
+    </div>`}
+    <div class="card" id="procCard" style="display:none">
+      <h2>研究过程 <span id="procStatus"></span></h2>
+      <ul class="timeline" id="timeline"></ul>
+    </div>
+    <div class="card" id="reportCard" style="display:none">
+      <h2>研究报告</h2>
+      <div id="reportMeta" class="hint"></div>
+      <div class="report" id="reportMd"></div>
+      <h2 style="margin-top:18px">来源</h2>
+      <ol id="reportSources" style="font-size:13px;line-height:1.8;padding-left:20px"></ol>
+    </div>`;
+
+  const startBtn = document.getElementById('startBtn');
+  if (startBtn) startBtn.onclick = startResearch;
+  window.startResearch = startResearch;
+}
+
+function closeSSE() {
+  if (state.es) { state.es.close(); state.es = null; }
+  state.events = [];
+}
+
+async function startResearch() {
+  const topic = document.getElementById('topic').value.trim();
+  if (!topic) { showErr('serr', '请输入研究主题'); return; }
+  const model_id = +document.getElementById('model').value;
+  const max_rounds = +document.getElementById('rounds').value || 3;
+
+  document.getElementById('startBtn').disabled = true;
+  state.researching = true;
+  state.events = [];
+  document.getElementById('procCard').style.display = '';
+  document.getElementById('reportCard').style.display = 'none';
+  document.getElementById('timeline').innerHTML = '';
+
+  let task;
+  try {
+    task = await api('/api/tasks', { method: 'POST', body: JSON.stringify({ topic, model_id, max_rounds }) });
+  } catch (e) {
+    showErr('serr', e.message);
+    document.getElementById('startBtn').disabled = false;
+    state.researching = false;
+    return;
+  }
+  showErr('serr', '');
+  openSSE(task.task_id, 0);
+}
+
+function openSSE(taskId, afterSeq = 0) {
+  closeSSE();
+  const es = new EventSource(
+    `/api/research/${taskId}/events?token=${encodeURIComponent(state.token)}${afterSeq ? `&Last-Event-ID=${afterSeq}` : ''}`
+  );
+  state.es = es;
+  const set = (type, handler) => es.addEventListener(type, e => {
+    let p; try { p = JSON.parse(e.data || '{}'); } catch { p = {}; }
+    p._seq = e.lastEventId ? +e.lastEventId : null;
+    state.events.push({ type, payload: p });
+    handler(p);
+  });
+
+  set('task.started', p => addEvent('● 开始', `主题：${esc(p.topic)}，最大轮次 ${p.max_rounds}`));
+  set('planning.done', p => addEvent('规划', `子问题：${p.subquestions.map(esc).join('；')}`));
+  set('round.started', p => addEvent(`第 ${p.round} 轮`, `开始（检索 ${''}）`));
+  set('searched', p => addEvent(`检索`, `[第${p.round}轮] “${esc(p.query)}” → ${p.result_count} 条（新增 ${p.new_pages} 页）`));
+  set('page.extracted', p => addEvent('抽取', `《${esc(p.title)}》相关度 ${p.relevance}，事实 ${p.fact_count} 条${p.error ? '（失败）' : ''}`));
+  set('judge.done', p => addEvent(`判断`, `[第${p.round}轮] ${p.sufficient ? '信息充分，停止补检' : '需补检：' + p.followup_queries.map(esc).join('、')}`));
+  set('report.generated', p => addEvent('综合', `报告生成完毕（来源 ${p.sources.length} 个，事实 ${p.meta.fact_count} 条）`));
+  set('task.error', p => { addEvent('❌ 错误', esc(p.message)); finishUI(true); });
+  set('stream.closed', async () => {
+    es.close(); state.es = null;
+    // 终态后拉取报告
+    try {
+      const t = await api(`/api/tasks/${taskId}`);
+      if (t.report) showReport(t);
+      else if (t.status === 'error') addEvent('❌ 错误', esc(t.error || '未知错误'));
+    } catch {}
+    finishUI();
+  });
+  es.onerror = () => {
+    // 断线重连：按最后 seq 补发
+    if (!state.es) return;
+    const lastSeq = state.events.filter(e => e.payload._seq).pop()?.payload._seq || 0;
+    es.close(); state.es = null;
+    setTimeout(() => openSSE(taskId, lastSeq), 1500);
+  };
+}
+
+function addEvent(tag, text) {
+  const tl = document.getElementById('timeline');
+  const time = new Date().toLocaleTimeString('zh-CN', { hour12: false });
+  const li = document.createElement('li');
+  li.innerHTML = `<span class="t"><span class="badge unknown">${esc(tag)}</span>${time}</span><span class="m">${text}</span>`;
+  tl.appendChild(li);
+  document.getElementById('procStatus').textContent = '运行中…';
+}
+
+function finishUI(err) {
+  document.getElementById('startBtn').disabled = false;
+  document.getElementById('procStatus').textContent = err ? '失败' : '已完成';
+  state.researching = false;
+}
+
+function metaBar(m, taskId) {
+  const item = (k, v) => `<span class="meta-item"><span class="meta-k">${k}</span><span class="meta-v">${v}</span></span>`;
+  return `<div class="meta-bar">` +
+    (taskId != null ? item('任务', '#' + taskId) : '') +
+    item('模型', esc(m.model_name || '-')) +
+    item('信息截止', esc(m.search_cutoff || '-')) +
+    item('轮次', esc(m.max_rounds ?? '-')) +
+    item('事实', `${m.fact_count ?? 0} 条`) +
+    item('来源', `${m.source_count ?? 0} 个`) +
+    (m.judged_sufficient
+      ? `<span class="meta-item meta-push"><span class="badge ok">检索充分</span></span>`
+      : `<span class="meta-item meta-push"><span class="badge warn">达到轮次上限，未继续补检</span></span>`) +
+    `</div>`;
+}
+
+function showReport(t) {
+  const card = document.getElementById('reportCard');
+  card.style.display = '';
+  const m = t.report.meta || {};
+  document.getElementById('reportMeta').innerHTML = metaBar(m);
+  document.getElementById('reportMd').innerHTML = renderMarkdown(t.report.report_md);
+  document.getElementById('reportSources').innerHTML =
+    (t.report.sources || []).map((s, i) => `<li><a href="${esc(s.url)}" target="_blank" rel="noopener">[${i+1}] ${esc(s.title)}</a></li>`).join('')
+    || '<li class="muted">无来源</li>';
+}
+
+function showErr(id, msg) { document.getElementById(id).textContent = msg || ''; }
+
+/* ---------------- 研究历史页 ---------------- */
+const hist = { keyword: '', date_from: '', date_to: '', page: 1, page_size: 10 };
+
+// 日期快捷选项 → 起止日期（相对今天，本地时区）
+function quickRange(key) {
+  const fmt = d => `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
+  const today = new Date();
+  if (key === 'today') { const v = fmt(today); return { from: v, to: v }; }
+  if (key === '7d')  { const s = new Date(today); s.setDate(s.getDate() - 6);  return { from: fmt(s), to: fmt(today) }; }
+  if (key === '30d') { const s = new Date(today); s.setDate(s.getDate() - 29); return { from: fmt(s), to: fmt(today) }; }
+  return { from: '', to: '' };
+}
+
+async function renderHistory(main) {
+  main.innerHTML = `
+    <h1>研究历史</h1>
+    <div class="card">
+      <div class="search-row">
+        <div class="field grow">
+          <label>主题搜索</label>
+          <input type="text" id="hKw" value="${esc(hist.keyword)}" placeholder="输入主题关键词" />
+        </div>
+        <div class="field">
+          <label>创建日期</label>
+          <input type="date" id="hFrom" value="${esc(hist.date_from)}" />
+          <span class="range-sep">至</span>
+          <input type="date" id="hTo" value="${esc(hist.date_to)}" />
+        </div>
+        <div class="field">
+          <label>每页</label>
+          <select id="hSize">${[10,20,50].map(n => `<option ${n===hist.page_size?'selected':''}>${n}</option>`).join('')}</select>
+        </div>
+        <button class="btn" id="hSearch" style="flex:0 0 auto">搜索</button>
+      </div>
+      <div class="chip-row" style="margin-top:12px">
+        <span class="muted">日期快捷筛选</span>
+        <button class="chip" data-d="today">今天</button>
+        <button class="chip" data-d="7d">近 7 天</button>
+        <button class="chip" data-d="30d">近 30 天</button>
+        <span class="chip-sep">|</span>
+        <button class="chip" data-d="">全部</button>
+      </div>
+      <div id="hList" class="empty" style="margin-top:14px">加载中…</div>
+      <div id="hPager" style="margin-top:14px;display:flex;gap:8px;align-items:center;font-size:13px"></div>
+    </div>`;
+  const syncChips = () => {
+    // 起止均为空=全部；起止组合与快捷区间一致则高亮对应 chip，否则全部不高亮
+    const q = ['today','7d','30d'].find(k => { const r = quickRange(k); return r.from === hist.date_from && r.to === hist.date_to; });
+    main.querySelectorAll('.chip[data-d]').forEach(c =>
+      c.classList.toggle('active', q ? c.dataset.d === q : c.dataset.d === '' && !hist.date_from && !hist.date_to));
+  };
+  main.querySelectorAll('.chip[data-d]').forEach(c => c.onclick = () => {
+    const r = quickRange(c.dataset.d);
+    hist.date_from = r.from; hist.date_to = r.to;
+    document.getElementById('hFrom').value = r.from;
+    document.getElementById('hTo').value = r.to;
+    syncChips();
+    hist.page = 1;
+    loadHistoryPage();
+  });
+  syncChips();
+  document.getElementById('hSearch').onclick = () => {
+    hist.keyword = document.getElementById('hKw').value.trim();
+    hist.date_from = document.getElementById('hFrom').value;
+    hist.date_to = document.getElementById('hTo').value;
+    syncChips();
+    hist.page_size = +document.getElementById('hSize').value;
+    hist.page = 1;
+    loadHistoryPage();
+  };
+  document.getElementById('hKw').onkeydown = e => { if (e.key === 'Enter') document.getElementById('hSearch').click(); };
+  await loadHistoryPage();
+}
+
+async function loadHistoryPage() {
+  const box = document.getElementById('hList');
+  box.innerHTML = '<div class="empty">加载中…</div>';
+  let data;
+  try {
+    data = await api(`/api/tasks?keyword=${encodeURIComponent(hist.keyword)}&date=${encodeURIComponent(hist.date)}&page=${hist.page}&page_size=${hist.page_size}`);
+  } catch (e) { box.innerHTML = `<div class="error">${esc(e.message)}</div>`; return; }
+  const { items, total } = data;
+  if (!items.length) {
+    box.innerHTML = `<div class="empty">${hist.keyword || hist.date ? '没有匹配的记录' : '还没有研究记录'}</div>`;
+    document.getElementById('hPager').innerHTML = '';
+    return;
+  }
+  const totalPages = Math.max(1, Math.ceil(total / hist.page_size));
+  box.innerHTML = `
+    <table class="zebra">
+      <thead><tr><th style="width:40px">#</th><th>主题</th><th>模型</th><th>状态</th><th>创建时间</th><th>操作</th></tr></thead>
+      <tbody>${items.map(t => `<tr>
+        <td>${t.id}</td><td title="${esc(t.topic)}">${esc(t.topic)}</td><td title="${esc(t.model_label || '')}">${esc(t.model_label || '-')}</td>
+        <td>${statusBadge(t.status, t.error)}</td><td class="muted">${esc(t.created_at)}</td>
+        <td style="white-space:nowrap">
+          <button class="btn sm" data-view="${t.id}" ${t.status!=='done'?'disabled':''}>查看报告</button>
+          <span class="muted" style="margin:0 5px">|</span>
+          <button class="btn sm ghost" data-export="${t.id}" ${t.status==='done'?'':'disabled'}>导出</button>
+        </td>
+      </tr>`).join('')}</tbody>
+    </table>`;
+
+  const pager = document.getElementById('hPager');
+  pager.innerHTML = `
+    <button class="btn sm ghost" data-pg="${hist.page-1}" ${hist.page<=1?'disabled':''}>上一页</button>
+    <span class="muted">${hist.page} / ${totalPages} 页 · 共 ${total} 条</span>
+    <button class="btn sm ghost" data-pg="${hist.page+1}" ${hist.page>=totalPages?'disabled':''}>下一页</button>`;
+  pager.querySelectorAll('[data-pg]').forEach(b => b.onclick = () => {
+    const p = +b.dataset.pg;
+    if (p < 1 || p > totalPages) return;
+    hist.page = p; loadHistoryPage();
+  });
+
+  box.querySelectorAll('[data-view]').forEach(b => b.onclick = () => openReportModal(+b.dataset.view));
+  box.querySelectorAll('[data-export]').forEach(b => b.onclick = () => openExportModal(+b.dataset.export));
+}
+
+/* 导出格式选择弹窗：单选 Markdown / PDF，点导出执行 */
+function openExportModal(taskId) {
+  const modal = document.createElement('div');
+  modal.className = 'modal-mask';
+  modal.style.zIndex = 60; // 叠在报告弹窗之上
+  modal.innerHTML = `
+    <div class="modal" style="max-width:380px">
+      <div class="modal-head"><strong style="font-size:15px">导出报告 #${taskId}</strong></div>
+      <div style="padding:6px 18px 20px">
+        <label class="radio-row">
+          <input type="radio" name="exfmt" value="markdown" checked/>
+          <span><strong>Markdown</strong><br><span class="muted">下载 .md 文件，保留原始 Markdown 源码</span></span>
+        </label>
+        <label class="radio-row">
+          <input type="radio" name="exfmt" value="pdf"/>
+          <span><strong>PDF</strong><br><span class="muted">打开打印窗口，在浏览器中"另存为 PDF"</span></span>
+        </label>
+        <div class="error" id="exErr"></div>
+        <div style="display:flex;gap:10px;justify-content:flex-end;margin-top:14px">
+          <button class="btn sm ghost" data-a="cancel">取消</button>
+          <button class="btn sm" data-a="go">导出</button>
+        </div>
+      </div>
+    </div>`;
+  document.body.appendChild(modal);
+  modal.querySelector('[data-a=cancel]').onclick = () => modal.remove();
+  modal.onclick = e => { if (e.target === modal) modal.remove(); };
+  modal.querySelector('[data-a=go]').onclick = async () => {
+    const fmt = modal.querySelector('input[name=exfmt]:checked').value;
+    modal.remove();
+    await exportTask(taskId, fmt);
+  };
+  modal.addEventListener('keydown', e => { if (e.key === 'Escape') modal.remove(); });
+}
+
+/* 报告弹窗：默认 Markdown 预览，可导出 md / pdf */
+async function openReportModal(taskId) {
+  const t = await api(`/api/tasks/${taskId}`);
+  const modal = document.createElement('div');
+  modal.className = 'modal-mask';
+  const m = t.report?.meta || {};
+  modal.innerHTML = `
+    <div class="modal">
+      <div class="modal-head">
+        <strong style="font-size:15px">研究报告 #${taskId}（${esc(t.topic)}）</strong>
+        <div style="display:flex;gap:8px">
+          <button class="btn sm ghost" data-a="export" ${t.report?'':'disabled'}>导出</button>
+          <button class="btn sm" data-a="close">关闭</button>
+        </div>
+      </div>
+      <div class="modal-body">
+        ${t.report ? metaBar(m, taskId) : ''}
+        ${t.report
+          ? `<div class="report">${renderMarkdown(t.report.report_md)}</div>
+             <h2 style="font-size:15px;margin-top:14px">来源</h2>
+             <ol class="src-list">${(t.report.sources||[]).map((s,i)=>`<li><a href="${esc(s.url)}" target="_blank" rel="noopener">[${i+1}] ${esc(s.title)}</a><br><span class="srcurl">${esc(s.url)}</span></li>`).join('')}</ol>`
+          : t.status === 'error'
+            ? `<div class="error">任务失败：${esc(t.error || '未知错误')}</div>`
+            : `<div class="muted">任务状态：${esc(t.status)}（尚未生成报告）</div>`}
+      </div>
+    </div>`;
+  document.body.appendChild(modal);
+  modal.querySelector('[data-a=close]').onclick = () => modal.remove();
+  modal.querySelector('[data-a=export]').onclick = () => openExportModal(taskId);
+  modal.onclick = e => { if (e.target === modal) modal.remove(); };
+  const onKey = e => { if (e.key === 'Escape' && modal.parentNode) { modal.remove(); document.removeEventListener('keydown', onKey); } };
+  document.addEventListener('keydown', onKey);
+}
+
+/* 导出：markdown 直接下载；pdf 打开打印窗口（浏览器另存为 PDF），避免服务端引 headless 浏览器 */
+async function exportTask(taskId, fmt) {
+  try {
+    if (fmt === 'markdown') {
+      const resp = await fetch(`/api/tasks/${taskId}/export?fmt=markdown&token=${encodeURIComponent(state.token)}`);
+      if (!resp.ok) throw new Error((await resp.json().catch(() => ({}))).detail || resp.statusText);
+      const blob = await resp.blob();
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url; a.download = `research-report-${taskId}.md`;
+      document.body.appendChild(a); a.click(); a.remove();
+      setTimeout(() => URL.revokeObjectURL(url), 2000);
+    } else {
+      const task = await api(`/api/tasks/${taskId}`);
+      printAsPDF(task);
+    }
+  } catch (e) { alert('导出失败：' + e.message); }
+}
+
+function printAsPDF(task) {
+  const m = task.report.meta || {};
+  const srcLinks = (task.report.sources || []).map((s, i) =>
+    `<li>[${i+1}] ${esc(s.title)}<br><span class="srcurl">${esc(s.url)}</span></li>`).join('');
+  const w = window.open('', '_blank');
+  w.document.write(`<!DOCTYPE html><html lang="zh-CN"><head><meta charset="UTF-8">
+    <title>研究报告 #${task.id}</title><style>
+    body{font-family:"Microsoft YaHei",sans-serif;font-size:13px;line-height:1.7;color:#222;padding:24px}
+    h1{font-size:20px} h2{font-size:16px;color:#2f54fd;margin-top:22px} h3{font-size:14px}
+    .meta{font-size:11px;color:#888;border-bottom:1px solid #ddd;padding-bottom:8px;margin-bottom:14px}
+    .src{color:#2f54fd} .srcurl{color:#999;font-size:11px} ol{padding-left:20px} li{margin:4px 0}
+    table{width:100%;border-collapse:collapse;font-size:12px;margin:10px 0}
+    th,td{border:1px solid #ccc;padding:6px 9px;text-align:left}
+    th{background:#f2f3f7}
+    code{background:#f1f2f6;border-radius:4px;padding:1px 4px;font-size:12px}
+    blockquote{margin:8px 0;padding:6px 12px;border-left:3px solid #2f54fd;background:#eef1ff}
+    @page{margin:18mm}
+    </style></head><body>
+    <div class="meta">研究报告 #${task.id}｜主题：${esc(task.topic)}｜模型：${esc(m.model_name)}｜信息截止：${esc(m.search_cutoff)}｜生成时间：${esc(task.report.created_at||'')}</div>
+    ${renderMarkdown(task.report.report_md)}
+    <h2>来源列表</h2><ol>${srcLinks}</ol>
+    </body></html>`);
+  w.document.close();
+  w.focus();
+  setTimeout(() => w.print(), 400);
+}
+
+function statusBadge(s, err) {
+  const map = { done: ['ok', '完成'], running: ['unknown', '运行中'], pending: ['unknown', '排队'], error: ['fail', '失败'] };
+  const [cls, label] = map[s] || ['unknown', s];
+  return `<span class="badge ${cls}">${label}</span>${err ? `<div class="muted" title="${esc(err)}">${esc(err).slice(0, 60)}</div>` : ''}`;
+}
+
+/* ---------------- 模型管理页 ---------------- */
+async function renderModels(main) {
+  main.innerHTML = `
+    <h1>模型管理</h1>
+    <div class="card">
+      <h2>添加模型（OpenAI 兼容接口）</h2>
+      <div class="row">
+        <div><label>名称</label><input type="text" id="mName" placeholder="例如：DeepSeek"></div>
+        <div><label>Base URL</label><input type="text" id="mUrl" placeholder="https://api.openai.com/v1"></div>
+      </div>
+      <div class="row">
+        <div><label>API Key</label><input type="text" id="mKey" placeholder="sk-..."></div>
+        <div><label>模型名</label><input type="text" id="mModel" placeholder="deepseek-chat"></div>
+      </div>
+      <div style="margin-top:12px">
+        <label><input type="checkbox" id="mDefault" style="width:auto;vertical-align:-2px"/> 设为默认模型（覆盖已有默认时会弹确认）</label>
+        <button class="btn" id="addBtn">添加并测试连接</button>
+        <span class="hint">添加时自动 ping（max_tokens=1，10s 超时）</span>
+      </div>
+      <div id="merr" class="error"></div>
+    </div>
+    <div class="card"><h2>我的模型</h2><div id="mList"></div></div>`;
+
+  document.getElementById('addBtn').onclick = async () => {
+    const body = {
+      name: document.getElementById('mName').value.trim(),
+      base_url: document.getElementById('mUrl').value.trim(),
+      api_key: document.getElementById('mKey').value.trim(),
+      model_name: document.getElementById('mModel').value.trim(),
+      is_default: document.getElementById('mDefault').checked,
+    };
+    if (!body.name || !body.base_url || !body.api_key || !body.model_name) return showErr('merr', '请填写全部字段');
+    const willOverride = body.is_default && state.models.some(m => m.is_default);
+    if (willOverride && !confirm('将覆盖当前默认模型，确认继续？')) return;
+    showErr('merr', '');
+    document.getElementById('addBtn').disabled = true;
+    try {
+      const r = await api('/api/models', { method: 'POST', body: JSON.stringify(body) });
+      alert(r.health === 'ok' ? '添加成功，连接正常 ✅' : '已添加，但连接测试失败，请检查配置');
+      renderModels(document.getElementById('main'));
+    } catch (e) { showErr('merr', e.message); document.getElementById('addBtn').disabled = false; }
+  };
+
+  const models = await api('/api/models');
+  const list = document.getElementById('mList');
+  if (!models.length) { list.innerHTML = '<div class="empty">还没有模型，添加一个吧</div>'; return; }
+  list.innerHTML = `
+    <table><thead><tr><th>名称</th><th>Base URL</th><th>模型</th><th>API Key</th><th>状态</th><th>操作</th></tr></thead>
+    <tbody>${models.map(m => `<tr>
+      <td>${esc(m.name)}${m.is_default ? ' <span class="badge default">默认</span>' : ''}</td>
+      <td class="muted" style="word-break:break-all">${esc(m.base_url)}</td>
+      <td>${esc(m.model_name)}</td>
+      <td class="muted">${esc(m.api_key_masked)}</td>
+      <td><span class="badge ${m.health_status}">${{ok:'正常',fail:'失败',unknown:'未检测'}[m.health_status] || m.health_status}</span>
+        ${m.health_at ? `<div class="muted">${esc(m.health_at)}</div>` : ''}</td>
+      <td style="white-space:nowrap">
+        <button class="btn sm ghost" data-re="${m.id}">重检</button>
+        ${m.is_default ? '' : `<button class="btn sm ghost" data-def="${m.id}">设默认</button>`}
+        <button class="btn sm ghost" data-del="${m.id}" style="color:var(--fail);border-color:var(--fail)">删除</button>
+      </td>
+    </tr>`).join('')}</tbody></table>`;
+
+  list.querySelectorAll('[data-re]').forEach(b => b.onclick = async () => {
+    b.disabled = true; b.textContent = '检测中…';
+    const r = await api(`/api/models/${b.dataset.re}/health`, { method: 'POST' });
+    b.textContent = r.health === 'ok' ? '正常 ✅' : '失败 ❌';
+  });
+  list.querySelectorAll('[data-def]').forEach(b => b.onclick = async () => {
+    if (state.models.some(m => m.is_default) && !confirm('将覆盖当前默认模型，确认？')) return;
+    await api(`/api/models/${b.dataset.def}/default`, { method: 'POST' });
+    renderModels(document.getElementById('main'));
+  });
+  list.querySelectorAll('[data-del]').forEach(b => b.onclick = async () => {
+    if (!confirm('确定删除该模型？')) return;
+    await api(`/api/models/${b.dataset.del}`, { method: 'DELETE' });
+    renderModels(document.getElementById('main'));
+  });
+}
+
+/* ---------------- 启动 ---------------- */
+if (state.token) {
+  boot().then(() => { if (!state.token) renderLogin(); else render(); });
+} else {
+  renderLogin();
+}
+</script>
+</body>
+</html>
