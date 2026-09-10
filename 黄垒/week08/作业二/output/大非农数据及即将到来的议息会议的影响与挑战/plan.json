@@ -1,0 +1,68 @@
+[
+  {
+    "question": "最新一期美国非农就业数据（大非农）的核心指标表现如何？包括新增非农就业人数、失业率、劳动参与率、平均时薪同比增速等，以及市场预期与实际值的偏差。",
+    "zh_queries": [
+      "最新非农就业数据 新增就业 失业率 平均时薪",
+      "美国大非农 最新一期 数据 市场预期 偏差"
+    ],
+    "en_queries": [
+      "latest nonfarm payroll report employment change unemployment rate wage growth",
+      "US jobs report latest data vs expectations August 2026"
+    ]
+  },
+  {
+    "question": "即将召开的联邦公开市场委员会（FOMC）议息会议的具体时间、当前市场对利率决议的预期（加息/降息/维持不变的概率），以及点阵图和经济预测摘要（SEP）可能的变化。",
+    "zh_queries": [
+      "美联储 议息会议 最新 利率决议 预期",
+      "FOMC 即将召开 点阵图 经济预测 市场预期"
+    ],
+    "en_queries": [
+      "upcoming FOMC meeting date rate decision expectations",
+      "Fed latest meeting dot plot economic projections market pricing"
+    ]
+  },
+  {
+    "question": "最新非农数据对美联储货币政策路径的影响：数据公布后，市场对美联储降息/加息时点和幅度的预期如何调整？美联储官员（包括主席）的最新表态和指引是什么？",
+    "zh_queries": [
+      "非农数据 美联储 政策路径 降息预期 调整",
+      "美联储官员 最新讲话 非农 影响 货币政策"
+    ],
+    "en_queries": [
+      "nonfarm payrolls impact Fed policy path rate cut expectations",
+      "Fed officials comments after jobs report monetary policy guidance"
+    ]
+  },
+  {
+    "question": "当前美国通胀、经济增长和就业市场的整体状况，以及非农数据与通胀数据（如CPI、PCE）之间的联动关系，是否出现“滞胀”或“软着陆”信号？",
+    "zh_queries": [
+      "美国 最新通胀 CPI PCE 就业市场 经济状况",
+      "非农 通胀 联动 软着陆 滞胀 信号"
+    ],
+    "en_queries": [
+      "US latest inflation CPI PCE labor market conditions",
+      "jobs report inflation relationship soft landing stagflation signals"
+    ]
+  },
+  {
+    "question": "即将到来的议息会议及最新非农数据对全球金融市场（美股、美债、美元、黄金、新兴市场）的潜在影响，以及市场波动和风险偏好变化。",
+    "zh_queries": [
+      "美联储议息 非农 股市 美债 美元 黄金 影响",
+      "最新非农 议息会议 全球金融市场 波动 风险偏好"
+    ],
+    "en_queries": [
+      "Fed meeting jobs report impact stocks bonds dollar gold",
+      "nonfarm payrolls FOMC market reaction volatility emerging markets"
+    ]
+  },
+  {
+    "question": "当前面临的主要挑战与不确定性：包括数据修正、政府停摆风险、地缘政治事件、油价冲击等，这些因素如何影响非农数据解读和议息会议决策？",
+    "zh_queries": [
+      "非农数据 修正 政府停摆 地缘政治 油价 挑战",
+      "美联储议息 不确定性 风险因素 最新"
+    ],
+    "en_queries": [
+      "nonfarm payroll revisions government shutdown geopolitical risks oil prices",
+      "Fed meeting challenges uncertainties latest risks"
+    ]
+  }
+]
