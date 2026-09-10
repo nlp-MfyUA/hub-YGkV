@@ -1,0 +1,10 @@
+[project]
+name = "local-research-assistant"
+version = "0.1.0"
+description = "个人本地深度研究助手"
+requires-python = ">=3.12"
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["."]
+addopts = "-q"
