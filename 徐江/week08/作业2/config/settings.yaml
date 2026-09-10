@@ -1,0 +1,53 @@
+# 深度研究助手配置文件
+
+server:
+  host: "0.0.0.0"
+  port: 8000
+  reload: true
+
+# API 配置
+api:
+  # Web 搜索 API（博查）
+  web_search:
+    base_url: "https://api.bocha.cn/v1/web-search"
+    api_key: "${BOCHA_API_KEY}"  # 从环境变量读取
+    timeout: 30
+    max_retries: 3
+    count: 10
+    freshness: "oneYear"
+
+  # 大模型 API
+  llm:
+    provider: "openai"  # openai / anthropic / glm
+    api_key: "${LLM_API_KEY}"
+    model: "gpt-4o-mini"
+    temperature: 0.7
+    max_tokens: 4000
+
+  # Embedding 配置
+  embedding:
+    provider: "openai"
+    api_key: "${LLM_API_KEY}"
+    model: "text-embedding-3-small"
+    dimension: 1536
+
+# 搜索配置
+search:
+  max_iterations: 3           # 最大迭代轮次
+  min_sources_per_subtopic: 2 # 每个子问题最少来源数
+  rerank_threshold: 0.7       # 重排序阈值
+  similarity_threshold: 0.6   # 相似度阈值
+
+# 报告配置
+report:
+  output_dir: "data/research"
+  include_timestamps: true
+  confidence_levels:
+    high: "信息来源可靠，多源验证"
+    medium: "信息来源较可靠，单一来源或推断"
+    low: "信息来源有限，模型推断"
+
+# 日志配置
+logging:
+  level: "INFO"
+  file: "logs/research.log"
