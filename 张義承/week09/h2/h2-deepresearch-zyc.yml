@@ -1,0 +1,535 @@
+app:
+  description: ''
+  icon: 🤖
+  icon_background: '#FFEAD5'
+  icon_type: emoji
+  mode: advanced-chat
+  name: h2-deepresearch-zyc
+  use_icon_as_answer_icon: false
+dependencies:
+- current_identifier: null
+  type: marketplace
+  value:
+    marketplace_plugin_unique_identifier: langgenius/tongyi:0.2.21@d467c6df6876dc5e70ad0b10c14631656ebbc904347eadf48e95b4fca7eda001
+    version: null
+kind: app
+version: 0.6.0
+workflow:
+  conversation_variables: []
+  environment_variables: []
+  features:
+    file_upload:
+      allowed_file_extensions:
+      - .JPG
+      - .JPEG
+      - .PNG
+      - .GIF
+      - .WEBP
+      - .SVG
+      allowed_file_types:
+      - image
+      allowed_file_upload_methods:
+      - local_file
+      - remote_url
+      enabled: false
+      fileUploadConfig:
+        attachment_image_file_size_limit: 2
+        audio_file_size_limit: 50
+        batch_count_limit: 5
+        file_size_limit: 15
+        file_upload_limit: 20
+        image_file_batch_limit: 10
+        image_file_size_limit: 10
+        single_chunk_attachment_limit: 10
+        video_file_size_limit: 100
+        workflow_file_upload_limit: 10
+      image:
+        enabled: false
+        number_limits: 3
+        transfer_methods:
+        - local_file
+        - remote_url
+      number_limits: 3
+    opening_statement: ''
+    retriever_resource:
+      enabled: true
+    sensitive_word_avoidance:
+      enabled: false
+    speech_to_text:
+      enabled: false
+    suggested_questions: []
+    suggested_questions_after_answer:
+      enabled: false
+    text_to_speech:
+      enabled: false
+      language: ''
+      voice: ''
+  graph:
+    edges:
+    - data:
+        sourceType: start
+        targetType: llm
+      id: 1789660754907-llm
+      selected: false
+      source: '1789660754907'
+      sourceHandle: source
+      target: llm
+      targetHandle: target
+      type: custom
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: llm
+        targetType: code
+      id: llm-source-1789666346938-target
+      selected: false
+      source: llm
+      sourceHandle: source
+      target: '1789666346938'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: code
+        targetType: iteration
+      id: 1789666346938-source-1789667674298-target
+      source: '1789666346938'
+      sourceHandle: source
+      target: '1789667674298'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: true
+        isInLoop: false
+        iteration_id: '1789667674298'
+        sourceType: iteration-start
+        targetType: http-request
+      id: 1789667674298start-source-1789667699693-target
+      source: 1789667674298start
+      sourceHandle: source
+      target: '1789667699693'
+      targetHandle: target
+      type: custom
+      zIndex: 1002
+    - data:
+        isInIteration: true
+        isInLoop: false
+        iteration_id: '1789667674298'
+        sourceType: http-request
+        targetType: llm
+      id: 1789667699693-source-1789667950984-target
+      source: '1789667699693'
+      sourceHandle: source
+      target: '1789667950984'
+      targetHandle: target
+      type: custom
+      zIndex: 1002
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: iteration
+        targetType: llm
+      id: 1789667674298-source-1789668374120-target
+      source: '1789667674298'
+      sourceHandle: source
+      target: '1789668374120'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: llm
+        targetType: answer
+      id: 1789668374120-source-1789668567190-target
+      source: '1789668374120'
+      sourceHandle: source
+      target: '1789668567190'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    nodes:
+    - data:
+        selected: false
+        title: 用户输入
+        type: start
+        variables: []
+      height: 73
+      id: '1789660754907'
+      position:
+        x: 80
+        y: 282
+      positionAbsolute:
+        x: 80
+        y: 282
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        context:
+          enabled: false
+          variable_selector: []
+        memory:
+          query_prompt_template: '{{#sys.query#}}
+
+
+            {{#sys.files#}}'
+          role_prefix:
+            assistant: ''
+            user: ''
+          window:
+            enabled: false
+            size: 10
+        model:
+          completion_params:
+            temperature: 0.7
+          mode: chat
+          name: deepseek-v4.1-flash
+          provider: langgenius/tongyi/tongyi
+        prompt_template:
+        - id: 7a3afeef-8e78-4a4d-a42b-caf641c975f4
+          role: system
+          text: 根据{{#sys.query#}}，提取用户想要调研的主题
+        - id: 0287d5d7-f190-4800-85a9-c76c1edec857
+          role: user
+          text: "你是市场调研助手。请按要求输出结果。\n\n输出格式要求：\n1. 只输出一段合法的标准 JSON，不要 markdown 代码块，不要任何解释文字。\n\
+            2. JSON 必须使用半角双引号 \" 和半角冒号 :，保证可被 json.loads() 直接解析。\n3. 结构如下（用真实内容替换，不要保留占位符）：\n\
+            {\"调研主题\": \"减肥产品\", \"调研方向\": [\"减肥产品的市场现状与趋势\", \"减肥产品的成分与安全性\"]}\n\
+            4. 调研方向选取前 5 个最常见的；不足 5 个则只输出已有的方向。\n5. 每个方向（小标题）必须包含调研主题（大标题）的关键词，保证语义完整、避免歧义。\n\
+            \   正确：主题「减肥产品」→ 方向「减肥产品的成分与安全性」\n   错误：方向写成「成分与安全性」（丢失主题，语义不清）"
+        selected: false
+        title: 主题提取
+        type: llm
+        vision:
+          enabled: false
+      height: 88
+      id: llm
+      position:
+        x: 380.5786754418665
+        y: 282
+      positionAbsolute:
+        x: 380.5786754418665
+        y: 282
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        code: "def main(text: str):\n    import json\n    import re\n    text = text\
+          \ or \"\"\n\n    # 1) 剥掉 <think>...</think> 思考块（块内可能含 {} 示例，必须先去掉）\n   \
+          \ text = re.sub(r'<think>.*?</think>', '', text, flags=re.S | re.I)\n  \
+          \  text = re.sub(r'</?think>', '', text, flags=re.I)\n\n    # 2) 全角符号转半角的备用文本\n\
+          \    fixed = (text.replace('：', ':')\n                 .replace('“', '\"\
+          ').replace('”', '\"')\n                 .replace('［', '[').replace('］',\
+          \ ']')\n                 .replace('｛', '{').replace('｝', '}'))\n\n    #\
+          \ 3) 依次尝试每个 '{' 起始位置，找到第一个能完整解析出来的 JSON 对象\n    data = None\n    for s in\
+          \ (text, fixed):\n        decoder = json.JSONDecoder()\n        for m in\
+          \ re.finditer(r'\\{', s):\n            try:\n                obj, _ = decoder.raw_decode(s[m.start():])\n\
+          \            except ValueError:\n                continue          # 这个位置不是合法\
+          \ JSON，换下一个\n            if isinstance(obj, dict):\n                data\
+          \ = obj\n                break\n        if data is not None:\n         \
+          \   break\n\n    if not isinstance(data, dict):\n        return {\"search_topic\"\
+          : \"\", \"search_directions\": []}\n\n    # 4) 取字段（兼容几种常见命名）\n    search_topic\
+          \ = (\n        data.get(\"调研主题\") or data.get(\"主题名称\") or data.get(\"主题\"\
+          ) or \"\"\n    ).strip()\n    dirs = data.get(\"调研方向\") or data.get(\"方向列表\"\
+          ) or data.get(\"方向\") or []\n    search_directions = [str(d).strip() for\
+          \ d in dirs if str(d).strip()]\n\n    return {\n        \"search_topic\"\
+          : search_topic,\n        \"search_directions\": search_directions\n    }"
+        code_language: python3
+        outputs:
+          search_directions:
+            children: null
+            type: array[string]
+          search_topic:
+            children: null
+            type: string
+        selected: false
+        title: 代码执行
+        type: code
+        variables:
+        - value_selector:
+          - llm
+          - text
+          value_type: string
+          variable: text
+      height: 52
+      id: '1789666346938'
+      position:
+        x: 655.6971580528673
+        y: 303
+      positionAbsolute:
+        x: 655.6971580528673
+        y: 303
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        error_handle_mode: terminated
+        flatten_output: true
+        height: 349
+        is_parallel: false
+        iterator_input_type: array[string]
+        iterator_selector:
+        - '1789666346938'
+        - search_directions
+        output_selector:
+        - '1789667950984'
+        - text
+        output_type: array[string]
+        parallel_nums: 10
+        selected: false
+        start_node_id: 1789667674298start
+        title: 迭代
+        type: iteration
+        width: 749
+      height: 349
+      id: '1789667674298'
+      position:
+        x: 983.5612796454332
+        y: 282
+      positionAbsolute:
+        x: 983.5612796454332
+        y: 282
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 749
+      zIndex: 1
+    - data:
+        desc: ''
+        isInIteration: true
+        selected: false
+        title: ''
+        type: iteration-start
+      draggable: false
+      height: 48
+      id: 1789667674298start
+      parentId: '1789667674298'
+      position:
+        x: 24
+        y: 68
+      positionAbsolute:
+        x: 1007.5612796454332
+        y: 350
+      selectable: false
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom-iteration-start
+      width: 44
+      zIndex: 1002
+    - data:
+        authorization:
+          config: null
+          type: no-auth
+        body:
+          data:
+          - id: key-value-813
+            key: ''
+            type: text
+            value: '{"query":"{{#1789667674298.item#}}","summary":true,"count":10}'
+          type: json
+        headers: Authorization:Bearer sk-3d2293ad83aa4823a7c7ce8dd5ff8c72
+        isInIteration: true
+        isInLoop: false
+        iteration_id: '1789667674298'
+        method: post
+        params: ''
+        retry_config:
+          max_retries: 3
+          retry_enabled: true
+          retry_interval: 100
+        selected: false
+        ssl_verify: true
+        timeout:
+          max_connect_timeout: 0
+          max_read_timeout: 0
+          max_write_timeout: 0
+        title: HTTP 请求
+        type: http-request
+        url: https://api.bocha.cn/v1/web-search
+        variables: []
+      height: 137
+      id: '1789667699693'
+      parentId: '1789667674298'
+      position:
+        x: 128
+        y: 68
+      positionAbsolute:
+        x: 1111.5612796454332
+        y: 350
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+      zIndex: 1002
+    - data:
+        context:
+          enabled: false
+          variable_selector: []
+        isInIteration: true
+        isInLoop: false
+        iteration_id: '1789667674298'
+        model:
+          completion_params:
+            temperature: 0.7
+          mode: chat
+          name: deepseek-v4.1-flash
+          provider: langgenius/tongyi/tongyi
+        prompt_template:
+        - id: 77e009ce-f2c3-4a35-9b3f-f28afb51e94a
+          role: system
+          text: ''
+        - id: 3ea418da-36eb-476c-b3dc-52bd89302c72
+          role: user
+          text: "你是一名市场调研分析师。请根据资料进行总结，\n\n调研主题：{{#1789666346938.search_topic#}}\n\
+            本次调研方向：{{#1789667674298.item#}}\n\n请按下面的结构，用简洁的中文撰写：\n\n## {{#1789667674298.item#}}\n\
+            **方向综述**：用一段话概括该方向的核心情况，200 字以内。\n**关键要点**：\n- 要点1\n- 要点2\n- 要点3\n**重要数据**：\n\
+            - 数据\n- 数据\n\n要求：\n1. 综述中的表述必须包含调研主题的关键词，避免语义不清。\n   正确：主题「减肥产品」→「减肥产品的市场现状呈上升趋势」\n\
+            \   错误：「市场现状呈上升趋势」（丢失主题）\n2. 不要输出结构之外的寒暄或解释性文字。"
+        selected: false
+        title: LLM 2
+        type: llm
+        vision:
+          enabled: false
+      height: 88
+      id: '1789667950984'
+      parentId: '1789667674298'
+      position:
+        x: 431.9181577984468
+        y: 98.69052477515237
+      positionAbsolute:
+        x: 1415.47943744388
+        y: 380.69052477515237
+      selected: true
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+      zIndex: 1002
+    - data:
+        context:
+          enabled: false
+          variable_selector: []
+        model:
+          completion_params:
+            temperature: 0.7
+          mode: chat
+          name: deepseek-v4.1-flash
+          provider: langgenius/tongyi/tongyi
+        prompt_template:
+        - id: 6c9e7efb-bb1e-400e-9472-048acb7591bd
+          role: system
+          text: '你是一名市场调研总监。下面是对同一调研主题下多个方向分别总结的结果，
+
+            请将它们整合成一份完整的调研报告。
+
+
+            调研主题：{{#1789666346938.search_topic#}}
+
+
+            【各方向总结】
+
+            {{#1789667674298.output#}}
+
+
+            请按下面的结构输出一份 Markdown 报告：
+
+
+            # {{#1789666346938.search_topic#}}调研报告
+
+
+            ## 一、总体概述
+
+            综合各方向情况，用 300 字左右概括整体结论。
+
+
+            ## 二、各方向要点
+
+            ### 1. 方向名称一
+
+            （该方向精炼后的摘要，可保留关键数据）
+
+            ### 2. 方向名称二
+
+            （同上，按此格式依次列出所有方向）
+
+
+            ## 三、跨方向共性发现
+
+            - 发现1
+
+            - 发现2
+
+
+            ## 四、资料缺口与待验证点
+
+            - 资料不足、存在争议或未覆盖的地方
+
+
+            ## 五、结论与建议
+
+            - 最终结论与行动建议
+
+
+            要求：
+
+            1. 只做整合与提炼，不要新增各方向总结之外的事实，不要编造数据。
+
+            2. 「二、各方向要点」中的方向数量与名称必须与输入一致。
+
+            3. 语言简洁，结论明确，避免空话。
+
+            '
+        selected: false
+        title: 总结文档
+        type: llm
+        vision:
+          enabled: false
+      height: 88
+      id: '1789668374120'
+      position:
+        x: 1778.6386855594749
+        y: 433.679476075577
+      positionAbsolute:
+        x: 1778.6386855594749
+        y: 433.679476075577
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        answer: '{{#1789668374120.text#}}'
+        selected: false
+        title: 生成报告
+        type: answer
+        variables: []
+      height: 103
+      id: '1789668567190'
+      position:
+        x: 2080.6386855594747
+        y: 433.679476075577
+      positionAbsolute:
+        x: 2080.6386855594747
+        y: 433.679476075577
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    viewport:
+      x: -520.5066393424283
+      y: 148.1995450176618
+      zoom: 0.49940376073244036
+  rag_pipeline_variables: []

@@ -1,0 +1,290 @@
+app:
+  description: ''
+  icon: 🤖
+  icon_background: '#FFEAD5'
+  icon_type: emoji
+  mode: advanced-chat
+  name: h1-情感分析助手-zyc
+  use_icon_as_answer_icon: false
+dependencies:
+- current_identifier: null
+  type: marketplace
+  value:
+    marketplace_plugin_unique_identifier: langgenius/tongyi:0.2.21@d467c6df6876dc5e70ad0b10c14631656ebbc904347eadf48e95b4fca7eda001
+    version: null
+kind: app
+version: 0.6.0
+workflow:
+  conversation_variables: []
+  environment_variables: []
+  features:
+    file_upload:
+      allowed_file_extensions:
+      - .JPG
+      - .JPEG
+      - .PNG
+      - .GIF
+      - .WEBP
+      - .SVG
+      allowed_file_types:
+      - image
+      allowed_file_upload_methods:
+      - local_file
+      - remote_url
+      enabled: false
+      fileUploadConfig:
+        attachment_image_file_size_limit: 2
+        audio_file_size_limit: 50
+        batch_count_limit: 5
+        file_size_limit: 15
+        file_upload_limit: 20
+        image_file_batch_limit: 10
+        image_file_size_limit: 10
+        single_chunk_attachment_limit: 10
+        video_file_size_limit: 100
+        workflow_file_upload_limit: 10
+      image:
+        enabled: false
+        number_limits: 3
+        transfer_methods:
+        - local_file
+        - remote_url
+      number_limits: 3
+    opening_statement: ''
+    retriever_resource:
+      enabled: true
+    sensitive_word_avoidance:
+      enabled: false
+    speech_to_text:
+      enabled: false
+    suggested_questions: []
+    suggested_questions_after_answer:
+      enabled: false
+    text_to_speech:
+      enabled: false
+      language: ''
+      voice: ''
+  graph:
+    edges:
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: start
+        targetType: llm
+      id: 1789570411946-source-1789571381658-target
+      selected: false
+      source: '1789570411946'
+      sourceHandle: source
+      target: '1789571381658'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: llm
+        targetType: if-else
+      id: 1789571381658-source-1789570472078-target
+      selected: false
+      source: '1789571381658'
+      sourceHandle: source
+      target: '1789570472078'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: if-else
+        targetType: answer
+      id: 1789570472078-true-1789570631925-target
+      selected: false
+      source: '1789570472078'
+      sourceHandle: 'true'
+      target: '1789570631925'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: if-else
+        targetType: llm
+      id: 1789570472078-false-1789573257598-target
+      source: '1789570472078'
+      sourceHandle: 'false'
+      target: '1789573257598'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: llm
+        targetType: answer
+      id: 1789573257598-source-1789573367366-target
+      source: '1789573257598'
+      sourceHandle: source
+      target: '1789573367366'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    nodes:
+    - data:
+        selected: false
+        title: 用户输入
+        type: start
+        variables: []
+      height: 73
+      id: '1789570411946'
+      position:
+        x: -109.67452265546598
+        y: -88.17241563843828
+      positionAbsolute:
+        x: -109.67452265546598
+        y: -88.17241563843828
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        cases:
+        - case_id: 'true'
+          conditions:
+          - comparison_operator: contains
+            id: a874b5d0-89b0-4623-8a0c-6325f7208879
+            value: 正面情绪
+            varType: string
+            variable_selector:
+            - '1789571381658'
+            - text
+          id: 'true'
+          logical_operator: and
+        selected: false
+        title: 条件分支
+        type: if-else
+      height: 124
+      id: '1789570472078'
+      position:
+        x: -103.71355881480144
+        y: 227.75167191986583
+      positionAbsolute:
+        x: -103.71355881480144
+        y: 227.75167191986583
+      selected: true
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        answer: 希望你继续保持
+        selected: false
+        title: 直接回复
+        type: answer
+        variables: []
+      height: 100
+      id: '1789570631925'
+      position:
+        x: 252.36632925812955
+        y: 185.1912594329117
+      positionAbsolute:
+        x: 252.36632925812955
+        y: 185.1912594329117
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        context:
+          enabled: true
+          variable_selector:
+          - sys
+          - query
+        model:
+          completion_params:
+            temperature: 0.7
+          mode: chat
+          name: deepseek-v4.1-flash
+          provider: langgenius/tongyi/tongyi
+        prompt_template:
+        - id: 5c3366ba-e844-446f-a88f-c86d397ec99f
+          role: system
+          text: '{{#context#}}正面情绪还是负面情绪'
+        selected: false
+        structured_output_enabled: false
+        title: LLM 5
+        type: llm
+        vision:
+          enabled: false
+      height: 88
+      id: '1789571381658'
+      position:
+        x: -90.71020947527961
+        y: 58.07844340714547
+      positionAbsolute:
+        x: -90.71020947527961
+        y: 58.07844340714547
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        context:
+          enabled: true
+          variable_selector:
+          - '1789571381658'
+          - text
+        model:
+          completion_params:
+            temperature: 0.7
+          mode: chat
+          name: deepseek-v4.1-flash
+          provider: langgenius/tongyi/tongyi
+        prompt_template:
+        - id: 9f490d66-ca0b-4bfa-a761-7a3715581409
+          role: system
+          text: '{{#context#}}'
+        - id: 9e12d269-f118-4c0a-9a92-05f77f33ffb7
+          role: user
+          text: 根据{{#sys.query#}}给予相关的关心、宽慰，用积极的语言鼓励用户，或者提供解决办法
+        selected: false
+        title: LLM 2
+        type: llm
+        vision:
+          enabled: false
+      height: 88
+      id: '1789573257598'
+      position:
+        x: 252.36632925812955
+        y: 324.1912594329117
+      positionAbsolute:
+        x: 252.36632925812955
+        y: 324.1912594329117
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        answer: '{{#1789573257598.text#}}'
+        selected: true
+        title: 直接回复 2
+        type: answer
+        variables: []
+      height: 103
+      id: '1789573367366'
+      position:
+        x: 554.3663292581296
+        y: 324.1912594329117
+      positionAbsolute:
+        x: 554.3663292581296
+        y: 324.1912594329117
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    viewport:
+      x: 329.5617197568195
+      y: 233.39081276847887
+      zoom: 0.9706333199782787
+  rag_pipeline_variables: []
