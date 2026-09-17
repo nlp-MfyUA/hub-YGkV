@@ -1,0 +1,500 @@
+app:
+  description: ''
+  icon: 🤖
+  icon_background: '#D1E0FF'
+  icon_type: emoji
+  mode: advanced-chat
+  name: xj_情感分析助手
+  use_icon_as_answer_icon: false
+dependencies:
+- current_identifier: null
+  type: marketplace
+  value:
+    marketplace_plugin_unique_identifier: langgenius/tongyi:0.2.21@d467c6df6876dc5e70ad0b10c14631656ebbc904347eadf48e95b4fca7eda001
+    version: null
+kind: app
+version: 0.6.0
+workflow:
+  conversation_variables: []
+  environment_variables: []
+  features:
+    file_upload:
+      allowed_file_extensions:
+      - .JPG
+      - .JPEG
+      - .PNG
+      - .GIF
+      - .WEBP
+      - .SVG
+      allowed_file_types:
+      - image
+      allowed_file_upload_methods:
+      - local_file
+      - remote_url
+      enabled: false
+      fileUploadConfig:
+        attachment_image_file_size_limit: 2
+        audio_file_size_limit: 50
+        batch_count_limit: 5
+        file_size_limit: 15
+        file_upload_limit: 20
+        image_file_batch_limit: 10
+        image_file_size_limit: 10
+        single_chunk_attachment_limit: 10
+        video_file_size_limit: 100
+        workflow_file_upload_limit: 10
+      image:
+        enabled: false
+        number_limits: 3
+        transfer_methods:
+        - local_file
+        - remote_url
+      number_limits: 3
+    opening_statement: ''
+    retriever_resource:
+      enabled: true
+    sensitive_word_avoidance:
+      enabled: false
+    speech_to_text:
+      enabled: false
+    suggested_questions: []
+    suggested_questions_after_answer:
+      enabled: false
+    text_to_speech:
+      enabled: false
+      language: ''
+      voice: ''
+  graph:
+    edges:
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: start
+        targetType: llm
+      id: 1789447204675-source-1789447361290-target
+      source: '1789447204675'
+      sourceHandle: source
+      target: '1789447361290'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: llm
+        targetType: if-else
+      id: 1789447361290-source-1789616746700-target
+      source: '1789447361290'
+      sourceHandle: source
+      target: '1789616746700'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: if-else
+        targetType: answer
+      id: 1789616746700-true-1789447682488-target
+      selected: false
+      source: '1789616746700'
+      sourceHandle: 'true'
+      target: '1789447682488'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: if-else
+        targetType: llm
+      id: 1789616746700-false-1789616829186-target
+      source: '1789616746700'
+      sourceHandle: 'false'
+      target: '1789616829186'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: llm
+        targetType: answer
+      id: 1789616829186-source-1789618770659-target
+      source: '1789616829186'
+      sourceHandle: source
+      target: '1789618770659'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: if-else
+        targetType: llm
+      id: 1789616746700-788590ac-2240-40ff-ab12-9eeb908c8992-1789619478364-target
+      source: '1789616746700'
+      sourceHandle: 788590ac-2240-40ff-ab12-9eeb908c8992
+      target: '1789619478364'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: llm
+        targetType: answer
+      id: 1789619478364-source-1789619608528-target
+      source: '1789619478364'
+      sourceHandle: source
+      target: '1789619608528'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    nodes:
+    - data:
+        selected: false
+        title: 用户输入
+        type: start
+        variables: []
+      height: 82
+      id: '1789447204675'
+      position:
+        x: 0
+        y: 126.97619047619051
+      positionAbsolute:
+        x: 0
+        y: 126.97619047619051
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        context:
+          enabled: true
+          variable_selector:
+          - sys
+          - query
+        model:
+          completion_params:
+            temperature: 0.7
+          mode: chat
+          name: deepseek-v4.1-flash
+          provider: langgenius/tongyi/tongyi
+        prompt_config:
+          jinja2_variables: []
+        prompt_template:
+        - edition_type: basic
+          id: a03aca76-e4f6-4b7d-a305-67ad79d48b3e
+          role: system
+          text: '你是一个情绪识别器。读用户这句话，判断他此刻的情绪倾向，只输出一个词，不要标点，不要解释。
+
+
+            可选值只有三个：
+
+            - 正向：开心、兴奋、满足、被认可、轻松、有成就感、感激
+
+            - 负向：难过、焦虑、愤怒、委屈、孤独、疲惫、沮丧、压力大、无助
+
+            - 中性：纯信息询问、客观陈述、没有情绪色彩的提问（例如"现在几点了""这个怎么用"）
+
+
+            判定规则：
+
+            1. 一句话里同时有抱怨和期待（例如"累死了但总算搞定了"），看落点——落点在"总算搞定了"算正向，落点在"累死了"算负向。
+
+            2. 反话、自嘲、敷衍式表达（例如"算了""也就这样吧""随它吧"），按负向处理。
+
+            3. 只是短、不一定是中性。单独一个"烦"字是负向，单独一个"好"字是正向。
+
+            4. 情绪指向他人（例如"我同事太过分了"）仍然是负向，用户在表达自己的不快。
+
+            5. 拿不准的时候，判负向。宁可多给一次安慰，也不要漏掉一个难受的人。
+
+
+            只输出：正向 / 负向 / 中性
+
+            用户输入内容：{{#sys.query#}}'
+        - id: afbf2907-98b4-4e2f-bc10-4cc296faede0
+          role: user
+          text: '{{#sys.query#}}'
+        selected: false
+        structured_output_enabled: true
+        title: LLM
+        type: llm
+        vision:
+          enabled: false
+      height: 99
+      id: '1789447361290'
+      position:
+        x: 342
+        y: 132.14285714285717
+      positionAbsolute:
+        x: 342
+        y: 132.14285714285717
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        answer: 希望你明天也很开心。
+        selected: false
+        title: 直接回复
+        type: answer
+        variables: []
+      height: 110
+      id: '1789447682488'
+      position:
+        x: 1046
+        y: 0
+      positionAbsolute:
+        x: 1046
+        y: 0
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        cases:
+        - case_id: 'true'
+          conditions:
+          - comparison_operator: contains
+            id: 0f46704e-8293-4033-9e6b-56cbd0ce49f7
+            value: 正向
+            varType: string
+            variable_selector:
+            - '1789447361290'
+            - text
+          id: 'true'
+          logical_operator: and
+        - case_id: 788590ac-2240-40ff-ab12-9eeb908c8992
+          conditions:
+          - comparison_operator: contains
+            id: 20d6dc97-5294-4d58-a8cf-f3ca75473505
+            value: 负向
+            varType: string
+            variable_selector:
+            - '1789447361290'
+            - text
+          id: 788590ac-2240-40ff-ab12-9eeb908c8992
+          logical_operator: and
+        desc: ''
+        selected: false
+        title: 条件分支
+        type: if-else
+      height: 193
+      id: '1789616746700'
+      position:
+        x: 684
+        y: 101.64285714285717
+      positionAbsolute:
+        x: 684
+        y: 101.64285714285717
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        context:
+          enabled: true
+          variable_selector:
+          - sys
+          - query
+        model:
+          completion_params:
+            temperature: 0.7
+          mode: chat
+          name: deepseek-v4.1-flash
+          provider: langgenius/tongyi/tongyi
+        prompt_template:
+        - id: 60e07892-4d07-4961-a243-0589eb975919
+          role: system
+          text: '你是一个温和的倾听者。用户这句话听不出明确情绪，可能是在正常提问，也可能是情绪还没说出口。
+
+
+            你要做的是：
+
+            1. 如果他在问一个事实性问题，就正常、准确地回答他。
+
+            2. 如果这句话是中性的陈述或很短的输入，就顺着他的话轻轻接一句，再留一个口子让他多说。
+
+            3. 结尾用一句话邀请他继续，例如"你要是想说说今天发生了什么，我都在"。
+
+
+            全文 3 句以内，80 字以内。语气平和，不追问，不揣测他的情绪。
+
+            用户提问：{{#sys.query#}}
+
+            '
+        selected: false
+        structured_output_enabled: false
+        title: 中性策略
+        type: llm
+        vision:
+          enabled: false
+      height: 99
+      id: '1789616829186'
+      position:
+        x: 1046
+        y: 381
+      positionAbsolute:
+        x: 1046
+        y: 381
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        answer: '{{#1789616829186.text#}}'
+        selected: false
+        title: 直接回复 2
+        type: answer
+        variables: []
+      height: 111
+      id: '1789618770659'
+      position:
+        x: 1388
+        y: 391.5
+      positionAbsolute:
+        x: 1388
+        y: 391.5
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        context:
+          enabled: true
+          variable_selector:
+          - sys
+          - query
+        model:
+          completion_params:
+            temperature: 0.7
+          mode: chat
+          name: deepseek-v4.1-flash
+          provider: langgenius/tongyi/tongyi
+        prompt_template:
+        - id: c839babd-90f6-461c-aeac-d4e31359289b
+          role: system
+          text: '# 角色
+
+            智能陪伴助手，根据情感极性调整回复策略。
+
+
+            # 输入
+
+            - 用户提问：{{用户原始提问}}
+
+            - 情感结果：{{情感分析结果}}（仅含 polarity）
+
+
+            # 策略路由
+
+
+            **负向** → 三层：共情（反射情绪，不否定）→ 解答（直面困扰，给事实）→ 建议（此刻小事/短期步骤/长期方向，具体可操作）
+
+
+            **中性** → 两层：直接解答（准确完整）→ 推荐（延伸阅读/相关操作/风险提示/替代方案）
+
+
+            **正向** → 两层：共鸣庆祝（共享喜悦）→ 解答+积极建议（巩固成果/防乐极生悲）
+
+
+            # 规则
+
+            - 禁止JSON/代码块输出（建议可用编号）
+
+            - 禁止空洞鸡汤和机械重复
+
+            - 建议必须具体可操作
+
+            - 直接输出纯文本，段落间空行分隔
+
+
+            # 示例
+
+
+            **负向**
+
+            输入：{"polarity":"负向"} + "明天一个人去外地读大学，心里特别慌，舍不得爸妈"
+
+            输出：
+
+            明天就要走了，那种倒计时归零的感觉确实让人心慌。离开家去陌生城市，光想想就够喘不过气的。你的惶恐特别真实——这不是软弱，是你在乎。
+
+
+            说点实在的：几乎所有新生都会经历"兴奋→落差→重建"，大多数人在一个月内找到节奏。没人第一天就全能，到了边做边学就行。
+
+
+            今晚做两件事：
+
+            1. 和爸妈吃顿晚饭拍几张合照，想家时翻出来看
+
+            2. 证件（录取通知、身份证、银行卡）单独装随身包，别托运
+
+
+            到宿舍第一周：花半天摸熟校园布局，允许自己每天给家里打电话，加班级群和宿舍群主动问问题。给自己设个"30天小挑战"——每天记一件新发现的好事。慢慢来，我陪你。
+
+
+
+
+            今晚必须好好庆祝一下 🥂
+
+
+            ---
+
+            生成回复：
+
+            - 提问：{{{#sys.query#}}
+
+            - 情感：{{情感分析结果}}
+
+            '
+        selected: false
+        title: 负面策略
+        type: llm
+        vision:
+          enabled: false
+      height: 99
+      id: '1789619478364'
+      position:
+        x: 1046
+        y: 190
+      positionAbsolute:
+        x: 1046
+        y: 190
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        answer: '{{#1789619478364.text#}}'
+        selected: false
+        title: 直接回复 3
+        type: answer
+        variables: []
+      height: 111
+      id: '1789619608528'
+      position:
+        x: 1388
+        y: 200.5
+      positionAbsolute:
+        x: 1388
+        y: 200.5
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    viewport:
+      x: 139
+      y: 106.99999999999994
+      zoom: 0.7
+  rag_pipeline_variables: []
