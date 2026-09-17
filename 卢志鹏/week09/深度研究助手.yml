@@ -1,0 +1,1279 @@
+app:
+  description: 基于作业8的DeepResearch工程，结合模版prompt，使用 dify 搭建相同的 Chat 应用。流程如下：输入主题 topic，利用
+    LLM 进行改写获取相关的关键词，调用 Bocha 搜索，对搜索结果进行汇总，最终利用 LLM 输出一份报告。
+  icon: 🤖
+  icon_background: '#FFEAD5'
+  icon_type: emoji
+  mode: workflow
+  name: 深度研究助手
+  use_icon_as_answer_icon: false
+dependencies:
+- current_identifier: null
+  type: marketplace
+  value:
+    marketplace_plugin_unique_identifier: langgenius/tongyi:0.2.21@d467c6df6876dc5e70ad0b10c14631656ebbc904347eadf48e95b4fca7eda001
+    version: null
+kind: app
+version: 0.7.0
+workflow:
+  conversation_variables: []
+  environment_variables: []
+  features:
+    file_upload:
+      allowed_file_extensions:
+      - .JPG
+      - .JPEG
+      - .PNG
+      - .GIF
+      - .WEBP
+      - .SVG
+      allowed_file_types:
+      - image
+      allowed_file_upload_methods:
+      - local_file
+      - remote_url
+      enabled: false
+      fileUploadConfig:
+        attachment_image_file_size_limit: 2
+        audio_file_size_limit: 50
+        batch_count_limit: 5
+        file_size_limit: 15
+        file_upload_limit: 50
+        image_file_batch_limit: 10
+        image_file_size_limit: 10
+        knowledge_file_size_limit: 15
+        single_chunk_attachment_limit: 10
+        skill_file_size_limit: 50
+        video_file_size_limit: 100
+        workflow_file_upload_limit: 10
+      image:
+        enabled: false
+        number_limits: 3
+        transfer_methods:
+        - local_file
+        - remote_url
+      number_limits: 3
+    opening_statement: ''
+    retriever_resource:
+      enabled: true
+    sensitive_word_avoidance:
+      enabled: false
+    speech_to_text:
+      enabled: false
+    suggested_questions: []
+    suggested_questions_after_answer:
+      enabled: false
+    text_to_speech:
+      enabled: false
+      language: ''
+      voice: ''
+  graph:
+    edges:
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: start
+        targetType: tool
+      id: 1789567610749-source-1789569159594-target
+      source: '1789567610749'
+      sourceHandle: source
+      target: '1789569159594'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: tool
+        targetType: llm
+      id: 1789569159594-source-1789568582289-target
+      source: '1789569159594'
+      sourceHandle: source
+      target: '1789568582289'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: llm
+        targetType: parameter-extractor
+      id: 1789568582289-source-1789569826186-target
+      source: '1789568582289'
+      sourceHandle: source
+      target: '1789569826186'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: parameter-extractor
+        targetType: loop
+      id: 1789569826186-source-1789644035694-target
+      source: '1789569826186'
+      sourceHandle: source
+      target: '1789644035694'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        isInLoop: true
+        loop_id: '1789644035694'
+        sourceType: loop-start
+        targetType: code
+      id: 1789644035694start-source-1789644047646-target
+      source: 1789644035694start
+      sourceHandle: source
+      target: '1789644047646'
+      targetHandle: target
+      type: custom
+      zIndex: 1001
+    - data:
+        isInIteration: false
+        isInLoop: true
+        loop_id: '1789644035694'
+        sourceType: code
+        targetType: llm
+      id: 1789644047646-source-1789645103794-target
+      source: '1789644047646'
+      sourceHandle: source
+      target: '1789645103794'
+      targetHandle: target
+      type: custom
+      zIndex: 1001
+    - data:
+        isInIteration: false
+        isInLoop: true
+        loop_id: '1789644035694'
+        sourceType: llm
+        targetType: llm
+      id: 1789645103794-source-1789645401009-target
+      source: '1789645103794'
+      sourceHandle: source
+      target: '1789645401009'
+      targetHandle: target
+      type: custom
+      zIndex: 1001
+    - data:
+        isInIteration: false
+        isInLoop: true
+        loop_id: '1789644035694'
+        sourceType: llm
+        targetType: parameter-extractor
+      id: 1789645401009-source-1789645664305-target
+      source: '1789645401009'
+      sourceHandle: source
+      target: '1789645664305'
+      targetHandle: target
+      type: custom
+      zIndex: 1001
+    - data:
+        isInIteration: false
+        isInLoop: true
+        loop_id: '1789644035694'
+        sourceType: parameter-extractor
+        targetType: if-else
+      id: 1789645664305-source-1789645899039-target
+      source: '1789645664305'
+      sourceHandle: source
+      target: '1789645899039'
+      targetHandle: target
+      type: custom
+      zIndex: 1001
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: loop
+        targetType: llm
+      id: 1789644035694-source-1789648973193-target
+      source: '1789644035694'
+      sourceHandle: source
+      target: '1789648973193'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        isInLoop: true
+        loop_id: '1789644035694'
+        sourceType: if-else
+        targetType: code
+      id: 1789645899039-false-1789649977701-target
+      source: '1789645899039'
+      sourceHandle: 'false'
+      target: '1789649977701'
+      targetHandle: target
+      type: custom
+      zIndex: 1001
+    - data:
+        isInIteration: false
+        isInLoop: true
+        loop_id: '1789644035694'
+        sourceType: code
+        targetType: assigner
+      id: 1789649977701-source-1789649859294-target
+      source: '1789649977701'
+      sourceHandle: source
+      target: '1789649859294'
+      targetHandle: target
+      type: custom
+      zIndex: 1001
+    - data:
+        isInIteration: false
+        isInLoop: true
+        loop_id: '1789644035694'
+        sourceType: if-else
+        targetType: code
+      id: 1789645899039-true-1789650124348-target
+      source: '1789645899039'
+      sourceHandle: 'true'
+      target: '1789650124348'
+      targetHandle: target
+      type: custom
+      zIndex: 1001
+    - data:
+        isInIteration: false
+        isInLoop: true
+        loop_id: '1789644035694'
+        sourceType: code
+        targetType: assigner
+      id: 1789650124348-source-1789650166245-target
+      source: '1789650124348'
+      sourceHandle: source
+      target: '1789650166245'
+      targetHandle: target
+      type: custom
+      zIndex: 1001
+    - data:
+        isInIteration: false
+        isInLoop: true
+        loop_id: '1789644035694'
+        sourceType: assigner
+        targetType: loop-end
+      id: 1789650166245-source-1789645932022-target
+      source: '1789650166245'
+      sourceHandle: source
+      target: '1789645932022'
+      targetHandle: target
+      type: custom
+      zIndex: 1001
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: llm
+        targetType: llm
+      id: 1789648973193-source-1789650344419-target
+      source: '1789648973193'
+      sourceHandle: source
+      target: '1789650344419'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: llm
+        targetType: end
+      id: 1789650344419-source-1789570134555-target
+      source: '1789650344419'
+      sourceHandle: source
+      target: '1789570134555'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    nodes:
+    - data:
+        selected: false
+        title: 用户输入
+        type: start
+        variables:
+        - default: ''
+          hint: ''
+          label: topic
+          max_length: 256
+          options: []
+          placeholder: ''
+          required: true
+          type: text-input
+          variable: topic
+      height: 108
+      id: '1789567610749'
+      position:
+        x: 539.4143205903854
+        y: -180.33727015547225
+      positionAbsolute:
+        x: 539.4143205903854
+        y: -180.33727015547225
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+      zIndex: 0
+    - data:
+        context:
+          enabled: false
+          variable_selector: []
+        desc: 根据研究主题拆解关键词
+        model:
+          completion_params:
+            temperature: 0.7
+          mode: chat
+          name: deepseek-v4.1-flash
+          provider: langgenius/tongyi/tongyi
+        prompt_config:
+          jinja2_variables: []
+        prompt_template:
+        - edition_type: basic
+          id: 5570ef68-ab63-452b-ad58-6a2af5eee69b
+          jinja2_text: "{# keyword agent 的 system 指令模板（提示词与代码分离）。\r\n   渲染变量：topic（研究主题）、today（今天日期）。\
+            \ #}\r\n你是「深度研究助手」中的**关键词规划员**。你的职责是把一个研究主题拆解成若干**可直接检索**的关键词，供后续的搜索引擎检索。\r\
+            \n\r\n## 研究主题\r\n{{ topic }}\r\n\r\n## 要求\r\n- 生成 **3-5 个**关键词，覆盖主题的不同子角度（如概念、行业/市场、代表产品与对比、技术/数据、趋势/结论等）。\r\
+            \n- 每个关键词应当具体、可检索，能返回与该子角度直接相关的结果。可包含年份或具体实体以聚焦（今天是 {{ today }}）。\r\n\
+            - 关键词彼此区分度要高，不要互相重复或只是同一语义的换说法。\r\n\r\n## 输出\r\n只输出**一个 JSON 对象**，用 ```json\
+            \ ... ``` 代码块包裹，格式如下：\r\n{\r\n  \"keywords\": [\"关键词1\", \"关键词2\", \"\
+            关键词3\"]\r\n}\r\n不要输出 JSON 以外的任何解释文字。\r\n"
+          role: system
+          text: '你是「深度研究助手」中的**关键词规划员**。你的职责是把一个研究主题拆解成若干**可直接检索**的关键词，供后续的搜索引擎检索。
+
+
+            ## 要求
+
+            - 生成 **3-5 个**关键词，覆盖主题的不同子角度（如概念、行业/市场、代表产品与对比、技术/数据、趋势/结论等）。
+
+            - 每个关键词应当具体、可检索，能返回与该子角度直接相关的结果。可包含年份或具体实体以聚焦（今天是 {{#1789569159594.text#}}
+            ）。
+
+            - 关键词彼此区分度要高，不要互相重复或只是同一语义的换说法。
+
+
+            ## 输出
+
+            只输出**一个 JSON 对象**，用 ```json ... ``` 代码块包裹，格式如下：
+
+            {
+
+              "keywords": ["关键词1", "关键词2", "关键词3"]
+
+            }
+
+            不要输出 JSON 以外的任何解释文字。'
+        - id: d85b6e1c-bd50-439a-bc63-0de29ec206ee
+          role: user
+          text: '{{#1789567610749.topic#}}
+
+            '
+        selected: false
+        title: 根据研究主题拆解关键词
+        type: llm
+        vision:
+          enabled: false
+      height: 115
+      id: '1789568582289'
+      position:
+        x: 539.4143205903854
+        y: 102.16952588891445
+      positionAbsolute:
+        x: 539.4143205903854
+        y: 102.16952588891445
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 241
+      zIndex: 0
+    - data:
+        is_team_authorization: true
+        paramSchemas:
+        - auto_generate: null
+          default: '%Y-%m-%d %H:%M:%S'
+          form: form
+          human_description:
+            en_US: Time format in strftime standard.
+            ja_JP: Time format in strftime standard.
+            pt_BR: Time format in strftime standard.
+            zh_Hans: strftime 标准的时间格式。
+          input_schema: null
+          label:
+            en_US: Format
+            ja_JP: Format
+            pt_BR: Format
+            zh_Hans: 格式
+          llm_description: null
+          max: null
+          min: null
+          name: format
+          options: []
+          placeholder: null
+          precision: null
+          required: false
+          scope: null
+          template: null
+          type: string
+        - auto_generate: null
+          default: UTC
+          form: form
+          human_description:
+            en_US: Timezone
+            ja_JP: Timezone
+            pt_BR: Timezone
+            zh_Hans: 时区
+          input_schema: null
+          label:
+            en_US: Timezone
+            ja_JP: Timezone
+            pt_BR: Timezone
+            zh_Hans: 时区
+          llm_description: null
+          max: null
+          min: null
+          name: timezone
+          options:
+          - icon: null
+            label:
+              en_US: UTC
+              ja_JP: UTC
+              pt_BR: UTC
+              zh_Hans: UTC
+            value: UTC
+          - icon: null
+            label:
+              en_US: America/New_York
+              ja_JP: America/New_York
+              pt_BR: America/New_York
+              zh_Hans: 美洲/纽约
+            value: America/New_York
+          - icon: null
+            label:
+              en_US: America/Los_Angeles
+              ja_JP: America/Los_Angeles
+              pt_BR: America/Los_Angeles
+              zh_Hans: 美洲/洛杉矶
+            value: America/Los_Angeles
+          - icon: null
+            label:
+              en_US: America/Chicago
+              ja_JP: America/Chicago
+              pt_BR: America/Chicago
+              zh_Hans: 美洲/芝加哥
+            value: America/Chicago
+          - icon: null
+            label:
+              en_US: America/Sao_Paulo
+              ja_JP: America/Sao_Paulo
+              pt_BR: América/São Paulo
+              zh_Hans: 美洲/圣保罗
+            value: America/Sao_Paulo
+          - icon: null
+            label:
+              en_US: Asia/Shanghai
+              ja_JP: Asia/Shanghai
+              pt_BR: Asia/Shanghai
+              zh_Hans: 亚洲/上海
+            value: Asia/Shanghai
+          - icon: null
+            label:
+              en_US: Asia/Ho_Chi_Minh
+              ja_JP: Asia/Ho_Chi_Minh
+              pt_BR: Ásia/Ho Chi Minh
+              zh_Hans: 亚洲/胡志明市
+            value: Asia/Ho_Chi_Minh
+          - icon: null
+            label:
+              en_US: Asia/Tokyo
+              ja_JP: Asia/Tokyo
+              pt_BR: Asia/Tokyo
+              zh_Hans: 亚洲/东京
+            value: Asia/Tokyo
+          - icon: null
+            label:
+              en_US: Asia/Dubai
+              ja_JP: Asia/Dubai
+              pt_BR: Asia/Dubai
+              zh_Hans: 亚洲/迪拜
+            value: Asia/Dubai
+          - icon: null
+            label:
+              en_US: Asia/Kolkata
+              ja_JP: Asia/Kolkata
+              pt_BR: Asia/Kolkata
+              zh_Hans: 亚洲/加尔各答
+            value: Asia/Kolkata
+          - icon: null
+            label:
+              en_US: Asia/Seoul
+              ja_JP: Asia/Seoul
+              pt_BR: Asia/Seoul
+              zh_Hans: 亚洲/首尔
+            value: Asia/Seoul
+          - icon: null
+            label:
+              en_US: Asia/Singapore
+              ja_JP: Asia/Singapore
+              pt_BR: Asia/Singapore
+              zh_Hans: 亚洲/新加坡
+            value: Asia/Singapore
+          - icon: null
+            label:
+              en_US: Europe/London
+              ja_JP: Europe/London
+              pt_BR: Europe/London
+              zh_Hans: 欧洲/伦敦
+            value: Europe/London
+          - icon: null
+            label:
+              en_US: Europe/Berlin
+              ja_JP: Europe/Berlin
+              pt_BR: Europe/Berlin
+              zh_Hans: 欧洲/柏林
+            value: Europe/Berlin
+          - icon: null
+            label:
+              en_US: Europe/Moscow
+              ja_JP: Europe/Moscow
+              pt_BR: Europe/Moscow
+              zh_Hans: 欧洲/莫斯科
+            value: Europe/Moscow
+          - icon: null
+            label:
+              en_US: Australia/Sydney
+              ja_JP: Australia/Sydney
+              pt_BR: Australia/Sydney
+              zh_Hans: 澳大利亚/悉尼
+            value: Australia/Sydney
+          - icon: null
+            label:
+              en_US: Pacific/Auckland
+              ja_JP: Pacific/Auckland
+              pt_BR: Pacific/Auckland
+              zh_Hans: 太平洋/奥克兰
+            value: Pacific/Auckland
+          - icon: null
+            label:
+              en_US: Africa/Cairo
+              ja_JP: Africa/Cairo
+              pt_BR: Africa/Cairo
+              zh_Hans: 非洲/开罗
+            value: Africa/Cairo
+          placeholder: null
+          precision: null
+          required: false
+          scope: null
+          template: null
+          type: select
+        params:
+          format: ''
+          timezone: ''
+        plugin_id: null
+        plugin_unique_identifier: ''
+        provider_icon: /console/api/workspaces/current/tool-provider/builtin/time/icon
+        provider_id: time
+        provider_name: time
+        provider_show_name: 时间
+        provider_type: builtin
+        selected: false
+        title: 获取当前时间
+        tool_configurations:
+          format:
+            type: mixed
+            value: '%Y-%m-%d %H:%M:%S'
+          timezone:
+            type: constant
+            value: UTC
+        tool_description: 一个用于获取当前时间的工具。
+        tool_label: 获取当前时间
+        tool_name: current_time
+        tool_node_version: '2'
+        tool_parameters: {}
+        type: tool
+      height: 113
+      id: '1789569159594'
+      position:
+        x: 539.4143205903854
+        y: -38.567612591108556
+      positionAbsolute:
+        x: 539.4143205903854
+        y: -38.567612591108556
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 241
+      zIndex: 0
+    - data:
+        instruction: ''
+        model:
+          completion_params:
+            temperature: 0.7
+          mode: chat
+          name: qwen3.7-flash
+          provider: langgenius/tongyi/tongyi
+        parameters:
+        - description: 获取传入内容中的关键词
+          name: extract_keywords
+          required: false
+          type: array[string]
+        query:
+        - '1789568582289'
+        - text
+        reasoning_mode: prompt
+        selected: false
+        title: 从LLM回答中提取关键词
+        type: parameter-extractor
+        vision:
+          enabled: false
+      height: 87
+      id: '1789569826186'
+      position:
+        x: 539.4143205903854
+        y: 227.44588715912158
+      positionAbsolute:
+        x: 539.4143205903854
+        y: 227.44588715912158
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 241
+      zIndex: 0
+    - data:
+        outputs:
+        - value_selector:
+          - '1789650344419'
+          - text
+          value_type: string
+          variable: output
+        selected: false
+        title: 输出
+        type: end
+      height: 87
+      id: '1789570134555'
+      position:
+        x: 539.4143205903854
+        y: 1331.1055056038977
+      positionAbsolute:
+        x: 539.4143205903854
+        y: 1331.1055056038977
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 241
+      zIndex: 0
+    - data:
+        break_conditions: []
+        error_handle_mode: terminated
+        height: 581.1873464526996
+        logical_operator: and
+        loop_count: 1
+        loop_variables:
+        - id: 70a83b2b-a9a9-46f8-8124-adc17ce5ae38
+          label: report_content
+          value: ''
+          value_type: constant
+          var_type: string
+        selected: false
+        start_node_id: 1789644035694start
+        title: 循环
+        type: loop
+        width: 1897
+      height: 581
+      id: '1789644035694'
+      position:
+        x: -252.06424663237567
+        y: 387.8279828256522
+      positionAbsolute:
+        x: -252.06424663237567
+        y: 387.8279828256522
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 1897
+      zIndex: 0
+    - data:
+        desc: ''
+        isInLoop: true
+        selected: false
+        title: ''
+        type: loop-start
+      draggable: false
+      height: 48
+      id: 1789644035694start
+      parentId: '1789644035694'
+      position:
+        x: 24
+        y: 68
+      positionAbsolute:
+        x: -228.06424663237567
+        y: 455.8279828256522
+      selectable: false
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom-loop-start
+      width: 44
+      zIndex: 1001
+    - data:
+        code: "import json\nimport requests\n\ndef main(keywords):\n    if not isinstance(keywords,\
+          \ list):\n        return {\"results\": \"\"}\n\n    all_results = []\n \
+          \   for kw in keywords:\n        try:\n            r = requests.post(\n\
+          \                \"https://api.bocha.cn/v1/web-search\",\n             \
+          \   headers={\n                    \"Authorization\": \"Bearer sk-3d2293ad83aa4823a7c7ce8dd5ff8c72\"\
+          ,\n                    \"Content-Type\": \"application/json\"\n        \
+          \        },\n                json={\"query\": kw, \"summary\": True, \"\
+          count\": 5},\n                timeout=20\n            )\n            data\
+          \ = r.json()\n            pages = data.get(\"data\", {}).get(\"webPages\"\
+          , {}).get(\"value\", [])\n            for page in pages:\n             \
+          \   title = page.get(\"name\", \"\")\n                url = page.get(\"\
+          url\", \"\")\n                summary = page.get(\"summary\", \"\") or page.get(\"\
+          snippet\", \"\")\n                site = page.get(\"siteName\", \"\")\n\
+          \                all_results.append(f\"[{title}]\\nSource: {site}\\nURL:\
+          \ {url}\\nSummary: {summary}\\n\")\n        except Exception as e:\n   \
+          \         all_results.append(f\"Search '{kw}' failed: {str(e)}\\n\")\n\n\
+          \    json_string = json.dumps(all_results, ensure_ascii=False)\n    return\
+          \ {\"results\": json_string}"
+        code_language: python3
+        isInIteration: false
+        isInLoop: true
+        loop_id: '1789644035694'
+        outputs:
+          results:
+            children: null
+            type: string
+        selected: false
+        title: 根据提取的关键词来检索相关内容
+        type: code
+        variables:
+        - value_selector:
+          - '1789569826186'
+          - extract_keywords
+          value_type: array[string]
+          variable: keywords
+      height: 51
+      id: '1789644047646'
+      parentId: '1789644035694'
+      position:
+        x: 128
+        y: 68
+      positionAbsolute:
+        x: -124.06424663237567
+        y: 455.8279828256522
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 241
+      zIndex: 1001
+    - data:
+        context:
+          enabled: false
+          variable_selector: []
+        isInIteration: false
+        isInLoop: true
+        loop_id: '1789644035694'
+        model:
+          completion_params:
+            temperature: 0.7
+          mode: chat
+          name: deepseek-v4.1-flash
+          provider: langgenius/tongyi/tongyi
+        prompt_template:
+        - id: 5fa79733-5c57-4262-b395-20334d4e4029
+          role: system
+          text: "你是「深度研究助手」中的**资料阅读员**。\n\n研究主题是「{{{#1789567610749.topic#}} }}」。\n\
+            \n下面是针对一些关键词的一次搜索结果\n 当前日期: {{{#1789569159594.text#}} }}）。\n\n请你阅读这些结果，把它们综合成**一段可直接写进研究报告正文的文字**。\n\
+            \n## 要求\n- 对每个关键词和研究主题相关的信息**综合成一段连贯的文字**（1-3 个自然段，500-900 字），作为该关键词在报告正文中的段落。\n\
+            - 这段文字将直接成为报告的正文：要写成**报告的语言**（客观、正式、信息密集），而不是列举要点或列表。\n- 只基于输入的摘要内容写，不要编造数字、观点或结果里没有的信息；来源\
+            \ URL 由引擎另行收集，正文里**不要**出现 URL 或\"据某网站\"之类的来源标注。\n- 若本次结果与主题无关或为空，直接输出一段简短的说明即可（如\"\
+            针对该关键词未检索到有效资料。\"）。\n\n## 输出\n只输出**一个 JSON 对象**，用 ```json ... ``` 代码块包裹，格式如下：\n\
+            {\n  \"searched_keywords\": [\"已检索过的关键词\", \"...\"],\n  \"draft\": \"\
+            当前已累积的报告正文文字（各关键词的总结段落拼接而成）\",\n  \"source_count\": 当前收集到的来源数量\n}\n"
+        - id: f4d404c9-c70a-43a5-9888-c4e427a4f376
+          role: user
+          text: 搜索结果： {{#1789644047646.results#}}
+        selected: false
+        title: bocha检索结果整合
+        type: llm
+        vision:
+          enabled: false
+      height: 87
+      id: '1789645103794'
+      parentId: '1789644035694'
+      position:
+        x: 430
+        y: 68
+      positionAbsolute:
+        x: 177.93575336762433
+        y: 455.8279828256522
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 241
+      zIndex: 1001
+    - data:
+        context:
+          enabled: false
+          variable_selector: []
+        isInIteration: false
+        isInLoop: true
+        loop_id: '1789644035694'
+        model:
+          completion_params:
+            temperature: 0.7
+          mode: chat
+          name: deepseek-v4.1-flash
+          provider: langgenius/tongyi/tongyi
+        prompt_template:
+        - id: 9ffbf0e8-0df7-4cfb-a482-245de3259926
+          role: system
+          text: '你是「深度研究助手」中的**研究进度评估员**。
+
+
+            研究主题是「{{{#1789567610749.topic#}} }}」
+
+
+            当前日期:  {{{#1789569159594.text#}} }}
+
+
+            你要评估**目前已累积的报告正文草稿**（即：输入的整合后的检索结果）是否足够撰写一份深度研究报告，不足时给出补充检索的关键词。
+
+
+            ## 评估要点
+
+            - 覆盖面：草稿是否覆盖了主题的主要子角度（概念、市场/产品、对比、数据、趋势等）？有没有整块空白？
+
+            - 充分度：主要论点是否都有足够信息支撑、来源数量是否可观？是否明显缺某个关键角度？
+
+            - 质量控制：草稿是否过短、空洞、偏差明显，或某段内容明显不足？
+
+
+            ## 输出
+
+            只输出**一个 JSON 对象**，用 ```json ... ``` 代码块包裹，格式如下：
+
+            {
+
+              "sufficient": true或false,
+
+              "reason": "简要说明判断依据（一句话即可）",
+
+              "new_keywords": ["补充关键词1", "补充关键词2"]
+
+            }
+
+            - 已足够：sufficient 为 true，new_keywords 留空数组。
+
+            - 不足：sufficient 为 false，给出 **2-3 个**与已检索关键词**不重复**的新关键词，聚焦缺失的子角度。
+
+            - 不要因为吹毛求疵而无止境补检：只要主要角度已覆盖、足以成文，就判为足够。'
+        - id: 36464927-1bd6-435f-9a8e-cfab82c7bafe
+          role: user
+          text: 目前已累积的报告正文草稿：{{#1789645103794.text#}}
+        selected: false
+        title: 研究进度评估
+        type: llm
+        vision:
+          enabled: false
+      height: 87
+      id: '1789645401009'
+      parentId: '1789644035694'
+      position:
+        x: 715.9077556860528
+        y: 129.44311465325262
+      positionAbsolute:
+        x: 463.84350905367717
+        y: 517.2710974789048
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 241
+      zIndex: 1001
+    - data:
+        instruction: 提取json中的sufficient的值
+        isInIteration: false
+        isInLoop: true
+        loop_id: '1789644035694'
+        model:
+          completion_params:
+            temperature: 0.7
+          mode: chat
+          name: deepseek-v4.1-flash
+          provider: langgenius/tongyi/tongyi
+        parameters:
+        - description: 提取json中的sufficient值
+          name: sufficient
+          required: false
+          type: boolean
+        query:
+        - '1789645401009'
+        - text
+        reasoning_mode: prompt
+        selected: false
+        title: 提取 sufficient 值
+        type: parameter-extractor
+        vision:
+          enabled: false
+      height: 87
+      id: '1789645664305'
+      parentId: '1789644035694'
+      position:
+        x: 110.89034889994036
+        y: 313.772458613011
+      positionAbsolute:
+        x: -141.1738977324353
+        y: 701.6004414386632
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 241
+      zIndex: 1001
+    - data:
+        cases:
+        - case_id: 'true'
+          conditions:
+          - comparison_operator: is
+            id: 7133b414-5c0b-42a3-9a98-a329ba57b718
+            value: true
+            varType: boolean
+            variable_selector:
+            - '1789645664305'
+            - sufficient
+          id: 'true'
+          logical_operator: and
+        isInIteration: false
+        isInLoop: true
+        loop_id: '1789644035694'
+        selected: false
+        title: 条件分支
+        type: if-else
+      height: 147
+      id: '1789645899039'
+      parentId: '1789644035694'
+      position:
+        x: 468.6244622365924
+        y: 312.94074284854474
+      positionAbsolute:
+        x: 216.56021560421675
+        y: 700.768725674197
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 241
+      zIndex: 1001
+    - data:
+        isInIteration: false
+        isInLoop: true
+        loop_id: '1789644035694'
+        selected: false
+        title: 退出循环
+        type: loop-end
+      height: 53
+      id: '1789645932022'
+      parentId: '1789644035694'
+      position:
+        x: 1466.3205482090284
+        y: 207.50685436347248
+      positionAbsolute:
+        x: 1214.2563015766527
+        y: 595.3348371891248
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom-simple
+      width: 244
+      zIndex: 1001
+    - data:
+        context:
+          enabled: false
+          variable_selector: []
+        desc: 内容汇总及组织
+        model:
+          completion_params:
+            temperature: 0.7
+          mode: chat
+          name: deepseek-v4.1-flash
+          provider: langgenius/tongyi/tongyi
+        prompt_template:
+        - id: 262d5c58-976e-451c-b6b4-6acd992c1226
+          role: system
+          text: "你是「深度研究助手」中的**首席研究员**。\n研究主题是「{{{#1789567610749.topic#}} }}」\n今天是\
+            \ {{{#1789569159594.text#}} }}\n报告的正文分节已经按检索关键词逐段写成（具体请阅读输入的内容），你**不得改写或重新组织这些正文**，只需基于它们补充报告的**标题、摘要、关键结论与遗留问题**。\n\
+            \n## 要求\n- **title**：凝练且有信息量的标题，含研究主题核心。\n- **summary**：200-400 字摘要，基于\
+            \ draft 正文概述主题、主要发现与结论。\n- **key_conclusions**：4-6 条全文最重要的关键结论；每条结论的 sources\
+            \ 只能引用输入 sources 里**真实存在**的 url 与 title；找不到任何来源支撑的结论，is_model_inference\
+            \ 必须为 true，并在 text 中标注「（模型推断）」。\n- **open_questions**：仍有争议或资料不足、留待进一步研究的问题（0-5\
+            \ 条）。\n- 语言正式、客观、面向专业读者；不编造来源，不重复素材里没有的信息。\n\n\n## 输出\n只输出**一个 JSON 对象**，用\
+            \ ```json ... ``` 代码块包裹，结构如下：\n{\n  \"title\": \"报告标题\",\n  \"summary\"\
+            : \"摘要\",\n  \"key_conclusions\": [\n     {{#context#}}\"text\": \"关键结论\"\
+            , \n      \"sources\": [{\"url\": \"https://...\", \"title\": \"来源标题\"\
+            }],     \"is_model_inference\": false}],\n  \"open_questions\": [\"遗留问题1\"\
+            ]\n}\n不要输出 JSON 以外的任何解释文字。"
+        - id: acb09d41-7612-4612-8406-e8aee763e1e9
+          role: user
+          text: '报告内容：
+
+            {{#1789644035694.report_content#}}'
+        selected: false
+        title: 内容汇总及组织
+        type: llm
+        vision:
+          enabled: false
+      height: 115
+      id: '1789648973193'
+      position:
+        x: 539.4143205903854
+        y: 1063.1890246111172
+      positionAbsolute:
+        x: 539.4143205903854
+        y: 1063.1890246111172
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 241
+      zIndex: 0
+    - data:
+        isInIteration: false
+        isInLoop: true
+        items:
+        - input_type: variable
+          operation: over-write
+          value:
+          - '1789649977701'
+          - content_append
+          variable_selector:
+          - '1789644035694'
+          - report_content
+        loop_id: '1789644035694'
+        selected: false
+        title: 正文草稿累加
+        type: assigner
+        version: '2'
+      height: 83
+      id: '1789649859294'
+      parentId: '1789644035694'
+      position:
+        x: 1102.0503998289435
+        y: 444.99690253102295
+      positionAbsolute:
+        x: 849.9861531965678
+        y: 832.8248853566752
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 241
+      zIndex: 1001
+    - data:
+        code: "\ndef main(arg1: str, arg2: str):\n    return {\n        \"content_append\"\
+          : arg1 + arg2,\n    }\n"
+        code_language: python3
+        isInIteration: false
+        isInLoop: true
+        loop_id: '1789644035694'
+        outputs:
+          content_append:
+            children: null
+            type: string
+        selected: false
+        title: 正文草稿不充足
+        type: code
+        variables:
+        - value_selector:
+          - '1789644035694'
+          - report_content
+          value_type: string
+          variable: arg1
+        - value_selector:
+          - '1789645103794'
+          - text
+          value_type: string
+          variable: arg2
+      height: 51
+      id: '1789649977701'
+      parentId: '1789644035694'
+      position:
+        x: 770.4523414497795
+        y: 452.02759350696857
+      positionAbsolute:
+        x: 518.3880948174038
+        y: 839.8555763326208
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 241
+      zIndex: 1001
+    - data:
+        code: "\ndef main(arg1: str, arg2: str):\n    return {\n        \"final_content\"\
+          : arg1 + arg2,\n    }\n"
+        code_language: python3
+        isInIteration: false
+        isInLoop: true
+        loop_id: '1789644035694'
+        outputs:
+          final_content:
+            children: null
+            type: string
+        selected: false
+        title: 正文草稿充足
+        type: code
+        variables:
+        - value_selector:
+          - '1789644035694'
+          - report_content
+          value_type: string
+          variable: arg1
+        - value_selector:
+          - '1789645103794'
+          - text
+          value_type: string
+          variable: arg2
+      height: 51
+      id: '1789650124348'
+      parentId: '1789644035694'
+      position:
+        x: 778.5988409027717
+        y: 249.18292950433903
+      positionAbsolute:
+        x: 526.534594270396
+        y: 637.0109123299912
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 241
+      zIndex: 1001
+    - data:
+        isInIteration: false
+        isInLoop: true
+        items:
+        - input_type: variable
+          operation: over-write
+          value:
+          - '1789650124348'
+          - final_content
+          variable_selector:
+          - '1789644035694'
+          - report_content
+        loop_id: '1789644035694'
+        selected: false
+        title: 正文草稿累加
+        type: assigner
+        version: '2'
+      height: 83
+      id: '1789650166245'
+      parentId: '1789644035694'
+      position:
+        x: 1105.4686730243263
+        y: 250.6458608056069
+      positionAbsolute:
+        x: 853.4044263919507
+        y: 638.4738436312591
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 241
+      zIndex: 1001
+    - data:
+        context:
+          enabled: false
+          variable_selector: []
+        desc: 根据内容进行前端排版
+        model:
+          completion_params:
+            temperature: 0.7
+          mode: chat
+          name: deepseek-v4.1-flash
+          provider: langgenius/tongyi/tongyi
+        prompt_template:
+        - id: a7d5330b-cdbd-4227-9852-c9cd8b3bf8e4
+          role: system
+          text: '你是「深度研究助手」中的**前端排版师**。
+
+            研究主题是「{{{#1789567610749.topic#}} }}」。
+
+            请把给定的结构化报告 JSON 渲染成一份**完整、自包含、可直接在浏览器打开的 HTML 文档**。
+
+            ## 输入
+
+            用户输入是一个 JSON 对象（结构化报告）：
+
+            {
+
+              "title": "报告标题",
+
+              "summary": "摘要",
+
+              "sections": [{"heading": "...", "body": "...", "conclusions": [{"text":
+            "...", "sources": [{"url": "...", "title": "..."}], "is_model_inference":
+            false}]}],
+
+              "key_conclusions": [{"text": "...", "sources": [...], "is_model_inference":
+            false}],
+
+              "open_questions": ["..."]
+
+            }
+
+
+
+            ## HTML 要求
+
+            - 输出**一个完整的 HTML 文档**（`<!DOCTYPE html>` 到 `</html>`），**不要包在 JSON 里**，也不要加
+            ```html 代码块包裹。
+
+            - 语言 `lang="zh-CN"`，`<meta charset="utf-8">`，标题用报告 title。
+
+            - **内嵌 CSS**（`<style>`），专业、清爽的排版：合适的字体、行高、留白，标题层级清晰，来源以编号列表呈现并可点击跳转。
+
+            - 结构依次包含：标题 → 摘要 → 分节正文（含各节结论）→ 关键结论 → 遗留问题 → 来源列表。
+
+            - 每条结论展示其引用来源（编号链接）；标注了「模型推断」的结论明确展示该标注。
+
+            - 末尾给出「报告生成时间：{{ today }}」。
+
+            - 正文使用报告中的实际内容，**不要增删或改写**事实；来源列表按报告内出现的 URL 去重编号。
+
+
+
+            ## 输出
+
+            直接输出 HTML 文档全文，不要有任何额外文字。'
+        - id: d537f42e-1e8d-46e4-ad88-2e01793f8fdf
+          role: user
+          text: '结构化报告内容：
+
+            {{#1789644035694.report_content#}}'
+        selected: false
+        title: 根据内容进行前端排版
+        type: llm
+        vision:
+          enabled: false
+      height: 115
+      id: '1789650344419'
+      position:
+        x: 539.4143205903854
+        y: 1204.7907140892537
+      positionAbsolute:
+        x: 539.4143205903854
+        y: 1204.7907140892537
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 241
+      zIndex: 0
+    viewport:
+      x: 345.3198240550163
+      y: 163.47683874382687
+      zoom: 0.5180409241352365
+  rag_pipeline_variables: []
