@@ -1,0 +1,17 @@
+# 后端与 ASGI
+fastapi>=0.110
+uvicorn>=0.29
+python-multipart>=0.0.9
+
+# HTTP 客户端（openai SDK 依赖，显式声明便于固定版本）
+httpx>=0.27
+
+# 模型 SDK（OpenAI 兼容，覆盖 DeepSeek / Qwen compatible-mode）
+openai>=1.30
+
+# 校验与配置
+pydantic>=2.6
+pydantic-settings>=2.6
+
+# 图像处理
+Pillow>=10.0

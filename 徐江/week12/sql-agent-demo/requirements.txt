@@ -1,0 +1,15 @@
+# 核心工作流（LangChain 框架）
+langchain>=1.0
+langchain-core>=1.0
+langchain-openai>=1.0
+langgraph>=1.0
+# 数据与工具
+sqlglot>=25.0
+PyYAML>=6.0
+# 后端（FastAPI）
+fastapi>=0.110
+uvicorn[standard]>=0.29
+# 前端（Streamlit）
+streamlit>=1.32
+requests>=2.31
+pandas>=2.0

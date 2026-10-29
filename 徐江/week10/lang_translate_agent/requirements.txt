@@ -1,0 +1,6 @@
+# week10 项目依赖(本地 conda py312 环境已全部预装, 此处仅为说明与复现)
+# Python >= 3.12
+openai-agents>=0.20.0     # OpenAI Agents SDK(Agent / Runner / MCPServerStdio)
+mcp>=2.1.1,<3             # 官方 MCP Python SDK(与基线代码的构造函数回调风格匹配)
+openai>=2.54.0            # OpenAI 兼容客户端(MCP 工具内部调用大模型翻译)
+python-dotenv>=1.2.2      # 加载 .env 配置

@@ -1,0 +1,21 @@
+# 本地配置（由 config.example.yaml 复制生成，已被 .gitignore 忽略）
+# ↓↓↓ 把下面的 api_key 换成你的 DeepSeek Key 即可切换到真实 LLM ↓↓↓
+
+llm:
+  provider: deepseek
+  base_url: https://api.deepseek.com
+  api_key: sk-eabedb8920e8442da2a88f9f243dcfec
+  model: deepseek-flash
+  temperature: 0.0
+  max_tokens: 2048
+  timeout_seconds: 60
+  net_max_retries: 2
+
+db:
+  path: data/ecommerce.db
+
+eval:
+  max_attempts: 3
+  row_limit: 100
+  query_timeout_seconds: 10
+  summarize: true

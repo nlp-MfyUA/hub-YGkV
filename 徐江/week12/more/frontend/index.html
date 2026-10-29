@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="theme-color" content="#B3261E">
+  <title>楼道消防风险识别</title>
+  <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+  <header class="app-header">
+    <h1>楼道消防风险识别</h1>
+    <p class="subtitle">拍摄楼梯间 / 走廊 / 电梯 / 车库通道，自动识别消防安全风险</p>
+    <p class="channel-badge" id="channel-badge" hidden></p>
+  </header>
+
+  <main>
+    <!-- 摄像头 / 拍照区 -->
+    <section id="stage-camera" class="card">
+      <div class="camera-box">
+        <video id="video" autoplay playsinline muted></video>
+        <img id="snapshot" alt="拍摄预览" hidden>
+        <div id="camera-hint" class="camera-hint" hidden>
+          <p>无法使用摄像头（权限被拒 / 无设备 / 非安全上下文）。</p>
+          <p>请点击下方「从相册选择」上传已有照片。</p>
+        </div>
+      </div>
+
+      <div class="actions" id="actions-idle">
+        <button id="btn-camera" class="btn btn-primary" type="button">开启摄像头</button>
+      </div>
+      <div class="actions" id="actions-previewing" hidden>
+        <button id="btn-capture" class="btn btn-primary" type="button">拍照</button>
+      </div>
+      <div class="actions" id="actions-captured" hidden>
+        <button id="btn-upload" class="btn btn-primary" type="button">上传分析</button>
+        <button id="btn-retake" class="btn btn-secondary" type="button">重拍</button>
+      </div>
+
+      <p class="album-line">
+        不方便拍照？<label for="file-input" class="album-link">从相册选择</label>
+        <input type="file" id="file-input" accept="image/*" capture="environment" hidden>
+      </p>
+      <p class="compress-info" id="compress-info" hidden></p>
+    </section>
+
+    <!-- 结果区 -->
+    <section id="stage-result" class="card" hidden>
+      <div id="error-bar" class="error-bar" hidden>
+        <span id="error-text"></span>
+        <button id="btn-error-retry" class="btn btn-small" type="button">重试</button>
+      </div>
+
+      <div id="result-card" hidden>
+        <div id="level-block" class="level-block">
+          <span id="level-text"></span>
+          <span id="confidence-badge" class="confidence"></span>
+        </div>
+        <p id="scene-line" class="scene-line"></p>
+        <p id="evidence-text" class="evidence"></p>
+
+        <h2>识别到的信号</h2>
+        <ul id="signals-list" class="signals"></ul>
+        <p id="signals-empty" class="signals-empty" hidden>模型未返回分项信号，等级以整体判定为准。</p>
+
+        <div id="legal-hint" class="legal-hint"></div>
+        <div id="override-note" class="override-note" hidden>
+          服务端已按「多信号取最高」规则修正等级。
+        </div>
+
+        <details class="raw-json">
+          <summary>查看原始返回</summary>
+          <pre id="raw-json"></pre>
+        </details>
+
+        <div class="actions">
+          <button id="btn-again" class="btn btn-secondary" type="button">再拍一张</button>
+        </div>
+      </div>
+
+      <div id="loading-box" class="loading-box" hidden>
+        <div class="spinner"></div>
+        <p id="loading-text">识别中…</p>
+      </div>
+    </section>
+  </main>
+
+  <footer class="app-footer">
+    <p>图片仅用于本次识别，不落盘、不留存；判定依据视觉大模型 + 服务端规则裁决，重要结论请人工复核。</p>
+  </footer>
+
+  <script src="/app.js"></script>
+</body>
+</html>

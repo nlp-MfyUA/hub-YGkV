@@ -1,0 +1,31 @@
+# SQL Agent Demo 配置
+# 首次运行会自动从本文件复制生成 config.local.yaml（已被 .gitignore 忽略），
+# 请把 config.local.yaml 中的 api_key 换成你的真实 Key。
+
+llm:
+  # 提供方：deepseek（真实 API）或 mock（离线模拟，无需 Key，用于验证工作流链路）
+  provider: deepseek
+  # OpenAI 兼容接口地址
+  base_url: https://api.deepseek.com
+  # DeepSeek API Key（也可用环境变量 LLM_API_KEY 覆盖，优先级更高）
+  api_key: ""
+  model: deepseek-flash
+  temperature: 0.0
+  max_tokens: 2048
+  timeout_seconds: 60
+  # 网络层重试次数（限流/超时/5xx 才重试）
+  net_max_retries: 2
+
+db:
+  # 示例 SQLite 数据库路径（不存在时自动创建并灌入种子数据）
+  path: data/ecommerce.db
+
+eval:
+  # 工作流重试上限：SQL 生成 + SQL 改写的总尝试次数
+  max_attempts: 3
+  # 执行阶段最多返回的行数
+  row_limit: 100
+  # 单条 SQL 执行超时（秒）
+  query_timeout_seconds: 10
+  # 是否调用 LLM 做结果汇总
+  summarize: true
