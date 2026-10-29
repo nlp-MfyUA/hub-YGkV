@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#123e38">
+  <title>廊安 · 楼道安全巡检</title>
+  <link rel="stylesheet" href="/static/style.css">
+  <script src="/static/app.js" defer></script>
+</head>
+<body>
+<header class="topbar"><a class="brand" href="/" aria-label="廊安首页"><span class="brand-icon">安</span><span>廊安 <small>CORRIDOR GUARD</small></span></a><div class="top-note"><span class="dot"></span>多模态消防安全巡检 <span class="course">课程演示</span></div></header>
+<main>
+  <section class="intro"><div><div class="eyebrow">看见隐患 · 守护每一段通道</div><h1>楼道安全，一拍即查<span>。</span></h1><p>拍摄或上传楼道照片，识别堆物、通行障碍与潜在起火因素。</p></div><div class="intro-mark" aria-hidden="true"><svg viewBox="0 0 170 130"><path d="M30 110V20h110v90M30 20l35 30h40l35-30M65 50v60m40-60v60M30 110l35-30h40l35 30M80 52v27h10V52"/><path class="scan" d="M18 65h134"/><circle cx="85" cy="65" r="24"/></svg><span>VISION × SAFETY</span></div></section>
+
+  <section class="settings" aria-label="识别模式"><div class="mode-switch"><button id="demoMode" class="selected" type="button">模拟演示</button><button id="liveMode" type="button" disabled>真实识别</button></div><p id="modeNote">正在连接后端…</p><label id="presetGroup">演示类别 <select id="preset"><option value="high">高风险</option><option value="medium">中风险</option><option value="low">低风险</option><option value="none">无风险</option><option value="not_corridor">非楼道</option></select></label></section>
+  <div id="error" class="error" role="alert" hidden></div>
+
+  <section class="workspace">
+    <article class="card capture-card"><div class="card-heading"><div><span class="step">01</span><h2>采集现场</h2></div><span class="small-tag">单张图片检测</span></div>
+      <div id="dropzone" class="dropzone" tabindex="0" role="button" aria-label="点击或拖入楼道图片">
+        <div id="emptyPreview"><div class="upload-icon"><svg viewBox="0 0 48 48" aria-hidden="true"><rect x="7" y="10" width="34" height="29" rx="5"/><circle cx="17" cy="20" r="3"/><path d="m9 34 10-9 7 7 6-5 8 9"/></svg></div><h3>从一张楼道照片开始</h3><p>拖拽图片到这里，或点击选择文件</p><span>JPEG / PNG / WebP / GIF · 最大 10 MB</span></div>
+        <img id="preview" alt="待检测的现场照片" hidden><span id="previewLabel" class="preview-label" hidden>现场照片</span>
+      </div>
+      <input id="fileInput" type="file" accept="image/jpeg,image/png,image/webp,image/gif" hidden>
+      <input id="cameraInput" type="file" accept="image/*" capture="environment" hidden>
+      <div class="capture-actions"><button id="cameraBtn" class="button camera-button" type="button"><span aria-hidden="true">◎</span> 拍摄照片</button><button id="uploadBtn" class="button" type="button"><span aria-hidden="true">↑</span> 上传图片</button></div>
+      <div class="file-meta"><span id="fileInfo">建议拍清楼道全貌、地面和堆放物</span><button id="clearBtn" class="text-button" hidden>移除</button></div>
+      <div class="analyze-row"><label class="auto-label"><input id="autoAnalyze" type="checkbox" checked> 选图后自动识别</label><button id="analyzeBtn" class="button primary" disabled>开始检测 <span aria-hidden="true">→</span></button></div>
+      <p class="privacy">图片仅在本次请求中处理，不在服务端保存。真实模式会发送至 DeepSeek。</p>
+    </article>
+
+    <article class="card result-card"><div class="card-heading"><div><span class="step">02</span><h2>识别报告</h2></div><span id="reportTag" class="small-tag">等待检测</span></div>
+      <div id="resultEmpty" class="result-empty"><div class="target-icon" aria-hidden="true">⌖</div><h3>让现场情况更清楚</h3><p>添加照片后，这里将展示风险等级、<br>可见依据和处理建议。</p><div class="mini-flow"><span>采集照片</span><b>→</b><span>视觉分析</span><b>→</b><span>风险分级</span></div></div>
+      <div id="loading" class="loading" role="status" hidden><span class="spinner"></span><h3>正在分析现场</h3><p>请保持页面打开，真实识别可能需要一些时间。</p></div>
+      <div id="result" hidden aria-live="polite"><div id="riskBanner" class="risk-banner"><div><div class="eyebrow">本次检测结果</div><h3 id="riskLabel"></h3></div><span id="riskSymbol" aria-hidden="true">!</span></div><p id="demoWarning" class="demo-warning" hidden>模拟演示：以下是所选类别的固定示例，未分析照片内容。</p><div class="report-meta"><span id="resultModel"></span><span id="elapsed"></span></div><p id="description" class="description"></p><h4>可见依据</h4><ul id="evidence" class="evidence-list"></ul><h4>处理建议</h4><ol id="suggestions"></ol><p id="uncertainty" class="uncertainty" hidden></p><button id="exportBtn" class="text-button">下载本次报告 ↓</button></div>
+      <div class="report-footer">照片判断仅覆盖可见区域，实际隐患请结合现场复核。</div>
+    </article>
+  </section>
+
+  <section class="rules-section"><div class="section-heading"><h2>风险分级标准</h2><span>按最高可见风险判定</span></div><div class="risk-rules"><div class="rule high"><span>01 / 高风险</span><p>电动车、电瓶、飞线充电等可能起火的元素</p></div><div class="rule medium"><span>02 / 中风险</span><p>大量堆物严重影响通行，或大量纸箱、木质家具</p></div><div class="rule low"><span>03 / 低风险</span><p>存在少量楼道堆物，尚未严重阻碍通行</p></div><div class="rule none"><span>04 / 无风险</span><p>楼道干净整洁，可见区域无堆放物品</p></div><div class="rule outside"><span>05 / 非楼道</span><p>与楼道、走廊或楼梯间无关的场景</p></div></div></section>
+
+  <section class="history-section"><div class="section-heading"><h2>本次巡检记录 <span id="historyCount" class="count">0</span></h2><button id="clearHistory" class="text-button" disabled>清空记录</button></div><p id="historyEmpty" class="history-empty">还没有巡检记录。完成第一次检测后将在此显示，仅保留在当前页面。</p><div id="historyList" class="history-list"></div></section>
+  <footer><span>廊安 / Corridor Guard</span><span>多模态内容理解 · 课程作业 Demo</span></footer>
+</main>
+<dialog id="cameraDialog"><div class="dialog-heading"><h2>拍摄楼道照片</h2><button id="closeCamera" class="text-button" aria-label="关闭相机">关闭 ×</button></div><video id="video" autoplay playsinline muted></video><p>尽量包含通道全貌，保持画面清晰。</p><button id="shutter" class="button primary">拍照并使用</button></dialog>
+</body></html>
