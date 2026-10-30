@@ -1,0 +1,11 @@
+# 后端依赖（本机 Python 3.14 已全部预装，可直接用系统 Python 运行）
+fastapi>=0.115
+uvicorn>=0.34
+python-dotenv>=1.0
+cryptography>=44
+python-multipart>=0.0.20
+
+# 说明：模型调用使用标准库 urllib 直调 OpenAI 兼容接口，不需要 openai SDK。
+
+# 测试套件额外依赖（仅 tests/ 需要，运行 app.py 不需要）
+pillow>=10.0

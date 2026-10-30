@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>楼道消防风险识别</title>
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<style>
+  :root{
+    --bg:#f3f4f6; --card:#fff; --ink:#111827; --sub:#6b7280; --line:#e5e7eb;
+    --high:#dc2626; --mid:#ea580c; --low:#d97706; --safe:#16a34a; --none:#6b7280;
+    --brand:#2563eb;
+  }
+  *{box-sizing:border-box; -webkit-tap-highlight-color:transparent;}
+  body{margin:0; font-family:-apple-system,"PingFang SC","Microsoft YaHei",sans-serif;
+       background:var(--bg); color:var(--ink); padding-bottom:32px;}
+  .wrap{max-width:520px; margin:0 auto; padding:14px 14px 0;}
+  header{display:flex; align-items:center; justify-content:space-between; gap:8px; margin-bottom:12px; flex-wrap:wrap;}
+  h1{font-size:19px; margin:0; flex:1 1 auto; min-width:0;}
+  .badge{font-size:12px; color:var(--sub); background:var(--card); border:1px solid var(--line);
+         border-radius:999px; padding:4px 10px; white-space:nowrap; max-width:100%;
+         overflow:hidden; text-overflow:ellipsis;}
+  .view{position:relative; background:#0f172a; border-radius:14px; overflow:hidden;
+        aspect-ratio:3/4; max-height:60vh; display:flex; align-items:center; justify-content:center;}
+  .view video,.view img{width:100%; height:100%; object-fit:contain; display:none;}
+  .view.active video,.view.active img{display:block;}
+  .placeholder{color:#94a3b8; font-size:14px; text-align:center; line-height:1.8; padding:0 18px;}
+  .row{display:flex; gap:10px; margin:12px 0;}
+  button{flex:1; border:0; border-radius:12px; padding:14px 8px; font-size:15px; font-weight:600;
+         color:#fff; cursor:pointer; transition:opacity .15s;}
+  button:disabled{opacity:.45; cursor:not-allowed;}
+  #btnCam{background:#334155;}
+  #btnShot{background:var(--brand);}
+  #btnUpload{background:#0ea5e9;}
+  input[type=file]{display:none;}
+  .hint{font-size:12px; color:var(--sub); text-align:center; line-height:1.7; margin-top:2px;}
+  .hint a{color:var(--brand); text-decoration:none;}
+  /* 结果卡片 */
+  #result{display:none; background:var(--card); border-radius:14px; overflow:hidden; margin-top:12px;
+          box-shadow:0 1px 3px rgba(0,0,0,.08);}
+  .rbar{height:8px;}
+  .rbody{padding:14px 16px;}
+  .rhead{display:flex; align-items:baseline; justify-content:space-between;}
+  #rCat{font-size:26px; font-weight:800;}
+  #rTime{font-size:12px; color:var(--sub);}
+  #rReason{margin:8px 0 0; font-size:14px; line-height:1.7; color:#374151;}
+  .chips{display:flex; flex-wrap:wrap; gap:6px; margin-top:10px;}
+  .chip{font-size:12px; background:#eef2ff; color:#4338ca; border-radius:999px; padding:4px 10px;}
+  .chips-title{font-size:12px; color:var(--sub); margin-top:12px;}
+  /* 历史 */
+  #history{margin-top:14px;}
+  #history h3{font-size:14px; color:var(--sub); font-weight:600; margin:0 0 8px;}
+  .hitem{display:flex; gap:10px; align-items:center; background:var(--card); border-radius:12px;
+         padding:8px 10px; margin-bottom:8px;}
+  .hitem img{width:52px; height:52px; object-fit:cover; border-radius:8px; flex:none;}
+  .hmain{flex:1; min-width:0;}
+  .hcat{font-weight:700; font-size:14px;}
+  .hmeta{font-size:11px; color:var(--sub); white-space:nowrap; overflow:hidden; text-overflow:ellipsis;}
+  .dot{width:10px; height:10px; border-radius:50%; flex:none;}
+  /* 错误条 */
+  #err{display:none; background:#fef2f2; color:#b91c1c; border:1px solid #fecaca;
+       border-radius:10px; padding:10px 12px; font-size:13px; margin-top:12px; line-height:1.6;}
+  .spinner{width:18px; height:18px; border:2px solid rgba(255,255,255,.4); border-top-color:#fff;
+           border-radius:50%; display:inline-block; vertical-align:-4px; margin-right:6px;
+           animation:spin .8s linear infinite;}
+  @keyframes spin{to{transform:rotate(360deg)}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <h1>🏠 楼道消防风险识别</h1>
+    <span class="badge" id="modelBadge">模型加载中…</span>
+  </header>
+
+  <div class="view" id="view">
+    <video id="video" autoplay playsinline muted></video>
+    <img id="preview" alt="待识别图片">
+    <div class="placeholder" id="ph">开启摄像头拍摄楼道照片<br>或上传本地图片进行风险识别</div>
+  </div>
+
+  <div class="row">
+    <button id="btnCam">📷 开启摄像头</button>
+    <button id="btnShot" disabled>⏺ 拍摄并识别</button>
+  </div>
+  <div class="row">
+    <button id="btnUpload">🖼 上传图片识别</button>
+  </div>
+  <input type="file" id="fileInput" accept="image/*">
+  <p class="hint" id="camHint"></p>
+
+  <div id="err"></div>
+  <div id="result">
+    <div class="rbar" id="rBar"></div>
+    <div class="rbody">
+      <div class="rhead"><span id="rCat"></span><span id="rTime"></span></div>
+      <p id="rReason"></p>
+      <div id="rChipsWrap" style="display:none">
+        <div class="chips-title">识别到的风险元素</div>
+        <div class="chips" id="rChips"></div>
+      </div>
+    </div>
+  </div>
+
+  <div id="history">
+    <h3>历史识别（本机保存）</h3>
+    <div id="hList"></div>
+  </div>
+</div>
+
+<canvas id="canvas" style="display:none"></canvas>
+
+<script>
+"use strict";
+const $ = id => document.getElementById(id);
+const COLORS = {"高风险":"#dc2626","中风险":"#ea580c","低风险":"#d97706","无风险":"#16a34a","非楼道":"#6b7280"};
+const LS_KEY = "corridor_history_v1";
+
+let stream = null, busy = false;
+
+/* ---------- 初始化：模型徽章 ---------- */
+fetch("/api/health").then(r => r.json()).then(d => {
+  const m = (d.model || "").replace(/^cn:/, "");
+  $("modelBadge").textContent = "模型：" + m + (d.status === "no_api_key" ? "（未配置Key）" : "");
+  $("modelBadge").title = d.model + " @ " + d.base_url;
+}).catch(() => { $("modelBadge").textContent = "后端未连接"; });
+
+/* ---------- 摄像头 ---------- */
+$("btnCam").addEventListener("click", async () => {
+  if (stream) { stopCam(); return; }
+  if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+    showHint("当前环境不支持摄像头调用（需 HTTPS 或 localhost）。请改用「上传图片识别」，或用 https:// 地址重新打开本页。");
+    return;
+  }
+  try {
+    stream = await navigator.mediaDevices.getUserMedia({
+      video: { facingMode: { ideal: "environment" }, width: { ideal: 1920 } }, audio: false
+    });
+    $("video").srcObject = stream;
+    showView("video");
+    $("btnCam").textContent = "✕ 关闭摄像头";
+    $("btnShot").disabled = false;
+    $("ph").style.display = "none";
+    showHint("摄像头已开启。对准楼道后点「拍摄并识别」。");
+  } catch (e) {
+    const reason = location.protocol === "http:" && !["localhost", "127.0.0.1"].includes(location.hostname)
+      ? "原因：摄像头仅允许在 HTTPS 或 localhost 页面使用。手机请改用页面提示的 https:// 地址打开。"
+      : "原因：" + (e.name === "NotAllowedError" ? "未授权摄像头权限，请在浏览器设置中允许后重试。" : e.message);
+    showHint("摄像头打开失败。" + reason);
+  }
+});
+function stopCam() {
+  if (stream) { stream.getTracks().forEach(t => t.stop()); stream = null; }
+  $("btnCam").textContent = "📷 开启摄像头";
+  $("btnShot").disabled = true;
+}
+window.addEventListener("pagehide", stopCam);
+
+/* ---------- 拍摄 ---------- */
+$("btnShot").addEventListener("click", () => {
+  const v = $("video");
+  if (!v.videoWidth) { showHint("摄像头画面尚未就绪，请稍候。"); return; }
+  const dataUrl = compress(v, v.videoWidth, v.videoHeight);
+  stopCam();
+  showPreview(dataUrl);
+  submit(dataUrl);
+});
+
+/* ---------- 上传 / 拖拽 ---------- */
+$("btnUpload").addEventListener("click", () => $("fileInput").click());
+$("fileInput").addEventListener("change", e => {
+  const f = e.target.files[0];
+  if (f) fromFile(f);
+  e.target.value = "";
+});
+const view = $("view");
+["dragover", "dragenter"].forEach(ev => view.addEventListener(ev, e => { e.preventDefault(); view.style.opacity = .8; }));
+["dragleave", "drop"].forEach(ev => view.addEventListener(ev, e => { e.preventDefault(); view.style.opacity = 1; }));
+view.addEventListener("drop", e => { const f = e.dataTransfer.files[0]; if (f) fromFile(f); });
+
+function fromFile(f) {
+  if (!/^image\//.test(f.type)) { showErr("请选择图片文件"); return; }
+  const r = new FileReader();
+  r.onload = () => {
+    const img = new Image();
+    img.onload = () => {
+      const dataUrl = compress(img, img.naturalWidth, img.naturalHeight);
+      showPreview(dataUrl);
+      submit(dataUrl);
+    };
+    img.src = r.result;
+  };
+  r.readAsDataURL(f);
+}
+
+/* ---------- 压缩（最长边 1280，JPEG 0.85） ---------- */
+function compress(src, w, h) {
+  const MAX = 1280;
+  const scale = Math.min(1, MAX / Math.max(w, h));
+  const c = $("canvas");
+  c.width = Math.round(w * scale); c.height = Math.round(h * scale);
+  c.getContext("2d").drawImage(src, 0, 0, c.width, c.height);
+  return c.toDataURL("image/jpeg", 0.85);
+}
+
+/* ---------- 提交识别 ---------- */
+async function submit(dataUrl) {
+  if (busy) return;
+  busy = true; hideErr();
+  $("result").style.display = "none";
+  const btn = $("btnShot"), up = $("btnUpload");
+  btn.disabled = up.disabled = true;
+  btn.innerHTML = '<span class="spinner"></span>识别中…'; up.innerHTML = '<span class="spinner"></span>识别中…';
+  const t0 = performance.now();
+  try {
+    const resp = await fetch("/api/recognize", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ image: dataUrl })
+    });
+    const data = await resp.json();
+    if (!resp.ok) throw new Error(data.detail || ("HTTP " + resp.status));
+    render(data, dataUrl, Math.round(performance.now() - t0));
+  } catch (e) {
+    showErr("识别失败：" + e.message);
+  } finally {
+    busy = false;
+    btn.disabled = up.disabled = false;
+    btn.textContent = "⏺ 拍摄并识别"; up.textContent = "🖼 上传图片识别";
+  }
+}
+
+function render(d, dataUrl, totalMs) {
+  const color = COLORS[d.category] || "#6b7280";
+  $("rBar").style.background = color;
+  $("rCat").textContent = d.category;
+  $("rCat").style.color = color;
+  $("rTime").textContent = `${totalMs}ms · 模型 ${d.model} · ${d.elapsed_ms}ms(推理)`;
+  $("rReason").textContent = d.reason || "（无判定理由）";
+  const chips = $("rChips"); chips.innerHTML = "";
+  if (d.elements && d.elements.length) {
+    $("rChipsWrap").style.display = "block";
+    d.elements.forEach(el => {
+      const s = document.createElement("span"); s.className = "chip"; s.textContent = el; chips.appendChild(s);
+    });
+  } else {
+    $("rChipsWrap").style.display = "none";
+  }
+  $("result").style.display = "block";
+  addHistory(d, dataUrl);
+}
+
+/* ---------- 历史 ---------- */
+function addHistory(d, dataUrl) {
+  const list = JSON.parse(localStorage.getItem(LS_KEY) || "[]");
+  const thumb = makeThumb(dataUrl);
+  list.unshift({ time: Date.now(), category: d.category, reason: d.reason, thumb });
+  localStorage.setItem(LS_KEY, JSON.stringify(list.slice(0, 20)));
+  renderHistory();
+}
+function makeThumb(dataUrl) {
+  const img = new Image();
+  img.src = dataUrl;
+  // 同步绘制可能尚未解码完成；用 canvas 直接缩放原始 dataUrl
+  const c = document.createElement("canvas");
+  c.width = c.height = 96;
+  const ctx = c.getContext("2d");
+  const i2 = new Image();
+  i2.src = dataUrl;
+  try { ctx.drawImage(i2, 0, 0, 96, 96); return c.toDataURL("image/jpeg", 0.6); } catch (e) { return ""; }
+}
+function renderHistory() {
+  const list = JSON.parse(localStorage.getItem(LS_KEY) || "[]");
+  const box = $("hList"); box.innerHTML = "";
+  if (!list.length) { box.innerHTML = '<div class="hint" style="text-align:left">暂无记录</div>'; return; }
+  list.forEach(it => {
+    const el = document.createElement("div"); el.className = "hitem";
+    const color = COLORS[it.category] || "#6b7280";
+    const t = new Date(it.time).toLocaleString("zh-CN", { month: "2-digit", day: "2-digit", hour: "2-digit", minute: "2-digit" });
+    el.innerHTML = (it.thumb ? `<img src="${it.thumb}">` : "") +
+      `<div class="hmain"><div class="hcat" style="color:${color}">${it.category}</div>
+       <div class="hmeta">${t}${it.reason ? " · " + it.reason : ""}</div></div><span class="dot" style="background:${color}"></span>`;
+    box.appendChild(el);
+  });
+}
+renderHistory();
+
+/* ---------- 视图切换 ---------- */
+function showView(kind) {
+  $("view").className = "view active";
+  $("video").style.display = kind === "video" ? "block" : "none";
+  $("preview").style.display = kind === "img" ? "block" : "none";
+  $("ph").style.display = "none";
+}
+function showPreview(dataUrl) { $("preview").src = dataUrl; showView("img"); }
+function showHint(msg) { $("camHint").textContent = msg; }
+function showErr(msg) { const e = $("err"); e.textContent = msg; e.style.display = "block"; }
+function hideErr() { $("err").style.display = "none"; }
+</script>
+</body>
+</html>
