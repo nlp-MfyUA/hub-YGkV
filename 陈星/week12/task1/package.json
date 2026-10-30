@@ -1,0 +1,51 @@
+{
+  "name": "hallway-fire-inspection-ai",
+  "version": "1.0.0",
+  "private": true,
+  "description": "基于 YOLOv8 与 DeepSeek 多模态大模型的楼道消防安全隐患智能识别应用",
+  "proxy": "http://localhost:3001",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.7",
+    "express": "^4.22.3",
+    "multer": "^2.0.2",
+    "onnxruntime-web": "1.13.1",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-scripts": "5.0.1"
+  },
+  "devDependencies": {
+    "@craco/craco": "^7.1.0",
+    "concurrently": "^9.1.2",
+    "copy-webpack-plugin": "^11.0.0"
+  },
+  "scripts": {
+    "start": "craco start",
+    "start:lan": "HOST=0.0.0.0 craco start",
+    "server": "node server/index.js",
+    "dev": "concurrently -k -n web,api -c cyan,green \"npm run start\" \"npm run server\"",
+    "build": "craco build",
+    "serve": "npm run build && node server/index.js"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "eslintConfig": {
+    "extends": [
+      "react-app"
+    ]
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  },
+  "license": "MIT"
+}
