@@ -1,0 +1,21 @@
+{
+  "short_name": "楼道消防识别",
+  "name": "楼道消防隐患智能识别",
+  "description": "拍摄或上传楼道照片，AI 自动识别堆物与起火风险并给出处置建议。",
+  "icons": [
+    {
+      "src": "favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml"
+    },
+    {
+      "src": "favicon.ico",
+      "sizes": "64x64 32x32 24x24 16x16",
+      "type": "image/x-icon"
+    }
+  ],
+  "start_url": ".",
+  "display": "standalone",
+  "theme_color": "#0d1b36",
+  "background_color": "#f4f6fb"
+}
