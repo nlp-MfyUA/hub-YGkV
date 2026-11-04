@@ -1,0 +1,51 @@
+/* 页面外观：柔和纸色背景、墨绿色报告卡与自适应布局。 */
+:root{font-family:system-ui,-apple-system,"Microsoft YaHei","PingFang SC",sans-serif;color:#173b40;background:#f7f4ec}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(circle at 83% 10%,#fce2bd 0,transparent 30%),#f7f4ec}
+button,select{font:inherit}button{cursor:pointer}button:disabled{cursor:not-allowed;opacity:.52}
+[hidden]{display:none!important}.shell{max-width:1160px;margin:auto;padding:24px 24px 30px}
+.topbar{display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid #cddad1;padding-bottom:22px;gap:16px}
+.brand{display:flex;align-items:center;gap:8px;font-size:22px;font-weight:800;color:#267567}
+.brand-symbol{font-size:30px}.brand small{font-size:10px;letter-spacing:2px;margin-left:5px;vertical-align:3px}
+.top-note{font-size:12px;color:#71887e;letter-spacing:.5px}
+.eyebrow{display:flex;gap:8px;align-items:center;font-size:11px;letter-spacing:1.8px;color:#b66e43;font-weight:800;margin:42px 0 13px}
+.eyebrow-line{width:25px;height:2px;background:#d49b6b}
+h1{font-family:Georgia,"Songti SC","Noto Serif SC",serif;font-size:clamp(36px,5.2vw,63px);line-height:1.21;letter-spacing:.5px;margin:0;font-weight:800}
+h1 em{font-style:normal;color:#2c8072}.subtitle{color:#60786f;font-size:15px;line-height:1.7;margin:18px 0 32px}
+.workspace{display:grid;grid-template-columns:1.08fr .92fr;gap:20px;align-items:stretch}
+.panel{border-radius:18px;padding:24px;box-shadow:0 15px 35px #244c3913;min-width:0}
+.photo-panel{background:#fffefa;border:1px solid #e3e8dd}
+.result-panel{background:#153f45;color:#f5f7ee;border:1px solid #234a50}
+.panel-head{display:flex;justify-content:space-between;gap:10px;align-items:center;margin-bottom:18px}
+.panel-head h2{font-size:15px;letter-spacing:.5px;margin:0}.number{font-size:12px;color:#b79c7e;margin-right:8px}
+.pill,.result-pill{font-size:10px;padding:6px 9px;border-radius:40px;white-space:nowrap;font-weight:700}
+.pill{background:#e5f2e9;color:#347667}.result-pill{background:#29565b;color:#b9dad3}
+.viewer{height:292px;background:#e6f0e7;border:1px dashed #a6c8b8;border-radius:12px;overflow:hidden;position:relative}
+.empty-view{display:flex;flex-direction:column;justify-content:center;align-items:center;gap:9px;height:100%;text-align:center;color:#4a8778;padding:10px}
+.camera-shape{width:94px;height:75px;color:#56a18d}.camera-shape svg{width:100%;height:100%}
+.empty-view strong{font-size:17px}.empty-view span{font-size:12px;color:#7a9c91}
+#preview,#video{width:100%;height:100%;object-fit:contain;background:#203f43}
+#video{object-fit:cover}.button-row{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+.soft-button,.accent-button{border-radius:9px;border:1px solid #c8dbce;padding:12px 10px;flex:1;min-width:115px;font-size:13px;font-weight:750}
+.soft-button{background:#eaf3ec;color:#276759}.accent-button{background:#2a7969;color:white;border-color:#2a7969}
+.model-row{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-top:20px}
+.model-row label{font-size:13px;font-weight:750;flex-shrink:0}.model-row select{background:#f7f9f4;color:#255c54;border:1px solid #c9d9cf;border-radius:9px;padding:10px;min-width:0;max-width:65%}
+.config-hint{font-size:12px;line-height:1.5;color:#818f86;margin:9px 0 13px;min-height:18px}
+.submit-button{width:100%;background:#17464a;border:0;border-radius:10px;padding:15px 18px;color:white;display:flex;align-items:center;justify-content:space-between;font-weight:800}
+.submit-arrow{font-size:22px}.fineprint{font-size:11px;color:#819188;line-height:1.7;margin:11px 0 0}
+.result-panel .number{color:#a8c6bd}.star{font-size:51px;line-height:1;color:#f0c891;margin-top:24px}
+.result-label{font-size:13px;color:#a8cac0;margin:12px 0 1px}
+.risk-level{font-family:Georgia,"Songti SC",serif;font-weight:800;font-size:clamp(34px,4.2vw,44px);color:#f2d7a7;margin:7px 0 16px}
+.risk-level[data-level="高风险"]{color:#ff9e87}.risk-level[data-level="中等风险"]{color:#f7c184}
+.risk-level[data-level="低风险"]{color:#ffe0a1}.risk-level[data-level="无隐患"]{color:#a3e1bb}
+.risk-level[data-level="非楼道"]{color:#c3d4dc}
+.description{font-size:14px;color:#e4f0e8;line-height:1.9;min-height:57px}
+.separator{height:1px;background:#3e6569;margin:21px 0 17px}
+.result-panel h3{font-size:12px;color:#afd2c6;letter-spacing:1px;margin:20px 0 7px}
+.result-panel ul{font-size:14px;padding-left:21px;line-height:1.9;margin:6px 0}
+.suggestion{font-size:14px;line-height:1.9;color:#f0f5ee}
+.feedback{font-size:12px;line-height:1.7;color:#fad29f;min-height:20px}
+.example-holder{border-top:1px solid #3e6569;margin-top:18px;padding-top:14px}
+.example-link{background:none;border:0;padding:0;color:#a8cfc3;text-decoration:underline;font-size:12px}
+footer{border-top:1px solid #d0ddd2;margin-top:27px;padding-top:18px;color:#72877d;font-size:12px;line-height:1.8;display:flex;gap:14px;justify-content:space-between}
+@media(max-width:760px){.shell{padding:18px 15px}.top-note{display:none}.eyebrow{margin-top:29px}h1{font-size:38px}.workspace{grid-template-columns:1fr}.subtitle{margin-bottom:23px}.panel{padding:18px}.viewer{height:255px}.button-row .soft-button{min-width:100px}footer{flex-direction:column;gap:2px}}
+@media(max-width:380px){.brand small{display:none}.button-row{gap:7px}.button-row .soft-button{font-size:12px;padding:10px 6px}.model-row{align-items:flex-start;flex-direction:column}.model-row select{max-width:100%;width:100%}}
