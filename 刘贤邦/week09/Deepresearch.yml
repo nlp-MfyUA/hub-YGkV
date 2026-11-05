@@ -1,0 +1,840 @@
+app:
+  description: ''
+  icon: 🤖
+  icon_background: '#FFEAD5'
+  icon_type: emoji
+  mode: advanced-chat
+  name: Deepresearch
+  use_icon_as_answer_icon: false
+dependencies:
+- current_identifier: null
+  type: marketplace
+  value:
+    marketplace_plugin_unique_identifier: langgenius/mimo:0.0.11@fd8ea01abfc9404363f8e08240d3e944af12d872c8f567557d5b31bc670a55a9
+    version: null
+kind: app
+version: 0.7.0
+workflow:
+  conversation_variables:
+  - description: ''
+    id: 59d4dee6-ce76-4070-af88-971d49bf9314
+    name: Today
+    selector:
+    - conversation
+    - Today
+    value: ''
+    value_type: string
+  environment_variables:
+  - description: ''
+    id: 5ba1a93d-f7a2-459c-827a-db03f353a986
+    name: BOCHA_APIKEY
+    selector:
+    - env
+    - BOCHA_APIKEY
+    value: Bearer sk-3d2293ad83aa4823a7c7ce8dd5ff8c72
+    value_type: string
+  features:
+    file_upload:
+      allowed_file_extensions:
+      - .JPG
+      - .JPEG
+      - .PNG
+      - .GIF
+      - .WEBP
+      - .SVG
+      allowed_file_types:
+      - image
+      allowed_file_upload_methods:
+      - local_file
+      - remote_url
+      enabled: false
+      fileUploadConfig:
+        attachment_image_file_size_limit: 2
+        audio_file_size_limit: 50
+        batch_count_limit: 5
+        file_size_limit: 15
+        file_upload_limit: 50
+        image_file_batch_limit: 10
+        image_file_size_limit: 10
+        knowledge_file_size_limit: 15
+        single_chunk_attachment_limit: 10
+        skill_file_size_limit: 50
+        video_file_size_limit: 100
+        workflow_file_upload_limit: 10
+      image:
+        enabled: false
+        number_limits: 3
+        transfer_methods:
+        - local_file
+        - remote_url
+      number_limits: 3
+    opening_statement: ''
+    retriever_resource:
+      enabled: true
+    sensitive_word_avoidance:
+      enabled: false
+    speech_to_text:
+      enabled: false
+    suggested_questions: []
+    suggested_questions_after_answer:
+      enabled: false
+    text_to_speech:
+      enabled: false
+      language: ''
+      voice: ''
+  graph:
+    edges:
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: start
+        targetType: tool
+      id: 1791708171409-source-1791708661583-target
+      source: '1791708171409'
+      sourceHandle: source
+      target: '1791708661583'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: tool
+        targetType: assigner
+      id: 1791708661583-source-1791708805936-target
+      source: '1791708661583'
+      sourceHandle: source
+      target: '1791708805936'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: assigner
+        targetType: llm
+      id: 1791708805936-source-1791708182687-target
+      source: '1791708805936'
+      sourceHandle: source
+      target: '1791708182687'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: llm
+        targetType: iteration
+      id: 1791708182687-source-1791710569461-target
+      source: '1791708182687'
+      sourceHandle: source
+      target: '1791710569461'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: true
+        isInLoop: false
+        iteration_id: '1791710569461'
+        sourceType: iteration-start
+        targetType: http-request
+      id: 1791710569461start-source-1791710646010-target
+      source: 1791710569461start
+      sourceHandle: source
+      target: '1791710646010'
+      targetHandle: target
+      type: custom
+      zIndex: 1001
+    - data:
+        isInIteration: true
+        isInLoop: false
+        iteration_id: '1791710569461'
+        sourceType: http-request
+        targetType: llm
+      id: 1791710646010-source-1791713273633-target
+      source: '1791710646010'
+      sourceHandle: source
+      target: '1791713273633'
+      targetHandle: target
+      type: custom
+      zIndex: 1001
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: iteration
+        targetType: llm
+      id: 1791710569461-source-1791713548359-target
+      source: '1791710569461'
+      sourceHandle: source
+      target: '1791713548359'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: llm
+        targetType: answer
+      id: 1791713548359-source-1791940330213-target
+      source: '1791713548359'
+      sourceHandle: source
+      target: '1791940330213'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: true
+        isInLoop: false
+        iteration_id: '1791710569461'
+        sourceType: llm
+        targetType: code
+      id: 1791713273633-source-1791940570989-target
+      source: '1791713273633'
+      sourceHandle: source
+      target: '1791940570989'
+      targetHandle: target
+      type: custom
+      zIndex: 1001
+    nodes:
+    - data:
+        selected: false
+        title: 用户输入
+        type: start
+        variables: []
+      height: 72
+      id: '1791708171409'
+      position:
+        x: -69.43772222939486
+        y: -41.706597466353685
+      positionAbsolute:
+        x: -69.43772222939486
+        y: -41.706597466353685
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+      zIndex: 0
+    - data:
+        context:
+          enabled: false
+          variable_selector: []
+        model:
+          completion_params:
+            temperature: 0.7
+          mode: chat
+          name: mimo-v2.5-pro
+          provider: langgenius/mimo/mimo
+        prompt_template:
+        - id: 1dbc9e4f-cd6c-420f-b0ab-b41d8acd5c6f
+          role: system
+          text: 你是「深度研究助手」中的**关键词规划员**。你的职责是把一个研究主题拆解成若干**可直接检索**的关键词，供后续的搜索引擎检索。
+        - id: 557ff088-38f3-4c88-b6bc-d069d450f670
+          role: user
+          text: '## 研究主题
+
+            {{#sys.query#}}
+
+
+            ## 要求
+
+            - 生成 **3-5 个**关键词，覆盖主题的不同子角度（如概念、行业/市场、代表产品与对比、技术/数据、趋势/结论等）。
+
+            - 每个关键词应当具体、可检索，能返回与该子角度直接相关的结果。可包含年份或具体实体以聚焦（今天是{{#conversation.Today#}}}）。
+
+            - 关键词彼此区分度要高，不要互相重复或只是同一语义的换说法。'
+        selected: false
+        structured_output:
+          schema:
+            additionalProperties: false
+            properties:
+              keywords:
+                description: 关键字列表
+                items:
+                  type: string
+                type: array
+            required:
+            - keywords
+            type: object
+        structured_output_enabled: true
+        title: 生成关键词
+        type: llm
+        vision:
+          enabled: false
+      height: 87
+      id: '1791708182687'
+      position:
+        x: 947.0541040157801
+        y: -20.706597466353685
+      positionAbsolute:
+        x: 947.0541040157801
+        y: -20.706597466353685
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+      zIndex: 0
+    - data:
+        is_team_authorization: true
+        paramSchemas:
+        - auto_generate: null
+          default: '%Y-%m-%d %H:%M:%S'
+          form: form
+          human_description:
+            en_US: Time format in strftime standard.
+            ja_JP: Time format in strftime standard.
+            pt_BR: Time format in strftime standard.
+            zh_Hans: strftime 标准的时间格式。
+          input_schema: null
+          label:
+            en_US: Format
+            ja_JP: Format
+            pt_BR: Format
+            zh_Hans: 格式
+          llm_description: null
+          max: null
+          min: null
+          multiple: false
+          name: format
+          options: []
+          placeholder: null
+          precision: null
+          required: false
+          scope: null
+          template: null
+          type: string
+        - auto_generate: null
+          default: UTC
+          form: form
+          human_description:
+            en_US: Timezone
+            ja_JP: Timezone
+            pt_BR: Timezone
+            zh_Hans: 时区
+          input_schema: null
+          label:
+            en_US: Timezone
+            ja_JP: Timezone
+            pt_BR: Timezone
+            zh_Hans: 时区
+          llm_description: null
+          max: null
+          min: null
+          multiple: false
+          name: timezone
+          options:
+          - icon: null
+            label:
+              en_US: UTC
+              ja_JP: UTC
+              pt_BR: UTC
+              zh_Hans: UTC
+            value: UTC
+          - icon: null
+            label:
+              en_US: America/New_York
+              ja_JP: America/New_York
+              pt_BR: America/New_York
+              zh_Hans: 美洲/纽约
+            value: America/New_York
+          - icon: null
+            label:
+              en_US: America/Los_Angeles
+              ja_JP: America/Los_Angeles
+              pt_BR: America/Los_Angeles
+              zh_Hans: 美洲/洛杉矶
+            value: America/Los_Angeles
+          - icon: null
+            label:
+              en_US: America/Chicago
+              ja_JP: America/Chicago
+              pt_BR: America/Chicago
+              zh_Hans: 美洲/芝加哥
+            value: America/Chicago
+          - icon: null
+            label:
+              en_US: America/Sao_Paulo
+              ja_JP: America/Sao_Paulo
+              pt_BR: América/São Paulo
+              zh_Hans: 美洲/圣保罗
+            value: America/Sao_Paulo
+          - icon: null
+            label:
+              en_US: Asia/Shanghai
+              ja_JP: Asia/Shanghai
+              pt_BR: Asia/Shanghai
+              zh_Hans: 亚洲/上海
+            value: Asia/Shanghai
+          - icon: null
+            label:
+              en_US: Asia/Ho_Chi_Minh
+              ja_JP: Asia/Ho_Chi_Minh
+              pt_BR: Ásia/Ho Chi Minh
+              zh_Hans: 亚洲/胡志明市
+            value: Asia/Ho_Chi_Minh
+          - icon: null
+            label:
+              en_US: Asia/Tokyo
+              ja_JP: Asia/Tokyo
+              pt_BR: Asia/Tokyo
+              zh_Hans: 亚洲/东京
+            value: Asia/Tokyo
+          - icon: null
+            label:
+              en_US: Asia/Dubai
+              ja_JP: Asia/Dubai
+              pt_BR: Asia/Dubai
+              zh_Hans: 亚洲/迪拜
+            value: Asia/Dubai
+          - icon: null
+            label:
+              en_US: Asia/Kolkata
+              ja_JP: Asia/Kolkata
+              pt_BR: Asia/Kolkata
+              zh_Hans: 亚洲/加尔各答
+            value: Asia/Kolkata
+          - icon: null
+            label:
+              en_US: Asia/Seoul
+              ja_JP: Asia/Seoul
+              pt_BR: Asia/Seoul
+              zh_Hans: 亚洲/首尔
+            value: Asia/Seoul
+          - icon: null
+            label:
+              en_US: Asia/Singapore
+              ja_JP: Asia/Singapore
+              pt_BR: Asia/Singapore
+              zh_Hans: 亚洲/新加坡
+            value: Asia/Singapore
+          - icon: null
+            label:
+              en_US: Europe/London
+              ja_JP: Europe/London
+              pt_BR: Europe/London
+              zh_Hans: 欧洲/伦敦
+            value: Europe/London
+          - icon: null
+            label:
+              en_US: Europe/Berlin
+              ja_JP: Europe/Berlin
+              pt_BR: Europe/Berlin
+              zh_Hans: 欧洲/柏林
+            value: Europe/Berlin
+          - icon: null
+            label:
+              en_US: Europe/Moscow
+              ja_JP: Europe/Moscow
+              pt_BR: Europe/Moscow
+              zh_Hans: 欧洲/莫斯科
+            value: Europe/Moscow
+          - icon: null
+            label:
+              en_US: Australia/Sydney
+              ja_JP: Australia/Sydney
+              pt_BR: Australia/Sydney
+              zh_Hans: 澳大利亚/悉尼
+            value: Australia/Sydney
+          - icon: null
+            label:
+              en_US: Pacific/Auckland
+              ja_JP: Pacific/Auckland
+              pt_BR: Pacific/Auckland
+              zh_Hans: 太平洋/奥克兰
+            value: Pacific/Auckland
+          - icon: null
+            label:
+              en_US: Africa/Cairo
+              ja_JP: Africa/Cairo
+              pt_BR: Africa/Cairo
+              zh_Hans: 非洲/开罗
+            value: Africa/Cairo
+          placeholder: null
+          precision: null
+          required: false
+          scope: null
+          template: null
+          type: select
+        params:
+          format: ''
+          timezone: ''
+        plugin_id: null
+        plugin_unique_identifier: ''
+        provider_icon: https://cloud.dify.ai/console/api/workspaces/current/tool-provider/builtin/time/icon
+        provider_id: time
+        provider_name: time
+        provider_show_name: 时间
+        provider_type: builtin
+        selected: false
+        title: 获取当前时间
+        tool_configurations:
+          format:
+            type: mixed
+            value: '%Y-%m-%d %H:%M:%S'
+          timezone:
+            type: constant
+            value: Asia/Shanghai
+        tool_description: 一个用于获取当前时间的工具。
+        tool_label: 获取当前时间
+        tool_name: current_time
+        tool_node_version: '2'
+        tool_parameters: {}
+        type: tool
+      height: 113
+      id: '1791708661583'
+      position:
+        x: 279.3329226774909
+        y: -20.706597466353685
+      positionAbsolute:
+        x: 279.3329226774909
+        y: -20.706597466353685
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+      zIndex: 0
+    - data:
+        items:
+        - input_type: variable
+          operation: over-write
+          value:
+          - '1791708661583'
+          - text
+          variable_selector:
+          - conversation
+          - Today
+        selected: false
+        title: 变量赋值
+        type: assigner
+        version: '2'
+      height: 83
+      id: '1791708805936'
+      position:
+        x: 628.4604410547734
+        y: -20.706597466353685
+      positionAbsolute:
+        x: 628.4604410547734
+        y: -20.706597466353685
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+      zIndex: 0
+    - data:
+        error_handle_mode: terminated
+        flatten_output: true
+        height: 226
+        is_parallel: true
+        iterator_input_type: object
+        iterator_selector:
+        - '1791708182687'
+        - structured_output
+        - keywords
+        output_selector:
+        - '1791940570989'
+        - result
+        output_type: array[string]
+        parallel_nums: 10
+        selected: false
+        start_node_id: 1791710569461start
+        title: 迭代
+        type: iteration
+        width: 990
+      height: 226
+      id: '1791710569461'
+      position:
+        x: 947.0541040157801
+        y: 177.43699036971836
+      positionAbsolute:
+        x: 947.0541040157801
+        y: 177.43699036971836
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 990
+      zIndex: 0
+    - data:
+        desc: ''
+        isInIteration: true
+        selected: false
+        title: ''
+        type: iteration-start
+      draggable: false
+      height: 48
+      id: 1791710569461start
+      parentId: '1791710569461'
+      position:
+        x: 24
+        y: 68
+      positionAbsolute:
+        x: 971.0541040157801
+        y: 245.43699036971836
+      selectable: false
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom-iteration-start
+      width: 44
+      zIndex: 1001
+    - data:
+        authorization:
+          config: null
+          type: no-auth
+        body:
+          data:
+          - id: key-value-392
+            key: ''
+            type: text
+            value: '{
+
+              “query”: "{{#1791710569461.item#}}",
+
+              "summary": true,
+
+              "count": 10
+
+              }'
+          type: json
+        headers: 'Authorization:{{#env.BOCHA_APIKEY#}}
+
+          Content-Type:application/json'
+        isInIteration: true
+        isInLoop: false
+        iteration_id: '1791710569461'
+        method: post
+        params: ''
+        retry_config:
+          max_retries: 3
+          retry_enabled: true
+          retry_interval: 100
+        selected: false
+        ssl_verify: true
+        timeout:
+          max_connect_timeout: 0
+          max_read_timeout: 0
+          max_write_timeout: 0
+        title: HTTP 请求
+        type: http-request
+        url: https://api.bocha.cn/v1/web-search
+        variables: []
+      height: 138
+      id: '1791710646010'
+      parentId: '1791710569461'
+      position:
+        x: 128
+        y: 68
+      positionAbsolute:
+        x: 1075.05410401578
+        y: 245.43699036971836
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+      zIndex: 1001
+    - data:
+        context:
+          enabled: false
+          variable_selector: []
+        isInIteration: true
+        isInLoop: false
+        iteration_id: '1791710569461'
+        model:
+          completion_params:
+            temperature: 0.7
+          mode: chat
+          name: mimo-v2.5-pro
+          provider: langgenius/mimo/mimo
+        prompt_template:
+        - id: 81cdd48b-de49-435e-8baa-9f0017d61ecc
+          role: system
+          text: '你是「深度研究助手」中的**资料阅读员**。研究主题是「{{#sys.query#}}}」。下面是针对关键词「{{#1791710569461.item#}}}」的一次搜索结果（今天是
+            {{#conversation.Today#}}}）。请你阅读这些结果，把它们综合成**一段可直接写进研究报告正文的文字**。
+
+
+            - 把与关键词和研究主题相关的信息**综合成一段连贯的文字**（1-3 个自然段，500-900 字），作为该关键词在报告正文中的段落。
+
+            - 这段文字将直接成为报告的正文：要写成**报告的语言**（客观、正式、信息密集），而不是列举要点或列表。
+
+            - 只基于输入的摘要内容写，不要编造数字、观点或结果里没有的信息；来源 URL 由引擎另行收集，正文里**不要**出现 URL 或"据某网站"之类的来源标注。
+
+            - 若本次结果与主题无关或为空，直接输出一段简短的说明即可（如"针对该关键词未检索到有效资料。"）。
+
+
+            直接输出**这段正文文字本身**，一个字符都不要多：
+
+            - 不要包成 JSON、不要 ``` 代码块包裹、不要加"好的/以下是"之类的前后缀。
+
+            - 输出内容就是将被写进报告正文的那段文字。
+
+
+            输出格式：
+
+            # 总结结果
+
+            （在此输出总结内容，可分点或分段，条理清晰。关键信息后可用 [1][2] 标注来源。）
+
+
+            # 引用
+
+            - [网页1](网页1链接)
+
+            - [网页2](网页2链接)
+
+            - [网页3](网页3链接)'
+        - id: 652be6e2-aa48-401b-9c2a-c25edbcbb4de
+          role: user
+          text: 搜索结果：{{#1791710646010.body#}}
+        selected: false
+        title: 总结
+        type: llm
+        vision:
+          enabled: false
+      height: 87
+      id: '1791713273633'
+      parentId: '1791710569461'
+      position:
+        x: 430
+        y: 68
+      positionAbsolute:
+        x: 1377.05410401578
+        y: 245.43699036971836
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+      zIndex: 1001
+    - data:
+        context:
+          enabled: false
+          variable_selector: []
+        model:
+          completion_params:
+            temperature: 0.7
+          mode: chat
+          name: mimo-v2.5-pro
+          provider: langgenius/mimo/mimo
+        prompt_template:
+        - id: 789b907f-9c3a-41f5-a661-e63b0a7e88ab
+          role: system
+          text: 你是「深度研究助手」中的**首席研究员**。研究主题是「{{#sys.query#}}」（今天是 {{#conversation.Today#}}）。报告的正文分节已经按检索关键词逐段写成，你**不得改写或重新组织这些正文**，只需基于它们补充报告的**标题、摘要、关键结论与遗留问题**。
+        - id: 916e1be9-57df-4f4b-828e-56415978fe55
+          role: user
+          text: '目前报告的正文部分已经通过检索关键词生成了以下内容：
+
+            {{#1791710569461.output#}}
+
+
+            你需要将这些内容组织为一篇报告，要求为：
+
+            - **title**：凝练且有信息量的标题，含研究主题核心。
+
+            - **summary**：200-400 字摘要，基于 draft 正文概述主题、主要发现与结论。
+
+            - **key_conclusions**：4-6 条全文最重要的关键结论；每条结论的 sources 只能引用输入 sources 里**真实存在**的
+            url 与 title；找不到任何来源支撑的结论，is_model_inference 必须为 true，并在 text 中标注「（模型推断）」。
+
+            - **open_questions**：仍有争议或资料不足、留待进一步研究的问题（0-5 条）。
+
+            - 语言正式、客观、面向专业读者；不编造来源，不重复素材里没有的信息。
+
+
+            输出格式要求：
+
+            - 结构依次包含：标题 → 摘要 → 分节正文（含各节结论）→ 关键结论 → 遗留问题 → 来源列表。
+
+            - 每条结论展示其引用来源（编号链接）；标注了「模型推断」的结论明确展示该标注。
+
+            - 末尾给出「报告生成时间：{{ today }}」。
+
+            - 正文使用报告中的实际内容，**不要增删或改写**事实；来源列表按报告内出现的 URL 去重编号。'
+        selected: false
+        title: 生成报告
+        type: llm
+        vision:
+          enabled: false
+      height: 87
+      id: '1791713548359'
+      position:
+        x: 1948.7548205573812
+        y: -20.706597466353685
+      positionAbsolute:
+        x: 1948.7548205573812
+        y: -20.706597466353685
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+      zIndex: 0
+    - data:
+        answer: '{{#1791713548359.text#}}'
+        selected: false
+        title: 直接回复
+        type: answer
+        variables: []
+      height: 102
+      id: '1791940330213'
+      position:
+        x: 2322.395825103287
+        y: -20.706597466353685
+      positionAbsolute:
+        x: 2322.395825103287
+        y: -20.706597466353685
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+      zIndex: 0
+    - data:
+        code: "\ndef main(keyword: str, text: str):\n    return {\n        \"result\"\
+          : {\n            \"keyword\": keyword,\n            \"text\": text\n   \
+          \     }\n    }\n"
+        code_language: python3
+        isInIteration: true
+        isInLoop: false
+        iteration_id: '1791710569461'
+        outputs:
+          result:
+            children: null
+            type: object
+        selected: false
+        title: 拼接kw和text
+        type: code
+        variables:
+        - value_selector:
+          - '1791710569461'
+          - item
+          value_type: string
+          variable: keyword
+        - value_selector:
+          - '1791713273633'
+          - text
+          value_type: string
+          variable: text
+      height: 52
+      id: '1791940570989'
+      parentId: '1791710569461'
+      position:
+        x: 732
+        y: 68
+      positionAbsolute:
+        x: 1679.05410401578
+        y: 245.43699036971836
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+      zIndex: 1001
+    viewport:
+      x: -53.18245508441714
+      y: 436.6714235475072
+      zoom: 0.6909954653422592
+  rag_pipeline_variables: []

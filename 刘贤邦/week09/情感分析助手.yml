@@ -1,0 +1,313 @@
+app:
+  description: ''
+  icon: 🤖
+  icon_background: '#FFEAD5'
+  icon_type: emoji
+  mode: advanced-chat
+  name: 情感分析助手
+  use_icon_as_answer_icon: false
+dependencies:
+- current_identifier: null
+  type: marketplace
+  value:
+    marketplace_plugin_unique_identifier: langgenius/mimo:0.0.11@fd8ea01abfc9404363f8e08240d3e944af12d872c8f567557d5b31bc670a55a9
+    version: null
+kind: app
+version: 0.7.0
+workflow:
+  conversation_variables: []
+  environment_variables: []
+  features:
+    file_upload:
+      allowed_file_extensions:
+      - .JPG
+      - .JPEG
+      - .PNG
+      - .GIF
+      - .WEBP
+      - .SVG
+      allowed_file_types:
+      - image
+      allowed_file_upload_methods:
+      - local_file
+      - remote_url
+      enabled: false
+      fileUploadConfig:
+        attachment_image_file_size_limit: 2
+        audio_file_size_limit: 50
+        batch_count_limit: 5
+        file_size_limit: 15
+        file_upload_limit: 50
+        image_file_batch_limit: 10
+        image_file_size_limit: 10
+        knowledge_file_size_limit: 15
+        single_chunk_attachment_limit: 10
+        skill_file_size_limit: 50
+        video_file_size_limit: 100
+        workflow_file_upload_limit: 10
+      image:
+        enabled: false
+        number_limits: 3
+        transfer_methods:
+        - local_file
+        - remote_url
+      number_limits: 3
+    opening_statement: ''
+    retriever_resource:
+      enabled: true
+    sensitive_word_avoidance:
+      enabled: false
+    speech_to_text:
+      enabled: false
+    suggested_questions: []
+    suggested_questions_after_answer:
+      enabled: false
+    text_to_speech:
+      enabled: false
+      language: ''
+      voice: ''
+  graph:
+    edges:
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: llm
+        targetType: answer
+      id: llm-answer
+      source: llm
+      sourceHandle: source
+      target: answer
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: start
+        targetType: question-classifier
+      id: 1791699900234-source-1791700153210-target
+      source: '1791699900234'
+      sourceHandle: source
+      target: '1791700153210'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: question-classifier
+        targetType: llm
+      id: 1791700153210-1-llm-target
+      source: '1791700153210'
+      sourceHandle: '1'
+      target: llm
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: question-classifier
+        targetType: llm
+      id: 1791700153210-2-1791703119255-target
+      source: '1791700153210'
+      sourceHandle: '2'
+      target: '1791703119255'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: llm
+        targetType: answer
+      id: 1791703119255-source-1791703218357-target
+      source: '1791703119255'
+      sourceHandle: source
+      target: '1791703218357'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    nodes:
+    - data:
+        selected: false
+        title: 用户输入
+        type: start
+        variables: []
+      height: 72
+      id: '1791699900234'
+      position:
+        x: -83.74461721129381
+        y: 303.61096470808957
+      positionAbsolute:
+        x: -83.74461721129381
+        y: 303.61096470808957
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+      zIndex: 0
+    - data:
+        context:
+          enabled: false
+          variable_selector: []
+        memory:
+          query_prompt_template: '{{#sys.query#}}
+
+
+            {{#sys.files#}}'
+          role_prefix:
+            assistant: ''
+            user: ''
+          window:
+            enabled: false
+            size: 10
+        model:
+          completion_params:
+            temperature: 0.7
+          mode: chat
+          name: mimo-v2.5-pro
+          provider: langgenius/mimo/mimo
+        prompt_template:
+        - id: 96870947-9f8f-4437-80b6-43c684dbd917
+          role: system
+          text: 你是一个情感分析大师，根据用户的输入，给出正向反馈
+        - id: 6b7973c9-bd2d-4437-a5c4-4d00390f3726
+          role: user
+          text: '{{#sys.query#}}'
+        selected: false
+        title: LLM
+        type: llm
+        vision:
+          enabled: false
+      height: 87
+      id: llm
+      position:
+        x: 640.9939583976967
+        y: 382.5741049876474
+      positionAbsolute:
+        x: 640.9939583976967
+        y: 382.5741049876474
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+      zIndex: 0
+    - data:
+        answer: '{{#llm.text#}}'
+        selected: false
+        title: 直接回复
+        type: answer
+        variables: []
+      height: 101
+      id: answer
+      position:
+        x: 983.7351692610757
+        y: 382.5741049876474
+      positionAbsolute:
+        x: 983.7351692610757
+        y: 382.5741049876474
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+      zIndex: 0
+    - data:
+        classes:
+        - id: '1'
+          label: 正向情感
+          name: 正向情感
+        - id: '2'
+          label: 负向情感
+          name: 负向情感
+        instruction: ''
+        model:
+          completion_params:
+            temperature: 0.7
+          mode: chat
+          name: mimo-v2.5-pro
+          provider: langgenius/mimo/mimo
+        query_variable_selector:
+        - sys
+        - query
+        selected: false
+        title: 问题分类器
+        type: question-classifier
+        vision:
+          enabled: false
+      height: 177
+      id: '1791700153210'
+      position:
+        x: 234.12777188780535
+        y: 324.61096470808957
+      positionAbsolute:
+        x: 234.12777188780535
+        y: 324.61096470808957
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+      zIndex: 0
+    - data:
+        context:
+          enabled: false
+          variable_selector: []
+        model:
+          completion_params:
+            temperature: 0.7
+          mode: chat
+          name: mimo-v2.5-pro
+          provider: langgenius/mimo/mimo
+        prompt_template:
+        - id: 73a13dca-714d-4fa4-b81e-81719801b6bb
+          role: system
+          text: 你是一个情感分析大师，根据用户的输入，对用户的困扰进行解答，并输出建议。
+        - id: b24bd252-3629-4bcf-92cd-009237a18c50
+          role: user
+          text: '{{#sys.query#}}'
+        selected: false
+        title: LLM 2
+        type: llm
+        vision:
+          enabled: false
+      height: 87
+      id: '1791703119255'
+      position:
+        x: 640.9939583976967
+        y: 541.6170970799164
+      positionAbsolute:
+        x: 640.9939583976967
+        y: 541.6170970799164
+      selected: true
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+      zIndex: 0
+    - data:
+        answer: '{{#1791703119255.text#}}'
+        selected: false
+        title: 直接回复 2
+        type: answer
+        variables: []
+      height: 101
+      id: '1791703218357'
+      position:
+        x: 983.7351692610757
+        y: 541.6170970799164
+      positionAbsolute:
+        x: 983.7351692610757
+        y: 541.6170970799164
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    viewport:
+      x: -284.72782389326824
+      y: -115.46787240018693
+      zoom: 0.870550563296124
+  rag_pipeline_variables: []

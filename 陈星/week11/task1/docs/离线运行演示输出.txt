@@ -1,0 +1,60 @@
+
+=======================================================
+{
+  "question": "总共有多少张专辑？",
+  "answer": "数据库共有 347 张专辑。",
+  "sql": "SELECT COUNT(*) AS album_count FROM albums",
+  "tables": [
+    "albums"
+  ],
+  "row_count": 1,
+  "truncated": false,
+  "repair_attempts": 0,
+  "evidence": [
+    "album_count=347"
+  ],
+  "caveats": [],
+  "error": null
+}
+
+=======================================================
+{
+  "question": "购买过 Rock 音乐的客户有多少位？",
+  "answer": "购买过 Rock 音乐的客户有 59 位。",
+  "sql": "SELECT COUNT(DISTINCT c.CustomerId) AS customer_count FROM customers c JOIN invoices i ON i.CustomerId=c.CustomerId JOIN invoice_items ii ON ii.InvoiceId=i.InvoiceId JOIN tracks t ON t.TrackId=ii.TrackId JOIN genres g ON g.GenreId=t.GenreId WHERE g.Name='Rock'",
+  "tables": [
+    "customers",
+    "genres",
+    "invoice_items",
+    "invoices",
+    "tracks"
+  ],
+  "row_count": 1,
+  "truncated": false,
+  "repair_attempts": 0,
+  "evidence": [
+    "customer_count=59"
+  ],
+  "caveats": [],
+  "error": null
+}
+
+=======================================================
+{
+  "question": "列出前三位歌手名字",
+  "answer": "前三位歌手：AC/DC、Accept、Aerosmith。",
+  "sql": "SELECT Name FROM artists ORDER BY ArtistId LIMIT 3",
+  "tables": [
+    "artists"
+  ],
+  "row_count": 3,
+  "truncated": false,
+  "repair_attempts": 1,
+  "evidence": [
+    "AC/DC",
+    "Accept",
+    "Aerosmith"
+  ],
+  "caveats": [],
+  "error": null
+}
