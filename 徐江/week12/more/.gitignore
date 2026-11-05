@@ -1,0 +1,15 @@
+# 环境与密钥（.env.example 会提交，.env 不会）
+.env
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+
+# 评测产物（数据集与报告按需提交）
+eval/report.md
+
+# 系统杂物
+.DS_Store
+Thumbs.db
