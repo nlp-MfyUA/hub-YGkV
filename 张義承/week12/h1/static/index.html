@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>楼道消防安全隐患排查</title>
+  <meta name="description" content="上传楼道照片，基于多模态大模型识别电动车、飞线充电、可燃堆积等消防安全隐患。">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%231f5d4a'/%3E%3Cpath d='M16 6c1 5 5 6 5 11a5 5 0 0 1-10 0c0-2 1-3 2-4 0 2 1 3 2 3 1-3-1-6 1-10Z' fill='%23fff'/%3E%3C/svg%3E">
+  <link rel="stylesheet" href="/static/styles.css">
+</head>
+<body>
+  <div class="page">
+    <header class="hero">
+      <span class="eyebrow"><span class="eyebrow-dot"></span>AI 视觉识别 · 多模态</span>
+      <h1>楼道消防安全隐患排查</h1>
+      <p class="hero-sub">
+        上传一张楼道照片，模型将自动识别电动车、电瓶、飞线充电、可燃堆物等风险，
+        并给出隐患等级与判断依据。
+      </p>
+    </header>
+
+    <main>
+      <div class="workspace">
+        <section class="card upload-card" aria-labelledby="uploadTitle">
+          <div class="card-head">
+            <h2 id="uploadTitle">上传照片</h2>
+            <span class="card-step">01</span>
+          </div>
+
+          <div id="dropZone" class="drop-zone" role="button" tabindex="0"
+               aria-label="点击选择或拖拽上传楼道照片">
+            <input id="fileInput" type="file" accept="image/jpeg,image/png,image/webp" hidden>
+            <div class="drop-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"
+                   stroke-linecap="round" stroke-linejoin="round">
+                <path d="M12 16V4m0 0L7 9m5-5 5 5"/>
+                <path d="M4 15v3a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-3"/>
+              </svg>
+            </div>
+            <p class="drop-title">点击选择，或把图片拖到这里</p>
+            <p class="drop-hint">支持 JPG / PNG / WebP · 最大 <span id="maxSize">10</span> MB</p>
+          </div>
+
+          <div id="previewWrap" class="preview-wrap hidden">
+            <img id="preview" alt="待识别的楼道照片预览">
+            <button id="removeBtn" class="remove-btn" type="button" aria-label="移除当前图片">×</button>
+          </div>
+
+          <div id="fileMeta" class="file-meta hidden">
+            <span id="fileName" class="file-name"></span>
+            <span id="fileSize" class="file-size"></span>
+          </div>
+
+          <p id="configWarning" class="warning hidden" role="alert"></p>
+
+          <div class="actions">
+            <button id="analyzeBtn" class="btn primary" type="button" disabled>
+              <span class="spinner hidden" aria-hidden="true"></span>
+              <span id="analyzeBtnText">开始识别</span>
+            </button>
+            <button id="clearBtn" class="btn ghost" type="button" disabled>清除</button>
+          </div>
+
+          <p id="status" class="status" role="status" aria-live="polite"></p>
+        </section>
+
+        <section class="card result-card" aria-labelledby="resultTitle">
+          <div class="card-head">
+            <h2 id="resultTitle">识别结果</h2>
+            <span class="card-step">02</span>
+          </div>
+
+          <div id="emptyResult" class="empty-state">
+            <div class="empty-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"
+                   stroke-linecap="round" stroke-linejoin="round">
+                <path d="M12 3 2.5 20h19L12 3Z"/>
+                <path d="M12 9v4.5"/><circle cx="12" cy="17" r=".5" fill="currentColor"/>
+              </svg>
+            </div>
+            <p id="emptyTitle">识别结果将显示在这里</p>
+            <span id="emptySub">上传照片后点击「开始识别」</span>
+          </div>
+
+          <div id="result" class="result hidden" aria-live="polite">
+            <div id="levelPanel" class="level-panel">
+              <span class="level-label">风险等级</span>
+              <strong id="levelText"></strong>
+              <span id="levelHint" class="level-hint"></span>
+            </div>
+
+            <div class="meta-grid">
+              <div class="meta-item">
+                <span>场景</span>
+                <strong id="sceneText"></strong>
+              </div>
+              <div class="meta-item">
+                <span>耗时</span>
+                <strong id="elapsedText"></strong>
+              </div>
+              <div class="meta-item">
+                <span>模型</span>
+                <strong id="modelText"></strong>
+              </div>
+            </div>
+
+            <div class="block">
+              <h3>隐患点</h3>
+              <ul id="riskList" class="risk-list"></ul>
+            </div>
+
+            <div class="block">
+              <h3>判断理由</h3>
+              <p id="reasonText" class="reason"></p>
+            </div>
+          </div>
+        </section>
+      </div>
+
+      <section class="legend" aria-labelledby="legendTitle">
+        <div class="legend-head">
+          <h2 id="legendTitle">隐患等级说明</h2>
+          <p>优先按最严重的一项隐患定级</p>
+        </div>
+        <div class="legend-grid">
+          <article class="legend-item level-high">
+            <span class="legend-dot" aria-hidden="true"></span>
+            <h3>高风险</h3>
+            <p>楼道出现电动车、电瓶、飞线充电等可能起火的元素。</p>
+          </article>
+          <article class="legend-item level-medium">
+            <span class="legend-dot" aria-hidden="true"></span>
+            <h3>中风险</h3>
+            <p>大量堆积物严重影响通行，或堆放大量纸箱、木质家具等可燃物。</p>
+          </article>
+          <article class="legend-item level-low">
+            <span class="legend-dot" aria-hidden="true"></span>
+            <h3>低风险</h3>
+            <p>存在楼道堆物现象，但数量少、体量小，不严重。</p>
+          </article>
+          <article class="legend-item level-none">
+            <span class="legend-dot" aria-hidden="true"></span>
+            <h3>无风险</h3>
+            <p>楼道干净整洁，没有堆放物品。</p>
+          </article>
+          <article class="legend-item level-other">
+            <span class="legend-dot" aria-hidden="true"></span>
+            <h3>非楼道</h3>
+            <p>与住宅楼道无关的图片，不参与隐患评级。</p>
+          </article>
+        </div>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <span>模型：<b id="footerModel">deepseek-v4-flash</b></span>
+      <span>照片仅在内存中处理，不保存到服务器</span>
+    </footer>
+  </div>
+
+  <script src="/static/app.js"></script>
+</body>
+</html>

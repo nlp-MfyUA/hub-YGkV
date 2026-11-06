@@ -1,0 +1,512 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Chinook SQL Agent</title>
+<style>
+  :root {
+    --bg: #f5f6fa;
+    --panel: #ffffff;
+    --border: #e6e8f0;
+    --text: #1f2333;
+    --muted: #6b7280;
+    --accent: #4f46e5;
+    --accent-soft: #eef2ff;
+    --green: #10b981;
+    --red: #ef4444;
+    --radius: 14px;
+  }
+  * { box-sizing: border-box; }
+  html, body { height: 100%; }
+  body {
+    margin: 0;
+    display: grid;
+    grid-template-columns: 330px minmax(0, 1fr);
+    background: var(--bg);
+    color: var(--text);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC",
+                 "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+    font-size: 14px;
+  }
+
+  /* ---------- 侧边栏 ---------- */
+  .sidebar {
+    background: var(--panel);
+    border-right: 1px solid var(--border);
+    padding: 22px 18px;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 22px;
+  }
+  .brand { display: flex; gap: 12px; align-items: center; }
+  .logo {
+    width: 42px; height: 42px; flex: 0 0 42px;
+    display: grid; place-items: center;
+    background: var(--accent-soft);
+    border-radius: 12px; font-size: 22px;
+  }
+  .brand h1 { font-size: 15px; margin: 0 0 3px; }
+  .brand p { margin: 0; font-size: 12px; color: var(--muted); }
+
+  .section h2 {
+    font-size: 11px; letter-spacing: .08em; text-transform: uppercase;
+    color: var(--muted); margin: 0 0 10px; font-weight: 600;
+  }
+  .capability {
+    display: flex; gap: 10px; padding: 9px 10px;
+    border-radius: 10px; margin-bottom: 4px;
+  }
+  .capability:hover { background: #fafbff; }
+  .capability .cap-icon { font-size: 16px; line-height: 1.4; }
+  .capability strong { display: block; font-size: 13px; margin-bottom: 2px; }
+  .capability p { margin: 0; font-size: 12px; color: var(--muted); line-height: 1.5; }
+
+  .examples { display: flex; flex-direction: column; gap: 7px; }
+  .example {
+    text-align: left; width: 100%;
+    background: #fbfbfe; border: 1px solid var(--border);
+    border-radius: 10px; padding: 9px 11px;
+    color: var(--text); font-size: 12.5px; line-height: 1.45;
+    cursor: pointer; transition: all .15s ease;
+    font-family: inherit;
+  }
+  .example:hover { border-color: #c7cdf8; background: var(--accent-soft); color: #3730a3; }
+  .example:disabled { opacity: .5; cursor: not-allowed; }
+
+  .sidebar-footer {
+    margin-top: auto; padding-top: 14px;
+    border-top: 1px solid var(--border);
+    color: var(--muted); font-size: 11px;
+    display: flex; align-items: center; gap: 6px;
+  }
+  .dot { width: 7px; height: 7px; border-radius: 50%; background: var(--green); }
+
+  /* ---------- 聊天区 ---------- */
+  .chat { display: flex; flex-direction: column; min-width: 0; height: 100dvh; }
+  .chat-header {
+    display: flex; align-items: center; gap: 8px;
+    padding: 14px 24px; border-bottom: 1px solid var(--border);
+    background: rgba(255,255,255,.75); backdrop-filter: blur(8px);
+    font-size: 13px; color: var(--muted);
+  }
+  .chat-header strong { color: var(--text); font-weight: 600; }
+
+  .messages {
+    flex: 1; overflow-y: auto;
+    padding: 26px 24px 10px;
+    display: flex; flex-direction: column; gap: 16px;
+    scroll-behavior: smooth;
+  }
+  .msg { max-width: 900px; animation: rise .18s ease both; }
+  @keyframes rise { from { opacity: 0; transform: translateY(6px); } }
+  .msg.user { align-self: flex-end; }
+  .msg.user .bubble {
+    background: var(--accent); color: #fff;
+    border-radius: 16px 16px 4px 16px;
+    padding: 11px 15px; line-height: 1.6; white-space: pre-wrap;
+  }
+  .msg.assistant { align-self: flex-start; width: 100%; }
+  .msg.assistant .bubble {
+    background: var(--panel); border: 1px solid var(--border);
+    border-radius: 16px 16px 16px 4px;
+    padding: 15px 17px; line-height: 1.7;
+    box-shadow: 0 1px 2px rgba(16,24,40,.04);
+  }
+  .msg.assistant .bubble p { margin: 0 0 8px; }
+  .msg.assistant .bubble p:last-child { margin-bottom: 0; }
+
+  .error { color: var(--red); }
+
+  /* ---------- 详情 ---------- */
+  details {
+    margin-top: 12px; border-top: 1px dashed var(--border); padding-top: 10px;
+  }
+  summary {
+    cursor: pointer; color: var(--accent); font-size: 12.5px;
+    user-select: none; outline: none;
+  }
+  summary:hover { text-decoration: underline; }
+  .detail-body { display: flex; flex-direction: column; gap: 14px; margin-top: 12px; }
+  .detail-row { display: flex; flex-direction: column; gap: 6px; }
+  .label { font-size: 11px; letter-spacing: .06em; color: var(--muted); text-transform: uppercase; }
+
+  .steps { display: flex; flex-wrap: wrap; align-items: center; gap: 5px; }
+  .step {
+    background: var(--accent-soft); color: #3730a3;
+    border-radius: 999px; padding: 3px 9px; font-size: 11.5px;
+  }
+  .step.step-bad { background: #fef2f2; color: #b91c1c; }
+  .arrow { color: #c0c4d4; font-size: 11px; }
+
+  .chips { display: flex; flex-wrap: wrap; gap: 6px; }
+  .chip {
+    background: #f4f5f9; border: 1px solid var(--border);
+    border-radius: 7px; padding: 2px 8px;
+    font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 11.5px;
+  }
+
+  pre.sql {
+    margin: 0; padding: 12px 14px;
+    background: #1e2130; color: #e6e9f5;
+    border-radius: 10px; overflow-x: auto;
+    font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+    font-size: 12.5px; line-height: 1.6;
+  }
+  pre.sql code { color: inherit; }
+
+  .table-wrap {
+    overflow-x: auto; border: 1px solid var(--border); border-radius: 10px;
+    max-height: 320px; overflow-y: auto;
+  }
+  table { border-collapse: collapse; width: 100%; font-size: 12.5px; }
+  th, td {
+    padding: 7px 11px; text-align: left;
+    border-bottom: 1px solid #f0f1f6; white-space: nowrap;
+  }
+  th {
+    position: sticky; top: 0; background: #f8f9fd; color: #4b5063;
+    font-weight: 600; font-size: 11.5px; z-index: 1;
+  }
+  tbody tr:nth-child(even) { background: #fcfcfe; }
+  tbody tr:hover { background: var(--accent-soft); }
+  td .null { color: #b6bac8; font-style: italic; }
+
+  .muted { color: var(--muted); font-size: 12.5px; margin: 0; }
+  .small { font-size: 11.5px; margin-top: 6px; }
+
+  /* ---------- 输入框 ---------- */
+  .composer {
+    display: flex; gap: 10px; align-items: flex-end;
+    padding: 14px 24px 20px;
+  }
+  .composer-inner {
+    flex: 1; display: flex; gap: 10px; align-items: flex-end;
+    background: var(--panel); border: 1px solid var(--border);
+    border-radius: 16px; padding: 8px 8px 8px 14px;
+    box-shadow: 0 1px 3px rgba(16,24,40,.05);
+    transition: border-color .15s ease, box-shadow .15s ease;
+  }
+  .composer-inner:focus-within {
+    border-color: #b9bffb;
+    box-shadow: 0 0 0 3px rgba(79,70,229,.1);
+  }
+  textarea {
+    flex: 1; border: 0; outline: 0; resize: none;
+    font-family: inherit; font-size: 14px; line-height: 1.6;
+    max-height: 160px; padding: 6px 0; background: transparent; color: var(--text);
+  }
+  textarea::placeholder { color: #a2a7b8; }
+  button.send {
+    border: 0; border-radius: 11px; padding: 9px 18px;
+    background: var(--accent); color: #fff; font-size: 13px; font-weight: 500;
+    cursor: pointer; font-family: inherit; transition: background .15s ease;
+  }
+  button.send:hover:not(:disabled) { background: #4338ca; }
+  button.send:disabled { background: #c7c9d9; cursor: not-allowed; }
+
+  /* ---------- 思考中 ---------- */
+  .thinking { display: flex; gap: 4px; padding: 4px 2px; }
+  .thinking span {
+    width: 6px; height: 6px; border-radius: 50%; background: #b9bffb;
+    animation: blink 1.2s infinite ease-in-out;
+  }
+  .thinking span:nth-child(2) { animation-delay: .18s; }
+  .thinking span:nth-child(3) { animation-delay: .36s; }
+  @keyframes blink { 0%, 80%, 100% { opacity: .3; transform: translateY(0); } 40% { opacity: 1; transform: translateY(-2px); } }
+
+  /* ---------- 窄屏 ---------- */
+  @media (max-width: 900px) {
+    body { grid-template-columns: 1fr; grid-template-rows: auto minmax(0, 1fr); }
+    .sidebar {
+      border-right: 0; border-bottom: 1px solid var(--border);
+      padding: 14px 16px; max-height: 42vh;
+    }
+    .capabilities { display: none; }
+    .examples { flex-direction: row; overflow-x: auto; padding-bottom: 4px; }
+    .example { flex: 0 0 auto; width: auto; white-space: nowrap; }
+    .sidebar-footer { display: none; }
+    .chat { height: auto; min-height: 0; }
+    .messages { padding: 18px 16px 6px; }
+    .composer { padding: 10px 16px 16px; }
+  }
+</style>
+</head>
+<body>
+
+<aside class="sidebar">
+  <div class="brand">
+    <div class="logo">🎧</div>
+    <div>
+      <h1>Chinook SQL Agent</h1>
+      <p>用自然语言查询音乐商店数据库</p>
+    </div>
+  </div>
+
+  <div class="section">
+    <h2>你可以查到</h2>
+    <div class="capabilities" id="capabilities"></div>
+  </div>
+
+  <div class="section">
+    <h2>试试这些问题</h2>
+    <div class="examples" id="examples"></div>
+  </div>
+
+  <div class="sidebar-footer">
+    <span class="dot"></span>
+    <span id="footer-model">LangGraph · DeepSeek</span>
+  </div>
+</aside>
+
+<main class="chat">
+  <header class="chat-header">
+    <span class="dot"></span>
+    <span><strong>SQL Agent</strong> · 已连接 Chinook 数据库</span>
+  </header>
+
+  <div class="messages" id="messages"></div>
+
+  <form class="composer" id="composer">
+    <div class="composer-inner">
+      <textarea id="input" rows="1" placeholder="例如：销售额最高的 5 个国家是哪些？" autocomplete="off"></textarea>
+      <button class="send" type="submit" id="send">发送</button>
+    </div>
+  </form>
+</main>
+
+<script>
+const STEP_LABELS = {
+  parse_db: "解析数据库",
+  select_tables: "选择数据表",
+  generate_sql: "生成 SQL",
+  validate_sql: "校验 SQL",
+  rewrite_sql: "改写 SQL",
+  execute_sql: "执行 SQL",
+  summarize: "汇总答案",
+  give_up: "终止",
+};
+
+const messagesEl = document.getElementById("messages");
+const inputEl = document.getElementById("input");
+const sendEl = document.getElementById("send");
+const formEl = document.getElementById("composer");
+
+let busy = false;
+
+/* ---------------- 工具 ---------------- */
+function escapeHtml(value) {
+  return String(value)
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#39;");
+}
+
+// 极简 markdown：**加粗**、`代码`、换行
+function md(text) {
+  let s = escapeHtml(text || "");
+  s = s.replace(/\*\*(.+?)\*\*/g, "<strong>$1</strong>");
+  s = s.replace(/`([^`]+)`/g, "<code>$1</code>");
+  return s.replace(/\n/g, "<br>");
+}
+
+function scrollToBottom() {
+  messagesEl.scrollTop = messagesEl.scrollHeight;
+}
+
+function addMessage(role, html) {
+  const wrap = document.createElement("div");
+  wrap.className = `msg ${role}`;
+  const bubble = document.createElement("div");
+  bubble.className = "bubble";
+  bubble.innerHTML = html;
+  wrap.appendChild(bubble);
+  messagesEl.appendChild(wrap);
+  scrollToBottom();
+  return wrap;
+}
+
+function addThinking() {
+  const wrap = document.createElement("div");
+  wrap.className = "msg assistant";
+  wrap.innerHTML = `<div class="bubble"><div class="thinking"><span></span><span></span><span></span></div></div>`;
+  messagesEl.appendChild(wrap);
+  scrollToBottom();
+  return wrap;
+}
+
+/* ---------------- 渲染 ---------------- */
+function renderSteps(steps) {
+  if (!steps || !steps.length) return "";
+  return steps.map((name, i) => {
+    const label = STEP_LABELS[name] || name;
+    const cls = name === "give_up" ? "step step-bad" : "step";
+    const arrow = i ? '<span class="arrow">→</span>' : "";
+    return `${arrow}<span class="${cls}">${escapeHtml(label)}</span>`;
+  }).join("");
+}
+
+function renderTable(data) {
+  if (!data.rows || !data.rows.length) {
+    return '<p class="muted">查询没有返回数据。</p>';
+  }
+  const head = data.columns.map(c => `<th>${escapeHtml(c)}</th>`).join("");
+  const body = data.rows.map(row => {
+    const cells = row.map(v =>
+      v === null
+        ? '<td><span class="null">NULL</span></td>'
+        : `<td>${escapeHtml(v)}</td>`
+    ).join("");
+    return `<tr>${cells}</tr>`;
+  }).join("");
+
+  const note = data.truncated
+    ? `仅展示前 ${data.rows.length} 行，共 ${data.row_count} 行`
+    : `共 ${data.row_count} 行`;
+
+  return `<div class="table-wrap"><table><thead><tr>${head}</tr></thead><tbody>${body}</tbody></table></div>
+          <p class="muted small">${note}</p>`;
+}
+
+function renderResult(data) {
+  const rewriteTimes = (data.steps || []).filter(s => s === "rewrite_sql").length;
+
+  let html = `<p>${md(data.answer)}</p>`;
+
+  if (data.gave_up) {
+    html = `<p class="error">${md(data.answer)}</p>`;
+  }
+
+  const tableChips = (data.tables || [])
+    .map(t => `<span class="chip">${escapeHtml(t)}</span>`).join("");
+
+  html += `
+    <details>
+      <summary>查看 SQL 与执行结果${rewriteTimes ? `（改写 ${rewriteTimes} 次）` : ""}</summary>
+      <div class="detail-body">
+        <div class="detail-row">
+          <span class="label">执行步骤</span>
+          <div class="steps">${renderSteps(data.steps)}</div>
+        </div>
+        <div class="detail-row">
+          <span class="label">涉及的表</span>
+          <div class="chips">${tableChips || '<span class="muted">—</span>'}</div>
+        </div>
+        <div class="detail-row">
+          <span class="label">SQL</span>
+          <pre class="sql"><code>${escapeHtml(data.sql || "—")}</code></pre>
+        </div>
+        <div class="detail-row">
+          <span class="label">结果</span>
+          ${renderTable(data)}
+        </div>
+      </div>
+    </details>`;
+  return html;
+}
+
+/* ---------------- 发送 ---------------- */
+function setBusy(value) {
+  busy = value;
+  sendEl.disabled = value;
+  document.querySelectorAll(".example").forEach(b => { b.disabled = value; });
+}
+
+async function ask(text) {
+  const question = (text || "").trim();
+  if (!question || busy) return;
+
+  setBusy(true);
+  addMessage("user", escapeHtml(question));
+  const thinking = addThinking();
+
+  try {
+    const res = await fetch("/api/query", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ question }),
+    });
+    const data = await res.json();
+    thinking.remove();
+
+    if (!res.ok) {
+      addMessage("assistant", `<p class="error">请求失败：${escapeHtml(data.detail || res.statusText)}</p>`);
+    } else if (!data.ok) {
+      addMessage("assistant", `<p class="error">${escapeHtml(data.error || "执行失败")}</p>
+        <details><summary>查看执行步骤</summary><div class="detail-body">
+          <div class="steps">${renderSteps(data.steps)}</div>
+        </div></details>`);
+    } else {
+      addMessage("assistant", renderResult(data));
+    }
+  } catch (err) {
+    thinking.remove();
+    addMessage("assistant", `<p class="error">请求失败：${escapeHtml(err.message)}</p>`);
+  } finally {
+    setBusy(false);
+    inputEl.focus();
+  }
+}
+
+formEl.addEventListener("submit", (e) => {
+  e.preventDefault();
+  const text = inputEl.value;
+  inputEl.value = "";
+  autoResize();
+  ask(text);
+});
+
+inputEl.addEventListener("keydown", (e) => {
+  if (e.key === "Enter" && !e.shiftKey) {
+    e.preventDefault();
+    formEl.requestSubmit();
+  }
+});
+
+function autoResize() {
+  inputEl.style.height = "auto";
+  inputEl.style.height = Math.min(inputEl.scrollHeight, 160) + "px";
+}
+inputEl.addEventListener("input", autoResize);
+
+/* ---------------- 初始化 ---------------- */
+async function init() {
+  try {
+    const res = await fetch("/api/meta");
+    const meta = await res.json();
+
+    document.getElementById("capabilities").innerHTML = meta.capabilities
+      .map(c => `
+        <div class="capability">
+          <span class="cap-icon">${c.icon}</span>
+          <div>
+            <strong>${escapeHtml(c.title)}</strong>
+            <p>${escapeHtml(c.desc)}</p>
+          </div>
+        </div>`)
+      .join("");
+
+    document.getElementById("examples").innerHTML = meta.examples
+      .map(q => `<button class="example" type="button">${escapeHtml(q)}</button>`)
+      .join("");
+
+    document.querySelectorAll(".example").forEach((btn, i) => {
+      btn.addEventListener("click", () => ask(meta.examples[i]));
+    });
+
+    document.getElementById("footer-model").textContent =
+      `LangGraph · ${meta.model}`;
+
+    addMessage("assistant", `<p>${md(meta.welcome)}</p>`);
+  } catch (err) {
+    addMessage("assistant", `<p class="error">初始化失败：${escapeHtml(err.message)}</p>`);
+  }
+}
+
+init();
+</script>
+</body>
+</html>
