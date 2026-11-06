@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#17474b">
+  <meta name="description" content="楼道消防安全隐患识别：拍照上传、AI 视觉分析、规则分级。">
+  <title>安巷 · 楼道消防 AI 智能巡检</title>
+  <link rel="stylesheet" href="/static/style.css">
+  <script src="/static/app.js" defer></script>
+</head>
+<body>
+  <div class="shell">
+    <header class="topbar">
+      <div class="brand"><span class="brand-symbol">✳</span><span>安巷 <small>SAFE PASSAGE</small></span></div>
+      <span class="top-note">楼道消防安全 · 多模态 AI 识别</span>
+    </header>
+    <main>
+      <div class="eyebrow"><span class="eyebrow-line"></span> FIRE SAFETY / VISION INTELLIGENCE</div>
+      <h1>守护每一条<br><em>畅通的回家路。</em></h1>
+      <p class="subtitle">拍摄楼道现场，识别可见的电动车、堆物与充电隐患，让安全巡检更直观。</p>
+
+      <div class="workspace">
+        <section class="panel photo-panel" aria-labelledby="step-one">
+          <div class="panel-head">
+            <h2 id="step-one"><span class="number">01</span> 采集现场照片</h2>
+            <span class="pill" id="photo-status">等待照片</span>
+          </div>
+
+          <div class="viewer" id="viewer">
+            <div class="empty-view" id="placeholder">
+              <div class="camera-shape">
+                <svg viewBox="0 0 100 78" role="img" aria-label="相机图标"><path d="M16 22h18l8-10h18l8 10h16a7 7 0 0 1 7 7v35a7 7 0 0 1-7 7H16a7 7 0 0 1-7-7V29a7 7 0 0 1 7-7z" fill="none" stroke="currentColor" stroke-width="3"/><circle cx="50" cy="45" r="16" fill="none" stroke="currentColor" stroke-width="3"/><circle cx="50" cy="45" r="6" fill="currentColor"/></svg>
+              </div>
+              <strong>把镜头对准楼道</strong>
+              <span>尽量包含通道全貌与周围堆放物</span>
+            </div>
+            <img id="preview" alt="准备送给 AI 识别的照片" hidden>
+            <video id="video" autoplay muted playsinline hidden></video>
+          </div>
+
+          <div class="button-row">
+            <button type="button" id="pick-button" class="soft-button">＋ 选择图片</button>
+            <button type="button" id="native-button" class="soft-button">⌾ 手机拍照</button>
+            <button type="button" id="camera-button" class="soft-button">◉ 实时摄像头</button>
+          </div>
+          <div class="button-row" id="camera-tools" hidden>
+            <button type="button" id="shutter-button" class="accent-button">● 拍摄当前画面</button>
+            <button type="button" id="stop-camera-button" class="soft-button">关闭摄像头</button>
+          </div>
+          <input type="file" id="gallery-input" accept="image/jpeg,image/png,image/webp" hidden>
+          <input type="file" id="native-input" accept="image/*" capture="environment" hidden>
+
+          <div class="model-row">
+            <label for="provider">视觉识别模型</label>
+            <select id="provider" aria-label="选择视觉大模型">
+              <option value="deepseek">DeepSeek V4.1 Flash</option>
+              <option value="qwen">Qwen3-VL-Flash</option>
+            </select>
+          </div>
+          <p id="config-hint" class="config-hint" role="status">正在检查模型配置…</p>
+
+          <button type="button" id="analyze-button" class="submit-button" disabled>
+            <span>开始 AI 风险检测</span><span class="submit-arrow">↗</span>
+          </button>
+          <p class="fineprint">JPG / PNG / WebP · 单张最多 8 MB · 请勿上传包含隐私信息的照片</p>
+        </section>
+
+        <section class="panel result-panel" aria-labelledby="step-two">
+          <div class="panel-head">
+            <h2 id="step-two"><span class="number">02</span> 消防风险报告</h2>
+            <span class="result-pill" id="result-origin">AI + RULES</span>
+          </div>
+          <div class="star">✳</div>
+          <p class="result-label">智能巡检结果</p>
+          <div class="risk-level" id="risk-level">等待检测</div>
+          <p class="description" id="description">上传一张楼道照片，点击「开始 AI 风险检测」，我们将根据可见事实生成报告。</p>
+          <div class="separator"></div>
+          <h3>可见识别依据</h3>
+          <ul id="evidence-list"><li>等待照片分析</li></ul>
+          <h3>处理建议</h3>
+          <p id="suggestion" class="suggestion">检测完成后显示对应的整改建议。</p>
+          <p id="feedback" class="feedback" role="status" aria-live="polite"></p>
+          <div class="example-holder">
+            <button id="example-button" type="button" class="example-link">查看示意报告（不调用 AI）</button>
+          </div>
+        </section>
+      </div>
+    </main>
+    <footer><span>安巷 · 楼道消防安全辅助巡检 · 学习作品</span><span>AI 可能误判，结果不能替代消防专业人员的现场核查。</span></footer>
+  </div>
+</body>
+</html>

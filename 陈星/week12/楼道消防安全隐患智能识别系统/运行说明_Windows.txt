@@ -1,0 +1,20 @@
+楼道消防安全隐患智能识别系统 / Windows 操作说明
+
+1. 解压整份文件夹，用 VS Code 打开项目文件夹。
+2. VS Code 中打开「终端」，输入：
+   py -m venv .venv
+   .venv\Scripts\activate
+   python -m pip install -r requirements.txt
+3. 将 .env.example 复制并重命名为 .env。
+   在 DEEPSEEK_API_KEY= 或 QWEN_API_KEY= 后写入自己的密钥；
+   不要将真实密钥放进提交的压缩包。
+4. 在终端输入：
+   python -m uvicorn backend.main:app --port 8000 --reload
+5. 打开浏览器 http://127.0.0.1:8000
+6. 选择图片/拍照 → 选择模型 → 点击开始 AI 风险检测。
+7. 测试代码：python -m pytest -q
+
+双击「启动项目.bat」也可在安装依赖后启动。
+如果没有 API Key：网页能打开，静态示意报告能查看，但真实 AI 识别不可用。
+手机实时摄像头要求 HTTPS；普通局域网 HTTP 地址通常无法开启实时预览。
+完整说明请看 README.md。
