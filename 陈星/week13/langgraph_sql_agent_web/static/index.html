@@ -1,0 +1,115 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#0e1e2a" />
+  <meta name="description" content="使用 LangGraph 的 SQL Agent，自然语言查询 Chinook SQLite 数据库。" />
+  <title>QueryLab · LangGraph SQL Agent</title>
+  <link rel="stylesheet" href="/static/styles.css" />
+  <script src="/static/app.js" defer></script>
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="sidebar">
+      <div class="sidebar-top">
+        <div class="brandmark" aria-hidden="true">
+          <svg viewBox="0 0 40 40" fill="none"><path d="M8 9h14a9 9 0 0 1 0 18h-3l8 6" stroke="currentColor" stroke-width="3" stroke-linecap="round"/><circle cx="29" cy="10" r="4" fill="#f6a86a"/><path d="M8 16h11" stroke="#9ed6cb" stroke-width="3" stroke-linecap="round"/></svg>
+        </div>
+        <div class="brandtext">
+          <strong>QueryLab</strong>
+          <small>LANGGRAPH / SQL AGENT</small>
+        </div>
+      </div>
+
+      <button id="newChat" class="new-chat" type="button">
+        <span aria-hidden="true">＋</span> 新建对话
+      </button>
+
+      <div class="sidebar-group">
+        <div class="sidebar-label">示例提问 <span>EXPLORE</span></div>
+        <button type="button" class="suggestion" data-question="数据库里一共有多少张专辑？">
+          <span class="suggestion-icon">01</span>
+          <span>数据库里有多少张专辑？</span>
+        </button>
+        <button type="button" class="suggestion" data-question="哪位歌手拥有最多专辑？">
+          <span class="suggestion-icon">02</span>
+          <span>专辑最多的歌手是谁？</span>
+        </button>
+        <button type="button" class="suggestion" data-question="消费金额最高的 5 位客户是谁？">
+          <span class="suggestion-icon">03</span>
+          <span>消费最高的 5 位客户</span>
+        </button>
+      </div>
+
+      <div class="sidebar-grow"></div>
+      <div class="dataset-panel">
+        <div class="dataset-eyebrow"><span class="pulse-dot"></span> 已连接数据集</div>
+        <strong>Chinook SQLite</strong>
+        <p>音乐商店 · 歌手、专辑、曲目、客户和订单</p>
+        <div class="dataset-meta"><span>READ ONLY</span><span>11 TABLES</span></div>
+      </div>
+      <div class="sidebar-footer">Made for learning · Build your first SQL Agent</div>
+    </aside>
+
+    <main class="main">
+      <header class="topbar">
+        <div class="breadcrumb">
+          <span class="breadcrumb-muted">Workspace</span><span class="slash">/</span>
+          <span>SQL Chat</span>
+        </div>
+        <div class="top-right">
+          <span id="modeBadge" class="mode-badge">检测连接中…</span>
+          <span id="connection" class="connection"><span class="small-dot"></span>连接中</span>
+        </div>
+      </header>
+
+      <section class="chat-area" id="chatArea" aria-label="对话记录">
+        <div class="chat-width" id="messages">
+          <section class="welcome" id="welcome">
+            <div class="welcome-figure" aria-hidden="true">
+              <div class="orb orb-a"></div><div class="orb orb-b"></div>
+              <svg viewBox="0 0 112 112" fill="none">
+                <rect x="25" y="24" width="62" height="64" rx="13" fill="#fff" stroke="#193B48" stroke-width="2.5"/>
+                <ellipse cx="56" cy="38" rx="23" ry="8" fill="#E8F4F0" stroke="#193B48" stroke-width="2.5"/>
+                <path d="M33 39v30c0 5 10 9 23 9s23-4 23-9V39" stroke="#193B48" stroke-width="2.5"/>
+                <path d="M33 52c0 5 10 9 23 9s23-4 23-9" stroke="#77B8AA" stroke-width="2.5" stroke-linecap="round"/>
+                <path d="M33 65c0 5 10 9 23 9s23-4 23-9" stroke="#77B8AA" stroke-width="2.5" stroke-linecap="round"/>
+                <circle cx="83" cy="75" r="17" fill="#F7AF7F" stroke="#193B48" stroke-width="2.5"/>
+                <path d="m76 75 5 5 10-11" stroke="#193B48" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </div>
+            <div class="welcome-kicker">NATURAL LANGUAGE → REAL SQL → REAL DATA</div>
+            <h1>用自然语言，<br/><span>和数据库对话。</span></h1>
+            <p>直接提出问题，LangGraph SQL Agent 会自动选择表、生成 SQL、执行查询，并把真实结果整理给你。</p>
+            <div class="welcome-chips">
+              <button data-question="数据库里一共有多少张专辑？" type="button">一共有多少张专辑？ <span>↗</span></button>
+              <button data-question="哪位歌手拥有最多专辑？" type="button">哪位歌手专辑最多？ <span>↗</span></button>
+              <button data-question="消费金额最高的 5 位客户是谁？" type="button">消费排名 Top 5 <span>↗</span></button>
+            </div>
+          </section>
+        </div>
+      </section>
+
+      <div class="composer-zone">
+        <div class="composer-inner">
+          <form id="chatForm" class="composer">
+            <label for="messageInput" class="sr-only">输入数据库查询问题</label>
+            <textarea id="messageInput" rows="1" maxlength="500" placeholder="问问数据库，例如：哪位歌手拥有最多专辑？" autocomplete="off" aria-label="输入你想查询的问题"></textarea>
+            <div class="composer-bottom">
+              <div class="composer-hint"><span class="hint-symbol">⌘</span> 自然语言查询 · Enter 发送 / Shift + Enter 换行</div>
+              <div class="composer-actions">
+                <span id="charCount" class="char-count">0/500</span>
+                <button id="sendBtn" class="send-button" type="submit" disabled aria-label="发送消息">
+                  <svg viewBox="0 0 24 24" width="19" height="19" fill="none" aria-hidden="true"><path d="M5 12h14m-6-6 6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                </button>
+              </div>
+            </div>
+          </form>
+          <div class="privacy-hint">查询只读 · 问题之间相互独立 · API Key 保存在后端</div>
+        </div>
+      </div>
+    </main>
+  </div>
+</body>
+</html>
