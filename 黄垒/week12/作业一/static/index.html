@@ -1,0 +1,196 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>楼道消防隐患识别</title>
+  <meta name="description" content="拍摄或上传楼道照片，调用多模态大模型判断消防安全隐患等级。" />
+  <link rel="stylesheet" href="/static/style.css" />
+</head>
+<body>
+  <div class="page">
+    <header class="topbar">
+      <div class="brand">
+        <div class="brand-mark" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 3 4 7v5c0 4.6 3.4 8.1 8 9 4.6-.9 8-4.4 8-9V7l-8-4Z"/>
+            <path d="M9 12.5 11 15l4-5"/>
+          </svg>
+        </div>
+        <div>
+          <h1>楼道消防隐患识别</h1>
+          <p>拍照即判 · 五级风险分级</p>
+        </div>
+      </div>
+      <div class="model-chip" id="modelChip" title="当前使用的视觉模型">
+        <span class="dot"></span><span id="modelText">模型连接中…</span>
+      </div>
+    </header>
+
+    <main>
+      <section class="hero">
+        <div class="hero-copy">
+          <span class="eyebrow">多模态 · 视觉理解</span>
+          <h2>拍一张楼道照片，<br /><span class="accent">几秒</span>判断消防隐患。</h2>
+          <p class="lead">
+            自动识别电动车、电瓶、飞线充电、纸箱杂物等风险元素，
+            按「无风险 / 低 / 中 / 高风险 / 非楼道」五档给出结论与处置建议。
+          </p>
+
+          <div class="actions">
+            <button class="btn btn-primary" id="btnCapture" type="button">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M4 8h2.5L8 5.8h8L17.5 8H20a1 1 0 0 1 1 1v9a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V9a1 1 0 0 1 1-1Z"/>
+                <circle cx="12" cy="13" r="3.6"/>
+              </svg>
+              拍照识别
+            </button>
+            <button class="btn btn-ghost" id="btnUpload" type="button">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M12 16V4"/><path d="m7 9 5-5 5 5"/><path d="M4 15v3a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-3"/>
+              </svg>
+              上传图片
+            </button>
+            <button class="btn btn-quiet" id="btnLive" type="button" title="在电脑或 HTTPS 环境下打开实时画面">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <rect x="3" y="6" width="13" height="12" rx="2"/><path d="m16 11 5-3v8l-5-3"/>
+              </svg>
+              摄像头预览
+            </button>
+          </div>
+
+          <ul class="hints">
+            <li>尽量拍到整条通道，光线充足</li>
+            <li>不要只拍局部地面</li>
+            <li>图片仅用于本次识别</li>
+          </ul>
+        </div>
+
+        <div class="capture-card">
+          <div class="stage" id="stage" data-state="empty">
+            <div class="stage-empty" id="stageEmpty">
+              <div class="scan-illustration" aria-hidden="true">
+                <svg viewBox="0 0 120 120" fill="none">
+                  <rect x="12" y="24" width="96" height="72" rx="12" stroke="currentColor" stroke-width="2.5" stroke-dasharray="7 7"/>
+                  <path d="M42 78V56l18-12 18 12v22" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+                  <path d="M54 78V66h12v12" stroke="currentColor" stroke-width="2.5" stroke-linejoin="round"/>
+                  <circle cx="60" cy="51" r="3.4" fill="currentColor"/>
+                </svg>
+              </div>
+              <p class="stage-title">还没有照片</p>
+              <p class="stage-sub">用手机拍一张楼道，或上传已有图片</p>
+            </div>
+
+            <video id="video" playsinline muted hidden></video>
+            <img id="preview" alt="待识别的楼道照片" hidden />
+            <div class="stage-loading" id="loading" hidden>
+              <div class="radar"><span></span></div>
+              <p id="loadingText">正在上传图片…</p>
+              <small>识别通常需要 5–20 秒</small>
+            </div>
+          </div>
+
+          <div class="stage-toolbar">
+            <button class="btn btn-sm btn-ghost" id="btnRetake" type="button" hidden>重新选择</button>
+            <button class="btn btn-sm btn-ghost" id="btnShutter" type="button" hidden>按下快门</button>
+            <button class="btn btn-sm btn-primary" id="btnAnalyze" type="button" disabled>开始识别</button>
+          </div>
+        </div>
+      </section>
+
+      <section class="result" id="resultSection" hidden aria-live="polite">
+        <div class="result-head">
+          <div class="result-title">
+            <span class="eyebrow">识别结论</span>
+            <h3 id="resultHeading">—</h3>
+            <p id="resultSummary" class="result-summary"></p>
+          </div>
+          <div class="level-badge" id="levelBadge"><span id="levelText">—</span></div>
+        </div>
+
+        <div class="score-row">
+          <div class="score-meta">
+            <span>危险指数</span>
+            <strong><span id="scoreValue">0</span><small>/100</small></strong>
+          </div>
+          <div class="meter"><div class="meter-fill" id="meterFill"></div></div>
+          <div class="confidence">
+            <span>模型把握度</span>
+            <strong id="confidenceValue">—</strong>
+          </div>
+        </div>
+
+        <div class="result-grid">
+          <div class="panel">
+            <h4>画面证据</h4>
+            <ul class="findings" id="findingsList"></ul>
+          </div>
+          <div class="panel">
+            <h4>处置建议</h4>
+            <ul class="suggestions" id="suggestionsList"></ul>
+          </div>
+        </div>
+
+        <div class="result-foot">
+          <div class="meta" id="resultMeta"></div>
+          <details class="raw">
+            <summary>查看原始 JSON</summary>
+            <pre id="rawJson"></pre>
+          </details>
+        </div>
+      </section>
+
+      <section class="legend">
+        <div class="section-head">
+          <h3>判定标准</h3>
+          <p>模型按以下五档规则判定，先判断场景，再判断隐患。</p>
+        </div>
+        <div class="legend-grid">
+          <article class="legend-item high">
+            <span class="legend-dot"></span>
+            <h4>高风险</h4>
+            <p>出现电动车、电瓶、飞线充电、明火、燃气罐等可能起火的元素。</p>
+          </article>
+          <article class="legend-item medium">
+            <span class="legend-dot"></span>
+            <h4>中风险</h4>
+            <p>大量堆积物严重影响通行，或堆放纸箱、木质家具等会加速火势蔓延的可燃物。</p>
+          </article>
+          <article class="legend-item low">
+            <span class="legend-dot"></span>
+            <h4>低风险</h4>
+            <p>存在楼道堆物，但数量少、不阻塞通行。</p>
+          </article>
+          <article class="legend-item safe">
+            <span class="legend-dot"></span>
+            <h4>无风险</h4>
+            <p>楼道干净整洁，没有堆放物品。</p>
+          </article>
+          <article class="legend-item none">
+            <span class="legend-dot"></span>
+            <h4>非楼道</h4>
+            <p>与楼道无关的图片，不做隐患评级。</p>
+          </article>
+        </div>
+      </section>
+
+      <section class="history" id="historySection" hidden>
+        <div class="section-head">
+          <h3>本次浏览记录</h3>
+          <button class="text-btn" id="btnClearHistory" type="button">清空</button>
+        </div>
+        <div class="history-list" id="historyList"></div>
+      </section>
+    </main>
+
+    <footer>
+      <p>图片会被压缩后发送到配置的多模态大模型 API 进行识别，请勿上传涉及个人隐私的内容。</p>
+      <p>识别结果仅作安全巡查参考，不能替代人工现场核查与消防部门认定。</p>
+    </footer>
+  </div>
+
+  <input type="file" id="fileCapture" accept="image/*" capture="environment" hidden />
+  <input type="file" id="fileUpload" accept="image/*" hidden />
+  <script src="/static/app.js"></script>
+</body>
+</html>
