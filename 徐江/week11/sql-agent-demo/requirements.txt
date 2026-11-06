@@ -1,0 +1,11 @@
+# 核心工作流（sql_agent/ 与 eval/）
+openai>=1.40
+PyYAML>=6.0
+sqlglot>=25.0
+# 后端（FastAPI）
+fastapi>=0.110
+uvicorn[standard]>=0.29
+# 前端（Streamlit）
+streamlit>=1.32
+requests>=2.31
+pandas>=2.0

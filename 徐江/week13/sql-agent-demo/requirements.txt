@@ -1,0 +1,18 @@
+# 编排框架（week13 起 LangGraph 成为唯一编排框架）
+langgraph>=1.0
+langgraph-checkpoint>=1.0
+# 可选：sqlite checkpoint（graph.checkpoint: sqlite 时需要；缺失时自动降级为 memory）
+# langgraph-checkpoint-sqlite>=2.0
+# 模型与提示词抽象（LangChain 核心）
+langchain-core>=1.0
+langchain-openai>=1.0
+# 数据与工具
+sqlglot>=25.0
+PyYAML>=6.0
+# 后端（FastAPI）
+fastapi>=0.110
+uvicorn[standard]>=0.29
+# 前端（Streamlit）
+streamlit>=1.32
+requests>=2.31
+pandas>=2.0
