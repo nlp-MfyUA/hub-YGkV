@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Chinook · 数据对话</title>
+  <link rel="stylesheet" href="/static/style.css">
+  <script src="/static/app.js" defer></script>
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="/" aria-label="Chinook 数据对话首页"><span class="brand-mark">C</span> Chinook <span class="brand-sub">/ 数据对话</span></a>
+    <span class="mode" id="mode">连接中</span>
+  </header>
+  <main class="workspace">
+    <div class="page-heading"><div><p class="eyebrow">MUSIC STORE DATABASE</p><h1>和数据聊一聊</h1><p class="description">用自然语言探索音乐商店的歌手、曲目与销售数据。</p></div><button class="quiet" id="clear" type="button">新对话 <span aria-hidden="true">↗</span></button></div>
+    <section class="conversation" aria-label="查询对话" aria-live="polite" aria-relevant="additions">
+      <div id="messages"></div>
+      <div class="welcome" id="welcome">
+        <div class="welcome-icon" aria-hidden="true">⌕</div>
+        <h2>你想了解什么？</h2>
+        <p id="welcome-note">选择一个问题开始，或在下方输入你的查询。</p>
+        <div class="examples" id="examples"></div>
+      </div>
+    </section>
+    <form id="chat-form" class="composer">
+      <label class="sr-only" for="question">输入查询问题</label>
+      <textarea id="question" placeholder="例如：销售额最高的 5 个国家" maxlength="2000" rows="2" required></textarea>
+      <div class="composer-footer"><span>Enter 发送 · Shift + Enter 换行</span><button id="send" type="submit">发送 <span aria-hidden="true">↑</span></button></div>
+    </form>
+    <footer class="footnote"><span class="dot"></span> Chinook 数据库 · 只读查询 <span id="context-note"></span></footer>
+    <p id="connection-error" class="connection-error" role="alert" hidden></p>
+  </main>
+</body>
+</html>
