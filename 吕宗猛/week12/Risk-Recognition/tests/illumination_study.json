@@ -1,0 +1,44 @@
+{
+  "n_per_variant": 6,
+  "results": {
+    "corridor_door_clutter.jpg": {
+      "raw": {
+        "低风险": 4,
+        "中风险": 1,
+        "非楼道": 1
+      },
+      "bright": {
+        "低风险": 5,
+        "中风险": 1
+      },
+      "auto": {
+        "低风险": 3,
+        "中风险": 3
+      }
+    },
+    "corridor_scooter_chair.jpg": {
+      "raw": {
+        "低风险": 6
+      },
+      "bright": {
+        "低风险": 6
+      },
+      "auto": {
+        "低风险": 6
+      }
+    },
+    "synthetic_corridor_ebike.jpg": {
+      "raw": {
+        "非楼道": 1,
+        "中风险": 5
+      },
+      "bright": {
+        "中风险": 5,
+        "低风险": 1
+      },
+      "auto": {
+        "中风险": 6
+      }
+    }
+  }
+}

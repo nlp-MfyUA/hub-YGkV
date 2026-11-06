@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ChatBI · 自然语言问数</title>
+  <link rel="stylesheet" href="/static/style.css" />
+</head>
+<body>
+  <div class="app">
+    <aside class="sidebar">
+      <div class="brand">
+        <div class="brand-mark" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6">
+            <ellipse cx="12" cy="6" rx="7" ry="3"></ellipse>
+            <path d="M5 6v6c0 1.66 3.13 3 7 3s7-1.34 7-3V6"></path>
+            <path d="M5 12v6c0 1.66 3.13 3 7 3s7-1.34 7-3v-6"></path>
+          </svg>
+        </div>
+        <div class="brand-text">
+          <h1>ChatBI</h1>
+          <p>自然语言问数</p>
+        </div>
+      </div>
+
+      <div class="side-block">
+        <div class="side-label">数据集</div>
+        <div class="dataset">
+          <span class="dataset-name">chinook.db</span>
+          <span class="dataset-meta" id="dataset-meta">读取中…</span>
+          <span class="dataset-meta" id="dataset-range"></span>
+        </div>
+      </div>
+
+      <div class="side-block">
+        <div class="side-label">模型编排</div>
+        <ul class="model-list" id="model-list">
+          <li><span>生成</span><code>—</code></li>
+          <li><span>复核</span><code>—</code></li>
+          <li><span>归纳</span><code>—</code></li>
+        </ul>
+      </div>
+
+      <div class="side-block grow">
+        <details class="schema-box" id="schema-box" open>
+          <summary>
+            <span>数据库结构</span>
+            <span class="schema-count" id="schema-count">—</span>
+          </summary>
+          <div class="schema-list" id="schema-list"></div>
+        </details>
+      </div>
+
+      <div class="side-block">
+        <div class="side-label">示例问题</div>
+        <div class="examples" id="examples">
+          <button type="button" class="chip">2010 年各国销售额前 5 名</button>
+          <button type="button" class="chip">消费金额最高的 10 位客户</button>
+          <button type="button" class="chip">各音乐流派的曲目数量排行</button>
+          <button type="button" class="chip">哪位员工负责的客户最多</button>
+          <button type="button" class="chip">Rock 流派最贵的 5 首歌</button>
+        </div>
+      </div>
+
+      <div class="side-foot">
+        SQLite · 只读执行 · 静态复核 + Agent 复核
+      </div>
+    </aside>
+
+    <main class="main">
+      <div class="main-head">
+        <div>
+          <h2>问一句，取一次数</h2>
+          <p>结构解析 → SQL 生成 → 复核（≤3 轮）→ 执行 → 归纳</p>
+        </div>
+        <div class="head-stat" id="head-stat"></div>
+      </div>
+
+      <form class="composer" id="composer">
+        <textarea id="input" rows="2" maxlength="2000"
+          placeholder="用中文描述你想看的数据，例如：2010 年销售额最高的 5 个国家"></textarea>
+        <div class="composer-bar">
+          <span class="hint">Enter 发送 · Shift + Enter 换行</span>
+          <button type="submit" id="send">发送</button>
+        </div>
+      </form>
+
+      <section class="thread" id="thread">
+        <div class="empty" id="empty">
+          <div class="empty-mark">◇</div>
+          <p>还没有提问</p>
+          <span>点击左侧示例，或直接输入问题</span>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <template id="stage-template">
+    <div class="stage">
+      <div class="stage-head">
+        <span class="dot"></span>
+        <span class="num"></span>
+        <span class="title"></span>
+        <span class="badge-status"></span>
+        <span class="dur"></span>
+      </div>
+      <div class="stage-body"></div>
+    </div>
+  </template>
+
+  <script src="/static/app.js"></script>
+</body>
+</html>

@@ -1,0 +1,334 @@
+{
+  "base": "http://127.0.0.1:8000",
+  "health": {
+    "status": "ok",
+    "model": "cn:deepseek-v4.1-flash",
+    "base_url": "http://192.168.124.88:7863/v1"
+  },
+  "repeat": 1,
+  "rows": [
+    {
+      "file": "corridor_clutter_high_boxes.jpg",
+      "acceptable": [
+        "中风险"
+      ],
+      "category": "中风险",
+      "match": true,
+      "distribution": {
+        "中风险": 1
+      },
+      "flaky": null,
+      "flaky_note": null,
+      "elements": [
+        "纸箱",
+        "木质家具",
+        "塑料桶",
+        "杂物",
+        "楼道堆积物"
+      ],
+      "reason": "楼道内大量纸箱、木质家具等可燃杂物堆积，严重堵塞通行，易造成火势蔓延。",
+      "elapsed_ms": 4413,
+      "wall_ms": 4440,
+      "prompt_tokens": 690,
+      "completion_tokens": 273,
+      "error": null
+    },
+    {
+      "file": "corridor_door_clutter.jpg",
+      "acceptable": [
+        "中风险",
+        "低风险",
+        "非楼道"
+      ],
+      "category": "低风险",
+      "match": true,
+      "distribution": {
+        "低风险": 1
+      },
+      "flaky": "暗光实拍，三档均出现过（低/中/非楼道）",
+      "flaky_note": "暗光实拍，三档均出现过（低/中/非楼道）",
+      "elements": [
+        "塑料筐",
+        "编织筐",
+        "塑料袋",
+        "杂物"
+      ],
+      "reason": "楼道角落存在少量塑料筐及杂物堆积，未见电动车或大量可燃物，属低度风险。",
+      "elapsed_ms": 17880,
+      "wall_ms": 17908,
+      "prompt_tokens": 1278,
+      "completion_tokens": 1651,
+      "error": null
+    },
+    {
+      "file": "corridor_ebike_a.jpg",
+      "acceptable": [
+        "非楼道"
+      ],
+      "category": "非楼道",
+      "match": true,
+      "distribution": {
+        "非楼道": 1
+      },
+      "flaky": null,
+      "flaky_note": null,
+      "elements": [
+        "摩托车",
+        "室外街道",
+        "商铺",
+        "露天顶棚"
+      ],
+      "reason": "图片显示为室外街道或商业广场场景，非住宅楼道，不适用楼道堆积物及电动车违规充电的隐患分类标准。",
+      "elapsed_ms": 6177,
+      "wall_ms": 6181,
+      "prompt_tokens": 468,
+      "completion_tokens": 884,
+      "error": null
+    },
+    {
+      "file": "corridor_ebike_b.jpg",
+      "acceptable": [
+        "非楼道"
+      ],
+      "category": "非楼道",
+      "match": true,
+      "distribution": {
+        "非楼道": 1
+      },
+      "flaky": null,
+      "flaky_note": null,
+      "elements": [
+        "街道",
+        "商铺",
+        "摩托车",
+        "行人",
+        "遮阳棚"
+      ],
+      "reason": "图片显示的是室外街道或市场场景，并非楼道，不适用楼道消防隐患分级。",
+      "elapsed_ms": 5776,
+      "wall_ms": 5780,
+      "prompt_tokens": 459,
+      "completion_tokens": 710,
+      "error": null
+    },
+    {
+      "file": "corridor_ebike_c.jpg",
+      "acceptable": [
+        "非楼道"
+      ],
+      "category": "非楼道",
+      "match": true,
+      "distribution": {
+        "非楼道": 1
+      },
+      "flaky": null,
+      "flaky_note": null,
+      "elements": [],
+      "reason": "图片为夜间商业街区，非楼道场景，无法判定楼道消防隐患。",
+      "elapsed_ms": 2544,
+      "wall_ms": 2547,
+      "prompt_tokens": 459,
+      "completion_tokens": 112,
+      "error": null
+    },
+    {
+      "file": "corridor_scooter_chair.jpg",
+      "acceptable": [
+        "低风险"
+      ],
+      "category": "低风险",
+      "match": true,
+      "distribution": {
+        "低风险": 1
+      },
+      "flaky": null,
+      "flaky_note": null,
+      "elements": [
+        "滑板车",
+        "折叠凳",
+        "帆布袋",
+        "水桶",
+        "塑料筐",
+        "杂物"
+      ],
+      "reason": "楼道堆放滑板车、折叠凳及塑料杂物，影响通行但未严重堵塞，火险程度低。",
+      "elapsed_ms": 12453,
+      "wall_ms": 12487,
+      "prompt_tokens": 1278,
+      "completion_tokens": 1323,
+      "error": null
+    },
+    {
+      "file": "non_corridor_pingpong.jpg",
+      "acceptable": [
+        "非楼道"
+      ],
+      "category": "非楼道",
+      "match": true,
+      "distribution": {
+        "非楼道": 1
+      },
+      "flaky": null,
+      "flaky_note": null,
+      "elements": [],
+      "reason": "图片为乒乓球活动场景，与楼道无关，未显示楼道消防隐患。",
+      "elapsed_ms": 2897,
+      "wall_ms": 2913,
+      "prompt_tokens": 1110,
+      "completion_tokens": 196,
+      "error": null
+    },
+    {
+      "file": "noncorridor_black_frame.jpg",
+      "acceptable": [
+        "非楼道"
+      ],
+      "category": "非楼道",
+      "match": true,
+      "distribution": {
+        "非楼道": 1
+      },
+      "flaky": null,
+      "flaky_note": null,
+      "elements": [],
+      "reason": "图片为纯黑无可见内容，无法识别楼道场景及任何消防隐患",
+      "elapsed_ms": 2507,
+      "wall_ms": 2511,
+      "prompt_tokens": 470,
+      "completion_tokens": 115,
+      "error": null
+    },
+    {
+      "file": "noncorridor_text_icon.jpg",
+      "acceptable": [
+        "非楼道"
+      ],
+      "category": "非楼道",
+      "match": true,
+      "distribution": {
+        "非楼道": 1
+      },
+      "flaky": null,
+      "flaky_note": null,
+      "elements": [],
+      "reason": "图片为“曝光台”文字标识，与楼道场景无关。",
+      "elapsed_ms": 2285,
+      "wall_ms": 2290,
+      "prompt_tokens": 500,
+      "completion_tokens": 140,
+      "error": null
+    },
+    {
+      "file": "noncorridor_text_shortreview.jpg",
+      "acceptable": [
+        "非楼道"
+      ],
+      "category": "非楼道",
+      "match": true,
+      "distribution": {
+        "非楼道": 1
+      },
+      "flaky": null,
+      "flaky_note": null,
+      "elements": [],
+      "reason": "图片为文字标识，与楼道场景无关，无法识别消防隐患。",
+      "elapsed_ms": 2135,
+      "wall_ms": 2154,
+      "prompt_tokens": 462,
+      "completion_tokens": 121,
+      "error": null
+    },
+    {
+      "file": "noncorridor_unreadable.jpg",
+      "acceptable": [
+        "非楼道"
+      ],
+      "category": "非楼道",
+      "match": true,
+      "distribution": {
+        "非楼道": 1
+      },
+      "flaky": null,
+      "flaky_note": null,
+      "elements": [],
+      "reason": "图片全黑，无法辨认任何场景或物品。",
+      "elapsed_ms": 3023,
+      "wall_ms": 3025,
+      "prompt_tokens": 459,
+      "completion_tokens": 328,
+      "error": null
+    },
+    {
+      "file": "source_ebike_scooters_ccbysa4.jpg",
+      "acceptable": [
+        "非楼道"
+      ],
+      "category": "非楼道",
+      "match": true,
+      "distribution": {
+        "非楼道": 1
+      },
+      "flaky": null,
+      "flaky_note": null,
+      "elements": [],
+      "reason": "图片展示的是商业建筑外部街道，并非楼道场景。",
+      "elapsed_ms": 4052,
+      "wall_ms": 4082,
+      "prompt_tokens": 942,
+      "completion_tokens": 302,
+      "error": null
+    },
+    {
+      "file": "stairwell_bicycle.jpg",
+      "acceptable": [
+        "低风险"
+      ],
+      "category": "低风险",
+      "match": true,
+      "distribution": {
+        "低风险": 1
+      },
+      "flaky": null,
+      "flaky_note": null,
+      "elements": [
+        "自行车"
+      ],
+      "reason": "楼道楼梯处停放一辆自行车，占用部分通行空间，未见电动车或大量可燃堆积物。",
+      "elapsed_ms": 6013,
+      "wall_ms": 6033,
+      "prompt_tokens": 918,
+      "completion_tokens": 277,
+      "error": null
+    },
+    {
+      "file": "synthetic_corridor_ebike.jpg",
+      "acceptable": [
+        "中风险",
+        "高风险"
+      ],
+      "category": "中风险",
+      "match": true,
+      "distribution": {
+        "中风险": 1
+      },
+      "flaky": "合成图有拼接痕迹，中风险与高风险之间摇摆",
+      "flaky_note": "合成图有拼接痕迹，中风险与高风险之间摇摆",
+      "elements": [
+        "金属置物架",
+        "塑料筐",
+        "杂物堆积"
+      ],
+      "reason": "置物架上堆积大量塑料筐等可燃杂物，严重堵塞通道，存在火势蔓延风险。",
+      "elapsed_ms": 26419,
+      "wall_ms": 26443,
+      "prompt_tokens": 1278,
+      "completion_tokens": 673,
+      "error": null
+    }
+  ],
+  "summary": {
+    "matched": 14,
+    "mismatched": 0,
+    "total": 14
+  }
+}

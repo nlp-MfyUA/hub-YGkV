@@ -1,0 +1,7 @@
+.env
+.venv/
+certs/
+__pycache__/
+*.pyc
+uploads/
+tests/.chrome-profile/

@@ -1,0 +1,41 @@
+{
+  "upload": {
+    "done": true,
+    "cat": "中风险",
+    "reason": "楼道堆放大量纸箱、塑料桶等杂物，严重堵塞通道且可燃，易造成火势蔓延。",
+    "time": "2824ms · 模型 deepseek-v4.1-flash · 2819ms(推理)",
+    "chips": [
+      "纸箱",
+      "塑料桶",
+      "木板",
+      "杂物"
+    ],
+    "err": null,
+    "path": "upload"
+  },
+  "overflow": {
+    "scrollW": 485,
+    "clientW": 485,
+    "overflow": false
+  },
+  "camera": {
+    "done": true,
+    "cat": "非楼道",
+    "reason": "图片为纯绿色测试画面，无法识别楼道场景及消防隐患。",
+    "time": "2231ms · 模型 deepseek-v4.1-flash · 2226ms(推理)",
+    "chips": [],
+    "err": null,
+    "path": "camera",
+    "camera": {
+      "hasStream": true,
+      "w": 1920,
+      "h": 1080,
+      "btn": "✕ 关闭摄像头"
+    },
+    "preview": {
+      "hasSrc": true,
+      "len": 12507
+    }
+  },
+  "history_count": 2
+}

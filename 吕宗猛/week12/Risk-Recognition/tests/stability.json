@@ -1,0 +1,37 @@
+{
+  "synthetic_corridor_ebike.jpg": {
+    "n": 6,
+    "distribution": {
+      "中风险": 5,
+      "高风险": 1
+    },
+    "elapsed_ms_min": 5374,
+    "elapsed_ms_max": 32027
+  },
+  "corridor_clutter_high_boxes.jpg": {
+    "n": 6,
+    "distribution": {
+      "中风险": 6
+    },
+    "elapsed_ms_min": 3661,
+    "elapsed_ms_max": 7892
+  },
+  "corridor_door_clutter.jpg": {
+    "n": 6,
+    "distribution": {
+      "非楼道": 3,
+      "低风险": 1,
+      "中风险": 2
+    },
+    "elapsed_ms_min": 11076,
+    "elapsed_ms_max": 26628
+  },
+  "non_corridor_pingpong.jpg": {
+    "n": 6,
+    "distribution": {
+      "非楼道": 6
+    },
+    "elapsed_ms_min": 2765,
+    "elapsed_ms_max": 4500
+  }
+}

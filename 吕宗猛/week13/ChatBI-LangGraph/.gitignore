@@ -1,0 +1,6 @@
+# 本地环境配置（含网关密钥，不入库；模板见 .env.example）
+.env
+
+# Python 运行产物
+__pycache__/
+*.pyc
