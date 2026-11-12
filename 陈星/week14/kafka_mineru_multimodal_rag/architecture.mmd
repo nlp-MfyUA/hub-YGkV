@@ -1,0 +1,16 @@
+flowchart TD
+  UI["Web UI"] -->|"PDF files"| API["FastAPI"]
+  API -->|"PDF bytes"| FS["Shared files"]
+  API -->|"Atomic job and outbox"| DB["SQLite"]
+  DB --> PUB["Outbox publisher"]
+  PUB -->|"Document and event IDs"| K["Kafka"]
+  K --> W["Single parser worker"]
+  FS --> W
+  W --> M["MinerU"]
+  M --> IDX["Text and image descriptions"]
+  IDX -->|"Embeddings and ready status"| DB
+  UI -->|"Question and optional image"| Q["RAG API"]
+  DB -->|"Retrieved evidence"| Q
+  Q -->|"Evidence and actual images"| V["Vision LLM"]
+  V -->|"Text and image blocks"| UI
+  DB -->|"Status polling"| UI
