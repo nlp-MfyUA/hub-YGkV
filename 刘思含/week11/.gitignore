@@ -1,0 +1,26 @@
+# 环境变量（不得提交）
+.env
+.env.local
+
+# 数据库
+*.db
+data/chat_history_*.db
+app/db/vuln_test_agent.db
+
+# 输出产物
+data/charts/
+data/images/
+data/parsed_output/
+data/review/
+
+# Python
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.ruff_cache/
+.venv/
+
+# 测试夹具产物（由 build_fixtures.py 生成）
+tests/fixtures/pdfs/*.pdf
+tests/fixtures/images/*.png
+tests/fixtures/db/seed.db

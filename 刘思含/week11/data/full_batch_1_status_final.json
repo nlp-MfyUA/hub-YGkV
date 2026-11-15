@@ -1,0 +1,21 @@
+{
+  "_note": "final state after 2026-11-14 recovery. initial state (pre-recovery, with 8 MemoryError) archived as full_batch_1_status_initial.json",
+  "batch": 1,
+  "total": 200,
+  "parse_status": {
+    "pass": 145,
+    "no_vulnerabilities": 45,
+    "pending_review": 7,
+    "fail": 3
+  },
+  "load_status": {
+    "pass": 190,
+    "skipped_no_vulns": 45
+  },
+  "pdf_index_count": 193,
+  "v_report_active": 190,
+  "v_vulnerability_active": 1211,
+  "v_image_evidence_active": 3192,
+  "fts_consistent": true,
+  "finalized_at": "2026-11-14T16:35:13+08:00"
+}

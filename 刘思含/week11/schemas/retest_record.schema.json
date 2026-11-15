@@ -1,0 +1,94 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "retest_record.schema.json",
+  "title": "RetestRecord",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "retest_report_path",
+    "raw_vuln_name",
+    "component",
+    "retest_status_raw",
+    "retest_status",
+    "retest_date",
+    "evidence_snippet",
+    "source_page",
+    "parent_vuln_name",
+    "match_confidence",
+    "instance_index"
+  ],
+  "properties": {
+    "retest_report_path": {
+      "type": "string",
+      "minLength": 1
+    },
+    "raw_vuln_name": {
+      "type": "string",
+      "minLength": 1
+    },
+    "component": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "retest_status_raw": {
+      "type": "string"
+    },
+    "retest_status": {
+      "type": "string",
+      "enum": [
+        "fixed",
+        "unfixed",
+        "partial",
+        "not_reproducible",
+        "unknown"
+      ]
+    },
+    "retest_date": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "evidence_snippet": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "maxLength": 300
+    },
+    "source_page": {
+      "type": [
+        "integer",
+        "null"
+      ],
+      "minimum": 1
+    },
+    "instance_index": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "evidence_page": {
+      "type": [
+        "integer",
+        "null"
+      ],
+      "minimum": 1
+    },
+    "parent_vuln_name": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "match_confidence": {
+      "type": "string",
+      "enum": [
+        "exact",
+        "fuzzy",
+        "none"
+      ]
+    }
+  }
+}

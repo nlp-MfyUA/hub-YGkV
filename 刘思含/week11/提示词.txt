@@ -1,0 +1,249 @@
+# 任务：初始化开发环境并进入 Phase 0
+
+## 背景
+项目文档位于 `docs/`，入口是 `docs/00_README.md`。
+`docs/10_environment.md` 已定义系统要求与依赖清单。
+`requirements.txt` 已锁定，**不得修改**。
+
+## 你的任务
+按以下五步顺序执行。每步结束输出"步骤 N 完成 + 关键结论"，遇到"停止条件"立即停下，不要自行修复。
+
+---
+
+## 步骤 1 · 用 conda 创建 Python 环境
+
+执行：
+
+```bash
+conda create -n chatbi-vuln python=3.11 -y
+conda activate chatbi-vuln
+python --version
+which python
+```
+
+**期望**：`python --version` 输出 `Python 3.11.x`，`which python` 路径包含 `envs/chatbi-vuln`。
+
+**停止条件**：
+- conda 不可用 → 停下报告，不要尝试用 venv 替代（用户明确要求 conda）。
+- `python=3.11` 安装失败 → 停下报告错误，不要自行降级到 3.10 或 3.9。
+
+**输出**：一句话汇报环境路径与 Python 版本。
+
+---
+
+## 步骤 2 · conda 环境内的 SQLite 与 FTS5 检测
+
+conda 环境的 SQLite 可能与系统 SQLite 不同（conda 有独立的 `sqlite` 包），必须单独检查：
+
+```bash
+python -c "import sqlite3; print('sqlite3:', sqlite3.sqlite_version); print('fts5:', sqlite3.connect(':memory:').execute(\"SELECT sqlite_compileoption_used('ENABLE_FTS5')\").fetchone())"
+```
+
+**期望**：`sqlite3` ≥ 3.34，`fts5` 输出 `(1,)`。
+
+**若 sqlite3 < 3.34**：
+```bash
+conda install -n chatbi-vuln -c conda-forge sqlite=3.45 -y
+python -c "import sqlite3; print(sqlite3.sqlite_version)"
+```
+重新检查直到 ≥ 3.34。若 conda-forge 也无法满足，**停下报告**，不要降级到 `unicode61` 分词器（那是 `docs/09_fallback_plan.md` 的 F-04，需要用户决策）。
+
+**输出**：sqlite3 版本与 FTS5 状态。
+
+---
+
+## 步骤 3 · 本机环境预检测，产出 `docs/environment_report.md`
+
+执行检测脚本（不要用 `pip freeze`）：
+
+```bash
+python - <<'PY'
+import sys, sqlite3, platform, shutil, subprocess, json
+info = {}
+info["python"] = {"version": sys.version.split()[0], "executable": sys.executable}
+info["sqlite3_builtin"] = {
+    "version": sqlite3.sqlite_version,
+    "fts5": bool(sqlite3.connect(":memory:").execute("SELECT sqlite_compileoption_used('ENABLE_FTS5')").fetchone()[0]),
+}
+info["os"] = {"system": platform.system(), "release": platform.release(), "machine": platform.machine()}
+info["cpu_count"] = __import__("os").cpu_count()
+try:
+    with open("/proc/meminfo") as f:
+        info["mem_total_gb"] = round(int([l for l in f if l.startswith("MemTotal")][0].split()[1]) / 1024 / 1024, 1)
+except Exception:
+    info["mem_total_gb"] = None
+info["disk_free_gb"] = round(shutil.disk_usage(".").free / 1024**3, 1)
+info["gpu"] = None
+try:
+    out = subprocess.check_output(["nvidia-smi", "--query-gpu=name,driver_version", "--format=csv,noheader"], text=True).strip()
+    info["gpu"] = out
+except Exception:
+    pass
+# 项目相关全局包版本（仅三项）
+relevant = {}
+for pkg in ["numpy", "openai", "paddleocr"]:
+    try:
+        relevant[pkg] = subprocess.check_output([sys.executable, "-m", "pip", "show", pkg], text=True).split("Version: ")[1].split("\n")[0]
+    except Exception:
+        relevant[pkg] = None
+info["relevant_global_packages"] = relevant
+print(json.dumps(info, indent=2, ensure_ascii=False))
+PY
+```
+
+把输出整理为 `docs/environment_report.md`，格式：
+
+```markdown
+## 本机环境检测 · {日期}
+- Python: {version}（路径：{executable}）
+- sqlite3（Python 内置）: {version}，FTS5: {启用/未启用}
+- 操作系统: {system} {release} / {machine}
+- CPU 核数: {cpu_count}
+- 内存: {mem_total_gb} GB
+- 磁盘可用: {disk_free_gb} GB
+- GPU: {gpu 或 "无"}
+- 项目相关全局包版本（仅供对照，不代表将使用）:
+  - numpy: {版本或 null}
+  - openai: {版本或 null}
+  - paddleocr: {版本或 null}
+```
+
+**重要**：`environment_report.md` 只记录**系统级前置条件与全局包现状**，不记录完整的 `pip freeze`。它是"现状快照"，不是"依赖清单"。
+
+**输出**：`docs/environment_report.md` 已写入，一句话汇报关键结论（Python 版本、SQLite 版本、有无 GPU）。
+
+---
+
+## 步骤 4 · 对照 `docs/10_environment.md`，产出差异清单
+
+逐项对照 `docs/10_environment.md` §1 的系统要求与 §2.1 的依赖清单，把结果追加到 `docs/environment_report.md` 末尾：
+
+```markdown
+## 环境差异对照
+| 项 | 要求 | 本机实际 | 状态 | 处理方式 |
+|---|---|---|---|---|
+| Python | ≥ 3.11 | {实际} | {✅/❌} | {如不满足：conda 已指定 3.11，实际为 X} |
+| SQLite | ≥ 3.34 | {实际} | {✅/❌} | {如不满足：conda 装 sqlite=3.45} |
+| FTS5 | 启用 | {启用/未启用} | {✅/❌} | — |
+| 内存 | ≥ 8 GB | {实际} | {✅/❌} | {如不满足：停下报告} |
+| 磁盘 | ≥ 5 GB | {实际} | {✅/❌} | {如不满足：停下报告} |
+| GPU | 可选 | {有/无} | — | {有：MinerU 可用 GPU；无：走 CPU} |
+| numpy | 1.26.4（PaddleOCR 要求） | 全局 {实际} | {⚠️} | venv 内按 requirements.txt 装，不继承全局 |
+| openai | 见 requirements.txt | 全局 {实际} | {⚠️} | 同上 |
+```
+
+**关键规则**：
+- `requirements.txt` 的内容**不得因本机差异而修改**。差异只影响"如何处理"，不影响"清单内容"。
+- 若本机不满足 Python 或 SQLite 的硬性要求，且 conda 无法解决 → **停下报告**，不要降级方案。
+- 若本机有 GPU 但 CUDA 版本与 PyTorch 不匹配 → 记入报告，Phase 2 再处理（属于 MinerU 的可选依赖，不影响主链路）。
+
+**输出**：差异清单已写入 `docs/environment_report.md`，一句话汇报"有几项 ⚠️，是否需要用户决策"。
+
+---
+
+## 步骤 5 · 安装依赖并验证
+
+```bash
+conda activate chatbi-vuln
+pip install -r requirements.txt
+```
+
+安装过程中**不要**修改 `requirements.txt`。若报冲突：
+
+- 若是 `numpy` 相关冲突 → 按 `docs/06_pitfalls.md` P-DEP-002 处理（锁定 `numpy==1.26.4`，先 `pip uninstall numpy -y` 再装）；
+- 若是 `openai` / `openai-agents` 冲突 → 按 `docs/06_pitfalls.md` P-DEP-003，**停下报告**，附上 `pip show openai-agents` 的 `Requires` 输出，让用户确认兼容版本，不要自行猜测；
+- 其他冲突 → 停下报告完整报错，不要自行降级或跳过。
+
+安装完成后逐条验证：
+
+```bash
+python -c "import sqlite3; print(sqlite3.sqlite_version)"
+python -c "import pdfplumber; print(pdfplumber.__version__)"
+python -c "from agents import Agent; print('agents ok')"
+python -c "from paddleocr import PaddleOCR; print('paddleocr ok')"   # 若用 PaddleOCR
+```
+
+**若 PaddleOCR 导入报 `libgomp.so.1` 缺失**（`docs/06_pitfalls.md` P-DEP 相关）：这是系统库问题，用 `conda install -c conda-forge libgomp -y` 解决；若仍失败，停下报告。
+
+**输出**：逐条验证结果；若有失败项，附完整报错。
+
+---
+
+## 步骤 6 · 写入参照机记录
+
+把步骤 3 的检测结果整理为 `docs/reference_machine.md`，格式见 `docs/10_environment.md` §8：
+
+```markdown
+## 参照机 · {日期}
+- CPU: {型号 / 核数}
+- 内存: {GB}
+- 磁盘: {SSD/HDD}
+- 操作系统: {system} {release}
+- Python: {version}（conda 环境 chatbi-vuln）
+- SQLite: {version}
+- OCR: {PaddleOCR / Tesseract} {版本}
+- GPU: {型号 或 "无"}
+- 是否启用 MinerU: {是/否}
+```
+
+**输出**：`docs/reference_machine.md` 已写入。
+
+---
+
+## 步骤 7 · 进入 Phase 0
+
+按 `docs/00_README.md` §4 的"首跑命令序列"执行：
+
+1. 建库：`sqlite3 app/db/vuln.db < app/db/schema.sql`（若 `app/db/schema.sql` 不存在，说明 Phase 2 的产物还没生成——**这是预期的**，跳到步骤 8）。
+2. 生成 fixture：`python tests/fixtures/build_fixtures.py`（若脚本不存在，同上）。
+3. 跑约束测试：`pytest tests/test_dependency_boundary.py -v`（若测试不存在，同上）。
+
+**若上述文件都还不存在**（项目刚初始化）：这是正常的。你的任务到此结束，输出"环境已就绪，等待 Phase 0 实现指令"。
+
+**若上述文件已存在**（项目已有部分实现）：按 `docs/00_README.md` §4 完整执行，确认建库、fixture、约束测试全部通过。
+
+---
+
+## 步骤 8 · 汇报
+
+按以下格式输出最终汇报：
+
+```markdown
+## 环境初始化完成
+
+### 步骤 1 环境创建
+- conda 环境: chatbi-vuln
+- Python: {version}
+- 路径: {path}
+
+### 步骤 2 SQLite 检测
+- sqlite3: {version}
+- FTS5: {启用/未启用}
+
+### 步骤 3–4 环境预检测
+- 已产出: docs/environment_report.md
+- ⚠️ 项: {列出所有非 ✅ 的项，或"无"}
+- 需要用户决策的项: {如有，列出；否则"无"}
+
+### 步骤 5 依赖安装
+- 全部安装成功 / {失败项列表}
+
+### 步骤 6 参照机记录
+- 已产出: docs/reference_machine.md
+
+### 步骤 7 Phase 0 状态
+- {已就绪，等待实现指令 / 建库成功 / 部分文件缺失，如下}
+
+### 下一步建议
+- {具体建议，例如"请确认 ⚠️ 项后开始 Phase 0 实现"或"可以直接开始 Phase 0"}
+```
+
+---
+
+## 硬性约束（再次强调）
+
+1. **不得修改 `requirements.txt`**。它的内容是 `docs/10_environment.md` §2.1 的锁定版本，是"目标状态"，不是"本机状态"。
+2. **不得用 `pip freeze` 覆盖 `requirements.txt`**。`pip freeze` 会导出全部传递依赖，破坏锁定清单。
+3. **不得用 venv 替代 conda**。用户明确要求 conda 环境 `chatbi-vuln`。
+4. **遇到版本冲突先停下报告**，不要自行降级、不要自行升级、不要自行替换库。
+5. **`environment_report.md` 记录的是现状，`requirements.txt` 记录的是目标**。两者不一致是正常的，不一致本身不需要"修复"。

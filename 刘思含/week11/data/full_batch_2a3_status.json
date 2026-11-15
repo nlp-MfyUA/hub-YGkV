@@ -1,0 +1,206 @@
+{
+ "segment": "full_batch_2a3",
+ "total": 19,
+ "reused": 15,
+ "parse_status": {
+  "pass": 17,
+  "pending_review": 2
+ },
+ "load_status": {
+  "pass": 17,
+  "fail": 2
+ },
+ "seconds": 89.5,
+ "rows": [
+  {
+   "relative_path": "第一轮渗透测试/审计局和知识产权局团队/回归测试报告/一分中心审计局和知识产权局团队上海数智审计监督系统渗透测试回归测试报告-202606-v1.0.pdf",
+   "pdf_id": "2c1630561e4b27c8",
+   "reused": true,
+   "parse_status": "pass",
+   "load_status": "pass",
+   "inserted": 4,
+   "error": null,
+   "seconds": 0.87
+  },
+  {
+   "relative_path": "第一轮渗透测试/市场监管局（含药监局）团队/回归测试报告/一分中心市场监管局（含药监局）团队上海市医疗器械追溯申报系统渗透测试回归测试报告-202606-v1.0.pdf",
+   "pdf_id": "42da1d453e69fd7f",
+   "reused": true,
+   "parse_status": "pending_review",
+   "load_status": "fail",
+   "inserted": 0,
+   "error": "pending_review",
+   "seconds": 0.01
+  },
+  {
+   "relative_path": "第一轮渗透测试/市场监管局（含药监局）团队/回归测试报告/一分中心市场监管局（含药监局）团队上海市民用药安全智能化服务系统渗透测试回归测试报告-202606-v1.0.pdf",
+   "pdf_id": "a37ef091edbe6f45",
+   "reused": true,
+   "parse_status": "pass",
+   "load_status": "pass",
+   "inserted": 1,
+   "error": null,
+   "seconds": 0.87
+  },
+  {
+   "relative_path": "第一轮渗透测试/市场监管局（含药监局）团队/回归测试报告/一分中心市场监管局（含药监局）团队上海市药品安全监管和信息服务系统渗透测试回归测试报告-202606-v1.0.pdf",
+   "pdf_id": "e38d431fe21769dd",
+   "reused": true,
+   "parse_status": "pending_review",
+   "load_status": "fail",
+   "inserted": 0,
+   "error": "pending_review",
+   "seconds": 0.01
+  },
+  {
+   "relative_path": "第一轮渗透测试/市场监管局（含药监局）团队/回归测试报告/一分中心市场监管局（含药监局）团队上海市药品实时监控系统渗透测试回归测试报告-202606-v1.0.pdf",
+   "pdf_id": "ed7e8f2a84f276c5",
+   "reused": true,
+   "parse_status": "pass",
+   "load_status": "pass",
+   "inserted": 5,
+   "error": null,
+   "seconds": 0.87
+  },
+  {
+   "relative_path": "第一轮渗透测试/市场监管局（含药监局）团队/回归测试报告/一分中心市场监管局（含药监局）团队上海市药品监管企业数字化服务系统渗透测试回归测试报告-202606-v1.0.pdf",
+   "pdf_id": "b3ade8f36a6b890a",
+   "reused": true,
+   "parse_status": "pass",
+   "load_status": "pass",
+   "inserted": 2,
+   "error": null,
+   "seconds": 0.87
+  },
+  {
+   "relative_path": "第一轮渗透测试/市场监管局（含药监局）团队/回归测试报告/一分中心市场监管局（含药监局）团队上海市药品稽查办案管理系统渗透测试回归测试报告-202606-v1.0.pdf",
+   "pdf_id": "2b36f93af93f8bfe",
+   "reused": true,
+   "parse_status": "pass",
+   "load_status": "pass",
+   "inserted": 1,
+   "error": null,
+   "seconds": 0.85
+  },
+  {
+   "relative_path": "第一轮渗透测试/市场监管局（含药监局）团队/回归测试报告/一分中心市场监管局（含药监局）团队上海市药品零售远程动态监管系统渗透测试回归测试报告-202606-v1.0.pdf",
+   "pdf_id": "1b2323450aa0eada",
+   "reused": true,
+   "parse_status": "pass",
+   "load_status": "pass",
+   "inserted": 3,
+   "error": null,
+   "seconds": 0.84
+  },
+  {
+   "relative_path": "第一轮渗透测试/市场监管局（含药监局）团队/回归测试报告/一分中心市场监管局（含药监局）团队上海市药械化投诉举报系统渗透测试回归测试报告-202606-v1.0.pdf",
+   "pdf_id": "ce67e46a8162ff69",
+   "reused": true,
+   "parse_status": "pass",
+   "load_status": "pass",
+   "inserted": 1,
+   "error": null,
+   "seconds": 0.84
+  },
+  {
+   "relative_path": "第一轮渗透测试/市场监管局（含药监局）团队/回归测试报告/一分中心市场监管局（含药监局）团队上海市药械化行政检查管理系统渗透测试回归测试报告-202606-v1.0.pdf",
+   "pdf_id": "04b78c89c03b361e",
+   "reused": true,
+   "parse_status": "pass",
+   "load_status": "pass",
+   "inserted": 9,
+   "error": null,
+   "seconds": 0.83
+  },
+  {
+   "relative_path": "第一轮渗透测试/市场监管局（含药监局）团队/回归测试报告/一分中心市场监管局（含药监局）团队上海市药监局协同办公系统渗透测试回归测试报告-202606-v1.0.pdf",
+   "pdf_id": "35f6ce0d0c5c2400",
+   "reused": true,
+   "parse_status": "pass",
+   "load_status": "pass",
+   "inserted": 6,
+   "error": null,
+   "seconds": 0.84
+  },
+  {
+   "relative_path": "第一轮渗透测试/市场监管局（含药监局）团队/回归测试报告/一分中心市场监管局（含药监局）团队上海市药监局四品一械业务管理系统渗透测试回归测试报告-202606-v1.0.pdf",
+   "pdf_id": "813a00b2fbbaaa78",
+   "reused": true,
+   "parse_status": "pass",
+   "load_status": "pass",
+   "inserted": 5,
+   "error": null,
+   "seconds": 0.83
+  },
+  {
+   "relative_path": "第一轮渗透测试/市场监管局（含药监局）团队/回归测试报告/一分中心市场监管局（含药监局）团队上海市药监局廉政风险防控系统渗透测试回归测试报告-202606-v1.0.pdf",
+   "pdf_id": "d518cea392aad379",
+   "reused": true,
+   "parse_status": "pass",
+   "load_status": "pass",
+   "inserted": 1,
+   "error": null,
+   "seconds": 0.85
+  },
+  {
+   "relative_path": "第一轮渗透测试/市场监管局（含药监局）团队/回归测试报告/一分中心市场监管局（含药监局）团队上海市药监局稽查局办公系统渗透测试回归测试报告-202606-v1.0.pdf",
+   "pdf_id": "ba1814bd61f2aa9e",
+   "reused": true,
+   "parse_status": "pass",
+   "load_status": "pass",
+   "inserted": 1,
+   "error": null,
+   "seconds": 0.83
+  },
+  {
+   "relative_path": "第一轮渗透测试/市场监管局（含药监局）团队/回归测试报告/一分中心市场监管局（含药监局）团队上海市药监局职业化专业化检查员管理系统渗透测试回归测试报告-202606-v1.0.pdf",
+   "pdf_id": "cfcd17f5204ba2be",
+   "reused": true,
+   "parse_status": "pass",
+   "load_status": "pass",
+   "inserted": 3,
+   "error": null,
+   "seconds": 0.82
+  },
+  {
+   "relative_path": "第一轮渗透测试/市场监管局（含药监局）团队/回归测试报告/一分中心市场监管局（含药监局）团队上海市药监局药械化抽检管理系统渗透测试回归测试报告-202606-v1.0.pdf",
+   "pdf_id": "71b96c61b6affe54",
+   "reused": false,
+   "parse_status": "pass",
+   "load_status": "pass",
+   "inserted": 11,
+   "error": null,
+   "seconds": 27.03
+  },
+  {
+   "relative_path": "第一轮渗透测试/市场监管局（含药监局）团队/回归测试报告/一分中心市场监管局（含药监局）团队上海市药监局行政审批综合业务管理系统渗透测试回归测试报告-202606-v1.0.pdf",
+   "pdf_id": "6af463f6de42aa27",
+   "reused": false,
+   "parse_status": "pass",
+   "load_status": "pass",
+   "inserted": 9,
+   "error": null,
+   "seconds": 25.73
+  },
+  {
+   "relative_path": "第一轮渗透测试/市场监管局（含药监局）团队/回归测试报告/一分中心市场监管局（含药监局）团队上海市药监局行政许可数据查询系统渗透测试回归测试报告-202606-v1.0.pdf",
+   "pdf_id": "e98409e4556200b1",
+   "reused": false,
+   "parse_status": "pass",
+   "load_status": "pass",
+   "inserted": 4,
+   "error": null,
+   "seconds": 19.03
+  },
+  {
+   "relative_path": "第一轮渗透测试/市场监管局（含药监局）团队/回归测试报告/一分中心市场监管局（含药监局）团队上海市高风险医疗器械追溯监管系统（第三方物流）渗透测试回归测试报告-202606-v1.0.pdf",
+   "pdf_id": "cefd158c58d0bf6d",
+   "reused": false,
+   "parse_status": "pass",
+   "load_status": "pass",
+   "inserted": 2,
+   "error": null,
+   "seconds": 6.71
+  }
+ ]
+}

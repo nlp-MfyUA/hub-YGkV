@@ -1,0 +1,72 @@
+# 漏洞类型关键词映射。按顺序匹配，首个命中即返回。
+# normalizer.normalize_type 读取本文件；不在本文件的类型不会命中。
+version: 1
+
+# 先用名字本身做一次目录精确/包含匹配（v_type_catalog 的 type_name），
+# 再按下面的关键词规则匹配；两者都未命中时返回 UNKNOWN。
+rules:
+  # --- 注入类 ---
+  - keywords: ["dom 型 xss", "dom型xss", "dom xss", "domxss"]
+    type_code: DOMXSS
+    type_name: DOM 型 XSS
+  - keywords: ["xss", "跨站脚本", "跨站"]
+    type_code: XSS
+    type_name: 跨站脚本
+  - keywords: ["sql 注入", "sql注入", "sqli", "注入报错"]
+    type_code: SQLI
+    type_name: SQL 注入
+
+  # --- 执行 / 文件类 ---
+  - keywords: ["远程代码执行", "代码执行", "命令执行", "rce", "缓冲区溢出", "溢出"]
+    type_code: RCE
+    type_name: 远程代码执行
+  - keywords: ["文件上传", "上传绕过", "任意文件上传"]
+    type_code: UPLOAD
+    type_name: 文件上传
+  - keywords: ["本地文件包含", "文件包含", "lfi", "路径遍历", "目录遍历"]
+    type_code: LFI
+    type_name: 本地文件包含
+
+  # --- 请求类 ---
+  - keywords: ["ssrf", "服务端请求伪造"]
+    type_code: SSRF
+    type_name: 服务端请求伪造
+  - keywords: ["csrf", "跨站请求伪造"]
+    type_code: CSRF
+    type_name: 跨站请求伪造
+  - keywords: ["跳转", "重定向", "redirect"]
+    type_code: REDIRECT
+    type_name: 开放重定向
+
+  # --- 认证 / 授权类 ---
+  - keywords: ["越权", "权限绕过", "未授权", "鉴权绕过", "用户认证失效"]
+    type_code: AUTHZ
+    type_name: 越权访问
+  - keywords: ["验证码"]
+    type_code: CAPTCHA
+    type_name: 验证码缺陷
+  - keywords: ["弱口令", "default password", "默认密码", "默认密匙", "默认密钥"]
+    type_code: BRUTE
+    type_name: 口令爆破
+  - keywords: ["用户名枚举", "用户名可猜解", "账号枚举", "用户枚举"]
+    type_code: AUTH
+    type_name: 认证/授权缺陷
+
+  # --- 信息 / 配置类 ---
+  - keywords: ["内容安全策略", "csp"]
+    type_code: CSP
+    type_name: 内容安全策略缺失
+  - keywords: ["泄露", "明文传输", "明文", "曝光", "备份下载"]
+    type_code: LEAK
+    type_name: 敏感信息泄露
+  - keywords: ["信息泄露", "错误信息", "内部 ip", "graphql"]
+    type_code: INFO
+    type_name: 信息泄露
+  - keywords: ["配置不当", "配置错误", "misconfiguration", "misconfig"]
+    type_code: CONFIG
+    type_name: 配置错误
+
+  # --- 业务逻辑类 ---
+  - keywords: ["逻辑漏洞", "设计缺陷", "前端校验绕过", "任意用户注册", "注册"]
+    type_code: LOGIC
+    type_name: 逻辑漏洞
