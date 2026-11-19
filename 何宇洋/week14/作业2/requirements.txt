@@ -1,0 +1,9 @@
+confluent-kafka>=2.8,<3
+fastapi>=0.115,<1
+httpx>=0.28,<1
+mineru[torch]>=4.2.1,<4.3
+numpy>=1.26,<3
+Pillow>=11,<13
+python-multipart>=0.0.20,<1
+sentence-transformers>=5,<6
+uvicorn>=0.34,<1

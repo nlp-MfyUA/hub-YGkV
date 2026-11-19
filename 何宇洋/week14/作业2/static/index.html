@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>PDF 知识库 · 多模态问答</title>
+  <link rel="stylesheet" href="/static/style.css">
+  <script src="/static/app.js" defer></script>
+</head>
+<body>
+  <header class="site-header">
+    <div class="header-inner">
+      <h1>PDF 知识库</h1>
+      <span>多模态问答</span>
+    </div>
+  </header>
+  <main>
+    <aside class="documents panel" aria-labelledby="documents-title">
+      <div class="section-title">
+        <h2 id="documents-title">文档</h2>
+        <span id="document-count"></span>
+      </div>
+      <form id="upload-form">
+        <label class="drop-zone" for="pdf-files">
+          <strong>选择 PDF 文件</strong>
+          <span id="file-selection">每批最多 10 份 · 每份 20 MiB</span>
+        </label>
+        <input class="visually-hidden" id="pdf-files" type="file" accept=".pdf,application/pdf" multiple required>
+        <button id="upload-button" type="submit" disabled>上传并解析</button>
+      </form>
+      <p id="upload-feedback" class="feedback" role="status"></p>
+      <p id="documents-feedback" class="feedback" role="status"></p>
+      <ul id="document-list" aria-label="文档与解析状态"></ul>
+    </aside>
+    <section class="chat panel" aria-labelledby="chat-title">
+      <div class="chat-header">
+        <h2 id="chat-title">问答</h2>
+      </div>
+      <div id="chat-feed" class="chat-feed" role="log" aria-label="问答记录">
+        <div id="empty-chat">
+          <h3>你想了解什么？</h3>
+          <p>提问即可检索已解析的 PDF，也可以附上一张图片一起提问。</p>
+        </div>
+      </div>
+      <form id="chat-form" class="composer">
+        <label class="visually-hidden" for="question">问题</label>
+        <textarea id="question" name="question" rows="2" maxlength="3000" placeholder="输入问题，例如：这份报告的图 2 说明了什么？" required></textarea>
+        <div class="composer-actions">
+          <label class="attachment" for="question-image">＋ 附加图片</label>
+          <input class="visually-hidden" id="question-image" name="image" type="file" accept="image/png,image/jpeg,image/gif,image/webp">
+          <span id="image-selection"></span>
+          <button type="button" id="remove-image" hidden aria-label="移除附加图片">×</button>
+          <button id="ask-button" type="submit">发送</button>
+        </div>
+        <p id="chat-feedback" class="feedback" role="status"></p>
+      </form>
+    </section>
+  </main>
+</body>
+</html>
