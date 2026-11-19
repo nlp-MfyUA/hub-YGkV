@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>心屿 · 情感陪伴（OpenAI Agents）</title>
+  <link rel="stylesheet" href="/static/style.css" />
+</head>
+<body>
+  <div class="app">
+    <aside class="sidebar">
+      <div class="brand">
+        <div class="brand-mark" aria-hidden="true">
+          <svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.5">
+            <path d="M4 22c3.5-4.5 7-4.5 10.5 0s7 4.5 10.5 0" stroke-linecap="round"></path>
+            <path d="M16 7c-2.8-3.2-7.5-1.4-7.5 3 0 4.2 7.5 9 7.5 9s7.5-4.8 7.5-9c0-4.4-4.7-6.2-7.5-3Z"></path>
+          </svg>
+        </div>
+        <div class="brand-text">
+          <h1>心屿</h1>
+          <p>EMOTION COMPANION</p>
+        </div>
+      </div>
+
+      <div class="side-block history-block grow">
+        <div class="side-label history-heading">
+          <span>最近会话</span>
+          <button type="button" class="new-chat-btn" id="new-chat">+ 新对话</button>
+        </div>
+        <div class="session-list" id="session-list">
+          <div class="session-empty">还没有会话记录</div>
+        </div>
+      </div>
+
+      <div class="side-block">
+        <div class="side-label">试试这样说</div>
+        <div class="examples" id="examples">
+          <button type="button" class="chip" data-text="今天项目终于上线了，还被主管夸了，感觉这段时间的加班都值得。">今天被夸了，有点开心</button>
+          <button type="button" class="chip" data-text="最近压力好大，什么都做不好，晚上也睡不着，觉得自己很没用。">最近压力很大</button>
+          <button type="button" class="chip" data-text="和朋友约了周末去看展，已经期待好几天了。">期待周末的展览</button>
+          <button type="button" class="chip" data-text="周末打算去图书馆坐一下午，顺便把借的书还了。">一个普通的周末计划</button>
+        </div>
+      </div>
+
+    </aside>
+
+    <main class="main">
+      <header class="main-head">
+        <div class="head-copy">
+          <p class="eyebrow">A SAFE PLACE TO FEEL</p>
+          <h2>今天，心里是什么天气？</h2>
+          <p class="sub">说说发生了什么。我先听见你的情绪，再决定用哪种方式陪你。</p>
+        </div>
+        <div class="status" id="status">
+          <span class="status-dot"></span>
+          <span id="status-text">就绪</span>
+        </div>
+      </header>
+
+      <section class="chat" id="chat" aria-live="polite">
+        <div class="welcome" id="welcome">
+          <div class="welcome-mark" aria-hidden="true">
+            <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.3">
+              <circle cx="24" cy="24" r="19"></circle>
+              <path d="M15 27c2.4-3.2 4.8-3.2 7.2 0s4.8 3.2 7.2 0" stroke-linecap="round"></path>
+              <path d="M24 15.5c-1.8-2.1-4.9-.9-4.9 1.9 0 2.7 4.9 5.8 4.9 5.8s4.9-3.1 4.9-5.8c0-2.8-3.1-4-4.9-1.9Z"></path>
+            </svg>
+          </div>
+          <h3>先坐一会儿，不用急着说得很清楚</h3>
+          <p>这里有两个阶段：先识别你的情绪，再由对应的 Agent 回应。<br />历史会话保存在 SQLite，自动读取最近 5 轮对话上下文，每一句都会被认真接住。</p>
+          <div class="welcome-grid">
+            <div class="welcome-item">
+              <span>01</span>
+              <strong>先听见情绪</strong>
+              <p>识别正向、负面或中性，并给出强度与依据。</p>
+            </div>
+            <div class="welcome-item">
+              <span>02</span>
+              <strong>再选择回应</strong>
+              <p>鼓励、排解或陪伴，由情绪结果自动路由。</p>
+            </div>
+            <div class="welcome-item">
+              <span>03</span>
+              <strong>不急着给答案</strong>
+              <p>先让感受落地，再谈下一步怎么做。</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <form class="composer" id="composer">
+        <div class="composer-box">
+          <textarea id="input" rows="2" maxlength="4000" placeholder="写下此刻的感受…（Enter 发送，Shift + Enter 换行）"></textarea>
+          <div class="composer-foot">
+            <span class="composer-hint" id="composer-hint">情绪识别 → 条件路由 → 对应 Agent 回应</span>
+            <button type="submit" id="send" class="send-btn">
+              <span>发送</span>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true">
+                <path d="M4 12h15M13 6l6 6-6 6" stroke-linecap="round" stroke-linejoin="round"></path>
+              </svg>
+            </button>
+          </div>
+        </div>
+      </form>
+    </main>
+  </div>
+  <script src="/static/app.js" defer></script>
+</body>
+</html>
