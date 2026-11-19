@@ -1,0 +1,8 @@
+# 注意：这是「作业1 agents 版」的运行依赖，镜像里只装这些
+fastapi>=0.115,<1.0
+uvicorn>=0.30,<1.0
+httpx>=0.27,<1.0
+pydantic>=2.7,<3.0
+python-dotenv>=1.0,<2.0
+openai>=1.40
+openai-agents==0.25.0

@@ -1,0 +1,7 @@
+.venv
+__pycache__
+*.pyc
+.env
+运行结果.txt
+screenshots
+scripts/*.log
