@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>情感陪伴 · 四进程链路</title>
+<link rel="stylesheet" href="/static/style.css" />
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🫧</text></svg>" />
+</head>
+<body>
+<div class="app">
+  <aside class="side">
+    <div class="brand">
+      <div class="brand-mark">🫧</div>
+      <div>
+        <h1>情感陪伴</h1>
+        <p>前端 → 后端 → 进程1 → 进程2</p>
+      </div>
+    </div>
+
+    <section class="panel">
+      <h2>进程状态</h2>
+      <ul class="services" id="services">
+        <li data-url="/health"><span class="dot"></span><span class="name">后端</span></li>
+        <li data-url="/api/probe/sentiment"><span class="dot"></span><span class="name">进程1 情感识别</span></li>
+        <li data-url="/api/probe/reply"><span class="dot"></span><span class="name">进程2 情绪回应</span></li>
+      </ul>
+      <p class="hint" id="model-line">模型加载中…</p>
+    </section>
+
+    <section class="panel">
+      <h2>试试这些</h2>
+      <div class="chips" id="chips"></div>
+    </section>
+
+    <section class="panel">
+      <h2>链路说明</h2>
+      <ol class="steps">
+        <li><b>进程1</b> 判断情绪倾向，给出标签/强度/依据</li>
+        <li><b>进程2</b> 正向就鼓励，负向就排解</li>
+        <li><b>后端</b> 串联两个进程，坏一步就降级</li>
+      </ol>
+    </section>
+  </aside>
+
+  <main class="chat">
+    <header class="chat-head">
+      <div>
+        <h2 id="stage-title">今天感觉怎么样？</h2>
+        <p id="stage-sub">说一句就好，不用组织语言。</p>
+      </div>
+      <button id="btn-clear" class="ghost" title="清空对话">清空</button>
+    </header>
+
+    <div class="messages" id="messages"></div>
+
+    <form class="composer" id="composer">
+      <textarea id="input" rows="1" placeholder="比如：明天要答辩，PPT 还有十页没做完…" maxlength="500"></textarea>
+      <button id="send" type="submit">发送</button>
+    </form>
+    <p class="foot">Enter 发送 · Shift+Enter 换行 · 本工具不替代专业心理帮助</p>
+  </main>
+</div>
+<script src="/static/app.js"></script>
+</body>
+</html>

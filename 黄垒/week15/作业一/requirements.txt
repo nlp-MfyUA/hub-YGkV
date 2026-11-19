@@ -1,0 +1,10 @@
+# 作业一的两个版本共用同一套依赖。
+# 只想跑其中一个版本，可以删掉另一个的框架包（langgraph / openai-agents）。
+langgraph>=1.0,<2.0
+openai-agents==0.25.0
+openai>=1.40
+fastapi>=0.115,<1.0
+uvicorn>=0.30,<1.0
+httpx>=0.27,<1.0
+pydantic>=2.7,<3.0
+python-dotenv>=1.0,<2.0
