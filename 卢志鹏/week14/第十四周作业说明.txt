@@ -1,0 +1,18 @@
+第十四周作业
+1.作业一，使用个人的服务器，利用Docker部署了Redis和Kafka，并实现Redis和Kafka的常规操作。
+2.作业二，使用LangGraph、LangChain、多模态大模型，连接Redis、Kafka，实现一个简易的RAG（文档的解析、分块、图片预处理、文本摘要），在网页上可以看到文档处理进度，对话同时支持图文混合输出以及附件上传。以下是解析里Kafka事件流 + Redis快照实现进度显示的链路图：
+
+后台解析线程 (ParsePipeline, Web 上传时 daemon 线程)
+    每次状态变化 (PENDING → PARSING n/m → DONE/FAILED)
+        │
+        ├─ emit() ──→ Kafka topic: qpmq.doc.events   [事件流: 只追加日志]
+        │             (key=doc_id 保证同文档有序, JSON 含 progress{n,m})
+        │             └─ 同时写入 webapp 内存环形日志(deque 500 条)
+        │
+        └─ _snapshot() ──→ Redis DB6                  [快照面: 只存最新状态]
+              ├─ HSET doc:{doc_id}  (state/stage/页码/块数/err)
+              └─ SADD docs:index     (文档清单)
+
+浏览器页面 (@st.fragment run_every=2, 每 2 秒服务端重跑经 WebSocket 推送)
+    ├─ 进度面板: 读 Redis list_docs() → 每文档一行最新状态
+    └─ 事件流页签: 读内存环形日志(与 Kafka 推送同源) → 滚动事件
