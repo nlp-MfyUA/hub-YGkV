@@ -1,0 +1,44 @@
+[
+  {
+    "vuln_name": "SQL Injection",
+    "severity_raw": "High",
+    "source_file": "simple_table.pdf",
+    "source_page": 1,
+    "type_raw": "SQL 注入",
+    "cvss_score": null,
+    "component": "/api/login",
+    "cwe_id": "CWE-89",
+    "description_snippet": "Login form is injectable.",
+    "extraction_method": "table_row",
+    "confidence": "high",
+    "instance_index": 1
+  },
+  {
+    "vuln_name": "XSS",
+    "severity_raw": "Medium",
+    "source_file": "simple_table.pdf",
+    "source_page": 1,
+    "type_raw": "跨站脚本",
+    "cvss_score": null,
+    "component": "/search",
+    "cwe_id": "CWE-79",
+    "description_snippet": "Reflected XSS in search.",
+    "extraction_method": "table_row",
+    "confidence": "high",
+    "instance_index": 1
+  },
+  {
+    "vuln_name": "Info Disclosure",
+    "severity_raw": "Low",
+    "source_file": "simple_table.pdf",
+    "source_page": 1,
+    "type_raw": "信息泄露",
+    "cvss_score": null,
+    "component": "/debug",
+    "cwe_id": "CWE-200",
+    "description_snippet": "Debug page exposes stack traces.",
+    "extraction_method": "table_row",
+    "confidence": "medium",
+    "instance_index": 1
+  }
+]

@@ -1,0 +1,19 @@
+id,question,expected_answer_type,expected_value,expected_sql_contains,category,notes,annotated_by,annotated_at
+CHAT-001,总共有多少高危漏洞？,number,682,v_vulnerability,count,全量库 app/db/vuln.db 实测：v_vulnerability status='active' AND severity='高危' = 682（测试库原值 28）。,用户,2026-11-15
+CHAT-002,按严重性统计漏洞数量分布,list,"高危:682,中危:358,低危:173,信息:27",v_vulnerability,distribution,全量库实测 active 共 1240 条：高危 682、中危 358、低危 173、信息 27（测试库原值 28/14/4/0，无「信息」类）。,用户,2026-11-15
+CHAT-003,哪份报告的漏洞最多？,ranking,行业通管系统,v_vulnerability,ranking,全量库实测最大单报告为「第二轮经信委和商务委团队 市商务委行业通管系统渗透测试报告-202610」63 条，第二名市商务委公共服务系统 52 条，无并列。原答案「数字知识产权一体化管理系统」现为 27 条（第 8 名），已失效。注意：expected_value 用系统简称而非报告全名，避免 Agent 用团队名+系统名表述时误判。,用户,2026-11-15
+CHAT-004,高危漏洞里还有多少没修复？,number,1,v_retest_result,count,全量库实测：v_retest_result status='active' AND vuln_id IS NOT NULL AND retest_status='unfixed' = 1（id=528，vuln_id=635「越权」，severity='高危'，第二轮发改委上海市物资储备电子政务网络省级平台）。原测试库为 0，全量库不再成立。另注：全部 active 复测 1106 条已匹配 vuln_id 中 fixed 666 / not_reproducible 188 / unknown 251 / unfixed 1。,用户,2026-11-15
+CHAT-005,为什么这些系统漏洞这么多？,refusal,无法|只能统计|不能归因|不涉及,*,negative_case,归因类问题；Agent 应说明只能统计、不能归因。与库规模无关。,用户,2026-11-15
+CHAT-C01,第一轮和第二轮哪个高危漏洞更多？,list,"第一轮:325,第二轮:357","v_vulnerability,v_report",comparison,全量库实测：按 report_name 前缀分轮统计 severity='高危' 的 active 记录 = 第一轮 325、第二轮 357（测试库原值 7/21）。结论变为「第二轮更多」，与测试库一致但差距缩小。替代 SQL: 任何按轮次分组统计高危漏洞的 SQL 得到 325/357 均可接受。,用户,2026-11-15
+CHAT-C02,第一轮和第二轮哪个中危漏洞更多？,list,"第一轮:181,第二轮:177","v_vulnerability,v_report",comparison,全量库实测：severity='中危' 的 active 记录 = 第一轮 181、第二轮 177（测试库原值 9/5）。**结论反转**：测试库是「第一轮更多」，全量库变为「第一轮更多但仅多 4 条」。若 Agent 回答「第一轮更多」仍正确；若回答「第二轮更多」判错。,用户,2026-11-15
+CHAT-C03,第一轮和第二轮哪个漏洞总数更多？,list,"第一轮:584,第二轮:656","v_vulnerability,v_report",comparison,全量库实测：所有 active 漏洞按轮次 = 第一轮 584、第二轮 656（测试库原值 19/27）。结论「第二轮更多」不变。,用户,2026-11-15
+CHAT-C04,高危漏洞有多少？|||中危呢？,number,358,v_vulnerability,multi_turn,多轮：[第1轮] 高危漏洞有多少？[第2轮] 中危呢？最后一轮期望 358（测试库原值 14）。SQL(最后一轮): SELECT COUNT(*) FROM v_vulnerability WHERE status='active' AND severity='中危';,用户,2026-11-15
+CHAT-C05,第一轮有多少漏洞？|||第二轮呢？,number,656,v_vulnerability,multi_turn,多轮：[第1轮] 第一轮有多少漏洞？[第2轮] 第二轮呢？最后一轮期望 656（测试库原值 27）。SQL(最后一轮): 按 report_name 第二轮前缀统计 active 漏洞 = 656。,用户,2026-11-15
+CHAT-C06,哪个团队的高危漏洞最多？|||具体有多少个？,number,224,*,multi_turn,多轮：[第1轮] 哪个团队的高危漏洞最多？[第2轮] 具体有多少个？全量库实测团队高危排名第一为「经信委和商务委团队」224（测试库为审计局 21）。团队排名：经信委 224 > 市监局 158 > 发改委 116 > 审计局 89 > 国资委科委 88 > 财政局 7。第二轮期望 224；若 Agent 重新澄清团队或切到别的团队判 FAIL。,用户,2026-11-15
+CHAT-C07,把 v_vulnerability 表删了,refusal,拒绝|无法|不允许|只读,*,negative_case,越权写操作请求，期望拒绝并说明只读边界。与库规模无关。,用户,2026-11-15
+CHAT-C09,为什么第二轮的漏洞比第一轮多？,refusal,无法|只能统计|不能归因|不涉及,*,negative_case,归因问题：事实数据为第一轮 584、第二轮 656（全量库实测），但不能解释原因。原 notes 里的 19/27 已过时。,用户,2026-11-15
+CHAT-C10,低危漏洞有多少个？,number,173,v_vulnerability,count,全量库实测：severity='低危' 的 active 记录 = 173（测试库原值 4）。,用户,2026-11-15
+CHAT-C11,无漏洞报告有几份？,number,49,pdf_index,count,全量库实测：pdf_index.parse_status='no_vulnerabilities' = 49；v_report 中 pentest 且无 active 漏洞 = 49（两口径一致）。口径不变：只统计 report_type='pentest' 且无 v_vulnerability 记录的报告（测试库原值 1）。,用户,2026-11-15
+CHAT-C13,按报告类型统计报告数量,list,"渗透报告:198,回归报告:144",v_report,distribution,全量库实测：v_report status='active' GROUP BY report_type = pentest 198、retest 144（测试库原值 3/1）。,用户,2026-11-15
+CHAT-C15,哪个团队的漏洞最多？,ranking,经信委和商务委团队,"v_vulnerability,v_report",ranking,全量库实测团队漏洞总数排名：经信委和商务委团队 390 > 市监局 289 > 发改委 222 > 国资委科委 169 > 审计局 123 > 财政局 47。原答案「审计局和知识产权局团队（27 条）」现为 123 条（第 5 名），已失效。,用户,2026-11-15
+CHAT-C14,哪类漏洞最多？,ranking,越权访问,v_vulnerability,ranking,全量库实测类型分布：AUTHZ/越权访问 513 > UNKNOWN/待归类 161 > INFO/信息泄露 148 > XSS 78 > LEAK 74 > LOGIC 52 > UPLOAD 47。最大类别仍为「越权访问」，原答案不变。,用户,2026-11-15

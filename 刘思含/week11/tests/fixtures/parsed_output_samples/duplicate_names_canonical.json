@@ -1,0 +1,44 @@
+[
+  {
+    "vuln_name": "前端校验绕过",
+    "instance_index": 1,
+    "severity_raw": "High",
+    "source_file": "duplicate_names.pdf",
+    "source_page": 1,
+    "type_raw": "跨站脚本",
+    "cvss_score": null,
+    "component": null,
+    "cwe_id": "CWE-79",
+    "description_snippet": "前端校验绕过实例",
+    "extraction_method": "text_block",
+    "confidence": "high"
+  },
+  {
+    "vuln_name": "前端校验绕过",
+    "instance_index": 2,
+    "severity_raw": "High",
+    "source_file": "duplicate_names.pdf",
+    "source_page": 1,
+    "type_raw": "跨站脚本",
+    "cvss_score": null,
+    "component": null,
+    "cwe_id": "CWE-79",
+    "description_snippet": "前端校验绕过实例",
+    "extraction_method": "text_block",
+    "confidence": "high"
+  },
+  {
+    "vuln_name": "前端校验绕过",
+    "instance_index": 3,
+    "severity_raw": "High",
+    "source_file": "duplicate_names.pdf",
+    "source_page": 1,
+    "type_raw": "跨站脚本",
+    "cvss_score": null,
+    "component": null,
+    "cwe_id": "CWE-79",
+    "description_snippet": "前端校验绕过实例",
+    "extraction_method": "text_block",
+    "confidence": "high"
+  }
+]

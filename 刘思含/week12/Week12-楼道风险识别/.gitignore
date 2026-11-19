@@ -1,0 +1,8 @@
+.env
+__pycache__/
+*.pyc
+data/uploads/*
+data/annotated/*
+data/history.db
+!data/uploads/.gitkeep
+!data/annotated/.gitkeep

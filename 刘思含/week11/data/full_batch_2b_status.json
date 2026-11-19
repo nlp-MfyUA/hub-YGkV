@@ -1,0 +1,567 @@
+{
+ "segment": "full_batch_2b",
+ "total": 55,
+ "reused": 1,
+ "parse_status": {
+  "pass": 45,
+  "pending_review": 6,
+  "fail": 4
+ },
+ "load_status": {
+  "pass": 45,
+  "fail": 10
+ },
+ "seconds": 1756.6,
+ "rows": [
+  {
+   "relative_path": "第一轮渗透测试/市场监管局（含药监局）团队/回归测试报告/一分中心市场监管局（含药监局）团队市场监管数字化大系统渗透测试回归测试报告-202606-v1.0.pdf",
+   "pdf_id": "45d53c8812c63625",
+   "reused": false,
+   "parse_status": "pass",
+   "load_status": "pass",
+   "inserted": 5,
+   "error": null,
+   "seconds": 23.04
+  },
+  {
+   "relative_path": "第一轮渗透测试/市场监管局（含药监局）团队/回归测试报告/一分中心市场监管局（含药监局）团队市市场监管“一窗通”系统渗透测试回归测试报告-202606-v1.0.pdf",
+   "pdf_id": "c1f3e3ca5ea0fda1",
+   "reused": false,
+   "parse_status": "pass",
+   "load_status": "pass",
+   "inserted": 15,
+   "error": null,
+   "seconds": 30.7
+  },
+  {
+   "relative_path": "第一轮渗透测试/市场监管局（含药监局）团队/回归测试报告/一分中心市场监管局（含药监局）团队市市场监管产品质量监管系统渗透测试回归测试报告-202606-v1.0.pdf",
+   "pdf_id": "8a2c8443d3801f28",
+   "reused": false,
+   "parse_status": "pass",
+   "load_status": "pass",
+   "inserted": 9,
+   "error": null,
+   "seconds": 24.77
+  },
+  {
+   "relative_path": "第一轮渗透测试/市场监管局（含药监局）团队/回归测试报告/一分中心市场监管局（含药监局）团队市市场监管公共服务系统渗透测试回归测试报告-202606-v1.0.pdf",
+   "pdf_id": "4d0d059197940b77",
+   "reused": false,
+   "parse_status": "pass",
+   "load_status": "pass",
+   "inserted": 1,
+   "error": null,
+   "seconds": 2.33
+  },
+  {
+   "relative_path": "第一轮渗透测试/市场监管局（含药监局）团队/回归测试报告/一分中心市场监管局（含药监局）团队市市场监管办公自动化系统渗透测试回归测试报告-202606-v1.0.pdf",
+   "pdf_id": "84cb1e2bedb4ecce",
+   "reused": false,
+   "parse_status": "pass",
+   "load_status": "pass",
+   "inserted": 3,
+   "error": null,
+   "seconds": 1.81
+  },
+  {
+   "relative_path": "第一轮渗透测试/市场监管局（含药监局）团队/回归测试报告/一分中心市场监管局（含药监局）团队市市场监管反垄断与价格监督检查系统渗透测试回归测试报告-202606-v1.0.pdf",
+   "pdf_id": "0c46067c7bb78e6f",
+   "reused": false,
+   "parse_status": "pass",
+   "load_status": "pass",
+   "inserted": 5,
+   "error": null,
+   "seconds": 4.55
+  },
+  {
+   "relative_path": "第一轮渗透测试/市场监管局（含药监局）团队/回归测试报告/一分中心市场监管局（含药监局）团队市市场监管广告监管系统渗透测试回归测试报告-202606-v1.0.pdf",
+   "pdf_id": "9359f008315dab01",
+   "reused": false,
+   "parse_status": "pass",
+   "load_status": "pass",
+   "inserted": 2,
+   "error": null,
+   "seconds": 3.41
+  },
+  {
+   "relative_path": "第一轮渗透测试/市场监管局（含药监局）团队/回归测试报告/一分中心市场监管局（含药监局）团队市市场监管标准化管理系统渗透测试回归测试报告-202606-v1.0.pdf",
+   "pdf_id": "e0e11d1c0628cc2d",
+   "reused": false,
+   "parse_status": "pass",
+   "load_status": "pass",
+   "inserted": 3,
+   "error": null,
+   "seconds": 8.45
+  },
+  {
+   "relative_path": "第一轮渗透测试/市场监管局（含药监局）团队/回归测试报告/一分中心市场监管局（含药监局）团队市市场监管检验检测与认证认可管理系统渗透测试回归测试报告-202606-v1.0.pdf",
+   "pdf_id": "00acb35ab178f88d",
+   "reused": false,
+   "parse_status": "pass",
+   "load_status": "pass",
+   "inserted": 5,
+   "error": null,
+   "seconds": 11.28
+  },
+  {
+   "relative_path": "第一轮渗透测试/市场监管局（含药监局）团队/回归测试报告/一分中心市场监管局（含药监局）团队市市场监管特种设备安全监管系统渗透测试回归测试报告-202606-v1.0.pdf",
+   "pdf_id": "03159688fbaf1dde",
+   "reused": false,
+   "parse_status": "pass",
+   "load_status": "pass",
+   "inserted": 10,
+   "error": null,
+   "seconds": 13.11
+  },
+  {
+   "relative_path": "第一轮渗透测试/市场监管局（含药监局）团队/回归测试报告/一分中心市场监管局（含药监局）团队市市场监管综合监管系统渗透测试回归测试报告-202606-v1.0.pdf",
+   "pdf_id": "155575f4412c0c1f",
+   "reused": false,
+   "parse_status": "pending_review",
+   "load_status": "fail",
+   "inserted": 0,
+   "error": "pending_review",
+   "seconds": 3.29
+  },
+  {
+   "relative_path": "第一轮渗透测试/市场监管局（含药监局）团队/回归测试报告/一分中心市场监管局（含药监局）团队市市场监管网络与市场监管系统渗透测试回归测试报告-202606-v1.0.pdf",
+   "pdf_id": "22d0b7af8521412f",
+   "reused": false,
+   "parse_status": "pass",
+   "load_status": "pass",
+   "inserted": 4,
+   "error": null,
+   "seconds": 6.79
+  },
+  {
+   "relative_path": "第一轮渗透测试/市场监管局（含药监局）团队/回归测试报告/一分中心市场监管局（含药监局）团队市市场监管行政处罚与执法监督系统渗透测试回归测试报告-202606-v1.0.pdf",
+   "pdf_id": "0706e2641334b598",
+   "reused": false,
+   "parse_status": "pending_review",
+   "load_status": "fail",
+   "inserted": 0,
+   "error": "pending_review",
+   "seconds": 0.76
+  },
+  {
+   "relative_path": "第一轮渗透测试/市场监管局（含药监局）团队/回归测试报告/一分中心市场监管局（含药监局）团队市市场监管行政审批综合业务系统渗透测试回归测试报告-202606-v1.0.pdf",
+   "pdf_id": "23896f56b5d6c3ca",
+   "reused": false,
+   "parse_status": "pass",
+   "load_status": "pass",
+   "inserted": 18,
+   "error": null,
+   "seconds": 59.11
+  },
+  {
+   "relative_path": "第一轮渗透测试/市场监管局（含药监局）团队/回归测试报告/一分中心市场监管局（含药监局）团队市市场监管计量管理系统渗透测试回归测试报告-202606-v1.0.pdf",
+   "pdf_id": "3755bae4d31be063",
+   "reused": false,
+   "parse_status": "pass",
+   "load_status": "pass",
+   "inserted": 7,
+   "error": null,
+   "seconds": 16.59
+  },
+  {
+   "relative_path": "第一轮渗透测试/市场监管局（含药监局）团队/回归测试报告/一分中心市场监管局（含药监局）团队市市场监管食品安全监管系统渗透测试回归测试报告-202606-v1.0.pdf",
+   "pdf_id": "2335a06aa4441d74",
+   "reused": false,
+   "parse_status": "pass",
+   "load_status": "pass",
+   "inserted": 6,
+   "error": null,
+   "seconds": 18.07
+  },
+  {
+   "relative_path": "第一轮渗透测试/经信委和商务委团队/回归测试报告/一分中心经信委和商务委团队上海口岸服务系统渗透测试回归测试报告-202606-v1.0.pdf",
+   "pdf_id": "8de188e1074ab0d3",
+   "reused": false,
+   "parse_status": "pass",
+   "load_status": "pass",
+   "inserted": 3,
+   "error": null,
+   "seconds": 9.26
+  },
+  {
+   "relative_path": "第一轮渗透测试/经信委和商务委团队/回归测试报告/一分中心经信委和商务委团队上海市产业发展服务云平台渗透测试回归测试报告-202606-v1.0.pdf",
+   "pdf_id": "88af05fbb225f2a8",
+   "reused": false,
+   "parse_status": "pass",
+   "load_status": "pass",
+   "inserted": 17,
+   "error": null,
+   "seconds": 28.83
+  },
+  {
+   "relative_path": "第一轮渗透测试/经信委和商务委团队/回归测试报告/一分中心经信委和商务委团队上海市产业项目全生命周期管理系统渗透测试回归测试报告-202606-v1.0.pdf",
+   "pdf_id": "b803cb43f6419379",
+   "reused": false,
+   "parse_status": "pass",
+   "load_status": "pass",
+   "inserted": 2,
+   "error": null,
+   "seconds": 8.82
+  },
+  {
+   "relative_path": "第一轮渗透测试/经信委和商务委团队/回归测试报告/一分中心经信委和商务委团队上海市数字化招商系统渗透测试回归测试报告-202606-v1.0.pdf",
+   "pdf_id": "b215f4adc90f9f01",
+   "reused": false,
+   "parse_status": "pass",
+   "load_status": "pass",
+   "inserted": 2,
+   "error": null,
+   "seconds": 4.12
+  },
+  {
+   "relative_path": "第一轮渗透测试/经信委和商务委团队/回归测试报告/一分中心经信委和商务委团队上海市经济和信息化委员会一屏观产业决策分析系统渗透测试回归测试报告-202606-v1.0.pdf",
+   "pdf_id": "6f928a9fd1da4509",
+   "reused": false,
+   "parse_status": "pass",
+   "load_status": "pass",
+   "inserted": 2,
+   "error": null,
+   "seconds": 6.6
+  },
+  {
+   "relative_path": "第一轮渗透测试/经信委和商务委团队/回归测试报告/一分中心经信委和商务委团队上海市经济和信息化委员会专项资金项目管理与服务系统渗透测试回归测试报告-202606-v1.0.pdf",
+   "pdf_id": "8bc96f2d87c2eb80",
+   "reused": false,
+   "parse_status": "pass",
+   "load_status": "pass",
+   "inserted": 37,
+   "error": null,
+   "seconds": 126.83
+  },
+  {
+   "relative_path": "第一轮渗透测试/经信委和商务委团队/回归测试报告/一分中心经信委和商务委团队上海市经济和信息化委员会数据中台渗透测试回归测试报告-202606-v1.0.pdf",
+   "pdf_id": "94e6d91e0800a8ac",
+   "reused": false,
+   "parse_status": "pass",
+   "load_status": "pass",
+   "inserted": 2,
+   "error": null,
+   "seconds": 3.16
+  },
+  {
+   "relative_path": "第一轮渗透测试/经信委和商务委团队/回归测试报告/一分中心经信委和商务委团队上海市经济和信息化委员会移动政务系统渗透测试回归测试报告-202606-v1.0.pdf",
+   "pdf_id": "8218d3f7766b036f",
+   "reused": false,
+   "parse_status": "pass",
+   "load_status": "pass",
+   "inserted": 2,
+   "error": null,
+   "seconds": 6.5
+  },
+  {
+   "relative_path": "第一轮渗透测试/经信委和商务委团队/回归测试报告/一分中心经信委和商务委团队上海市经济和信息化委员会门户网站渗透测试回归测试报告-202606-v1.0.pdf",
+   "pdf_id": "622e71160664263b",
+   "reused": false,
+   "parse_status": "pass",
+   "load_status": "pass",
+   "inserted": 10,
+   "error": null,
+   "seconds": 50.25
+  },
+  {
+   "relative_path": "第一轮渗透测试/经信委和商务委团队/回归测试报告/一分中心经信委和商务委团队上海市经济运行与能源监测系统渗透测试回归测试报告-202606-v1.0.pdf",
+   "pdf_id": "7a95c2ec1c6c0634",
+   "reused": false,
+   "parse_status": "pass",
+   "load_status": "pass",
+   "inserted": 21,
+   "error": null,
+   "seconds": 94.71
+  },
+  {
+   "relative_path": "第一轮渗透测试/经信委和商务委团队/回归测试报告/一分中心经信委和商务委团队上海市软件和信息服务业统计系统渗透测试回归测试报告-202606-v1.0.pdf",
+   "pdf_id": "166c0177135fb209",
+   "reused": false,
+   "parse_status": "pass",
+   "load_status": "pass",
+   "inserted": 7,
+   "error": null,
+   "seconds": 22.82
+  },
+  {
+   "relative_path": "第一轮渗透测试/经信委和商务委团队/回归测试报告/一分中心经信委和商务委团队市商务委公共服务系统渗透测试回归测试报告-202606-v1.0.pdf",
+   "pdf_id": "61fd81904aa41d49",
+   "reused": false,
+   "parse_status": "pass",
+   "load_status": "pass",
+   "inserted": 26,
+   "error": null,
+   "seconds": 144.07
+  },
+  {
+   "relative_path": "第一轮渗透测试/经信委和商务委团队/回归测试报告/一分中心经信委和商务委团队市商务委协同办公系统渗透测试回归测试报告-202606-v1.0.pdf",
+   "pdf_id": "7559eeebad6ffcf6",
+   "reused": false,
+   "parse_status": "pass",
+   "load_status": "pass",
+   "inserted": 4,
+   "error": null,
+   "seconds": 1.47
+  },
+  {
+   "relative_path": "第一轮渗透测试/经信委和商务委团队/回归测试报告/一分中心经信委和商务委团队市商务委数据中台渗透测试回归测试报告-202606-v1.0.pdf",
+   "pdf_id": "5aefdbe8f500ec6e",
+   "reused": false,
+   "parse_status": "pass",
+   "load_status": "pass",
+   "inserted": 4,
+   "error": null,
+   "seconds": 29.09
+  },
+  {
+   "relative_path": "第一轮渗透测试/经信委和商务委团队/回归测试报告/一分中心经信委和商务委团队市商务委行业通管系统渗透测试回归测试报告-202606-v1.0.pdf",
+   "pdf_id": "9406d20b2cf61a17",
+   "reused": false,
+   "parse_status": "pass",
+   "load_status": "pass",
+   "inserted": 32,
+   "error": null,
+   "seconds": 197.75
+  },
+  {
+   "relative_path": "第一轮渗透测试/经信委和商务委团队/回归测试报告/一分中心经信委和商务委团队市电子商务和消费促进中心服务系统渗透测试回归测试报告-202606-v1.0.pdf",
+   "pdf_id": "c9866122db271bc8",
+   "reused": false,
+   "parse_status": "pass",
+   "load_status": "pass",
+   "inserted": 9,
+   "error": null,
+   "seconds": 56.24
+  },
+  {
+   "relative_path": "第一轮渗透测试/财政局团队/回归测试报告/一分中心财政局团队上海市政府采购云平台渗透测试回归测试报告-202606-v1.0.pdf",
+   "pdf_id": "e4ddd0460a24afba",
+   "reused": true,
+   "parse_status": "pass",
+   "load_status": "pass",
+   "inserted": 4,
+   "error": null,
+   "seconds": 0.99
+  },
+  {
+   "relative_path": "第一轮渗透测试/财政局团队/回归测试报告/一分中心财政局团队上海市财政局综合办公系统渗透测试回归测试报告-202606-v1.0.pdf",
+   "pdf_id": "b99b8da47e96d81a",
+   "reused": false,
+   "parse_status": "pending_review",
+   "load_status": "fail",
+   "inserted": 0,
+   "error": "pending_review",
+   "seconds": 5.2
+  },
+  {
+   "relative_path": "第一轮渗透测试/财政局团队/回归测试报告/一分中心财政局团队上海市财政局门户网站渗透测试回归测试报告-202606-v1.0.pdf",
+   "pdf_id": "6d128e08c13e131d",
+   "reused": false,
+   "parse_status": "pass",
+   "load_status": "pass",
+   "inserted": 7,
+   "error": null,
+   "seconds": 74.16
+  },
+  {
+   "relative_path": "第一轮渗透测试/财政局团队/回归测试报告/一分中心财政局团队上海市预算管理一体化信息系统渗透测试回归测试报告-202606-v1.0.pdf",
+   "pdf_id": "6fa8fd41e3c5fefd",
+   "reused": false,
+   "parse_status": "pass",
+   "load_status": "pass",
+   "inserted": 5,
+   "error": null,
+   "seconds": 144.41
+  },
+  {
+   "relative_path": "第二轮渗透测试/发改委（含粮食物资储备局）和统计局团队/回归测试报告/一分中心发改委（含粮食物资储备局）和统计局团队上海市军民融合军粮供应管理信息系统渗透测试回归测试报告-202610-v1.0.pdf",
+   "pdf_id": "a42b2919816c628b",
+   "reused": false,
+   "parse_status": "pass",
+   "load_status": "pass",
+   "inserted": 5,
+   "error": null,
+   "seconds": 6.59
+  },
+  {
+   "relative_path": "第二轮渗透测试/发改委（含粮食物资储备局）和统计局团队/回归测试报告/一分中心发改委（含粮食物资储备局）和统计局团队上海市发展和改革委员会专项资金项目管理系统渗透测试回归测试报告-202610-v1.0.pdf",
+   "pdf_id": "4037e55742e4c816",
+   "reused": false,
+   "parse_status": "pass",
+   "load_status": "pass",
+   "inserted": 5,
+   "error": null,
+   "seconds": 1.84
+  },
+  {
+   "relative_path": "第二轮渗透测试/发改委（含粮食物资储备局）和统计局团队/回归测试报告/一分中心发改委（含粮食物资储备局）和统计局团队上海市发展和改革委员会通用业务办理系统渗透测试回归测试报告-202610-v1.0.pdf",
+   "pdf_id": "649d27894adc8957",
+   "reused": false,
+   "parse_status": "fail",
+   "load_status": "fail",
+   "inserted": 0,
+   "error": "parse_failed",
+   "seconds": 44.56
+  },
+  {
+   "relative_path": "第二轮渗透测试/发改委（含粮食物资储备局）和统计局团队/回归测试报告/一分中心发改委（含粮食物资储备局）和统计局团队上海市发展和改革委员会门户网站渗透测试回归测试报告-202610-v1.0.pdf",
+   "pdf_id": "b2dad8bed4fe48ec",
+   "reused": false,
+   "parse_status": "pass",
+   "load_status": "pass",
+   "inserted": 4,
+   "error": null,
+   "seconds": 1.69
+  },
+  {
+   "relative_path": "第二轮渗透测试/发改委（含粮食物资储备局）和统计局团队/回归测试报告/一分中心发改委（含粮食物资储备局）和统计局团队上海市数字粮仓信息系统渗透测试回归测试报告-202610-v1.0.pdf",
+   "pdf_id": "3527228b0a1f7dec",
+   "reused": false,
+   "parse_status": "pass",
+   "load_status": "pass",
+   "inserted": 7,
+   "error": null,
+   "seconds": 9.84
+  },
+  {
+   "relative_path": "第二轮渗透测试/发改委（含粮食物资储备局）和统计局团队/回归测试报告/一分中心发改委（含粮食物资储备局）和统计局团队上海市涉企数据综合管理系统渗透测试回归测试报告-202610-v1.0.pdf",
+   "pdf_id": "a7116736525f6816",
+   "reused": false,
+   "parse_status": "pass",
+   "load_status": "pass",
+   "inserted": 14,
+   "error": null,
+   "seconds": 66.4
+  },
+  {
+   "relative_path": "第二轮渗透测试/发改委（含粮食物资储备局）和统计局团队/回归测试报告/一分中心发改委（含粮食物资储备局）和统计局团队上海市物资储备电子政务网络省级平台渗透测试回归测试报告-202610-v1.0.pdf",
+   "pdf_id": "189d3bb86e54ab4c",
+   "reused": false,
+   "parse_status": "pass",
+   "load_status": "pass",
+   "inserted": 7,
+   "error": null,
+   "seconds": 4.82
+  },
+  {
+   "relative_path": "第二轮渗透测试/发改委（含粮食物资储备局）和统计局团队/回归测试报告/一分中心发改委（含粮食物资储备局）和统计局团队上海市统计局电子文件归档系统渗透测试回归测试报告-202610-v1.0.pdf",
+   "pdf_id": "ab7c3a7cc325428e",
+   "reused": false,
+   "parse_status": "pass",
+   "load_status": "pass",
+   "inserted": 1,
+   "error": null,
+   "seconds": 3.71
+  },
+  {
+   "relative_path": "第二轮渗透测试/发改委（含粮食物资储备局）和统计局团队/回归测试报告/一分中心发改委（含粮食物资储备局）和统计局团队上海粮食流通数据中心系统渗透测试回归测试报告-202610-v1.0.pdf",
+   "pdf_id": "9179504d29e424a2",
+   "reused": false,
+   "parse_status": "pass",
+   "load_status": "pass",
+   "inserted": 3,
+   "error": null,
+   "seconds": 6.98
+  },
+  {
+   "relative_path": "第二轮渗透测试/发改委（含粮食物资储备局）和统计局团队/回归测试报告/一分中心发改委（含粮食物资储备局）和统计局团队上海统计内部信息网站群渗透测试回归测试报告-202610-v1.0.pdf",
+   "pdf_id": "42996482dad64667",
+   "reused": false,
+   "parse_status": "fail",
+   "load_status": "fail",
+   "inserted": 0,
+   "error": "parse_failed",
+   "seconds": 53.08
+  },
+  {
+   "relative_path": "第二轮渗透测试/发改委（含粮食物资储备局）和统计局团队/回归测试报告/一分中心发改委（含粮食物资储备局）和统计局团队国家统计业务系统渗透测试回归测试报告-202610-v1.0.pdf",
+   "pdf_id": "75aabaf7e43d9d91",
+   "reused": false,
+   "parse_status": "fail",
+   "load_status": "fail",
+   "inserted": 0,
+   "error": "parse_failed",
+   "seconds": 17.67
+  },
+  {
+   "relative_path": "第二轮渗透测试/发改委（含粮食物资储备局）和统计局团队/回归测试报告/一分中心发改委（含粮食物资储备局）和统计局团队市统计局政府“电子统计”系统渗透测试回归测试报告-202610-v1.0.pdf",
+   "pdf_id": "dd1481469aebf7e8",
+   "reused": false,
+   "parse_status": "fail",
+   "load_status": "fail",
+   "inserted": 0,
+   "error": "parse_failed",
+   "seconds": 53.58
+  },
+  {
+   "relative_path": "第二轮渗透测试/发改委（含粮食物资储备局）和统计局团队/回归测试报告/一分中心发改委（含粮食物资储备局）和统计局团队长三角统计数据综合应用系统渗透测试回归测试报告-202610-v1.0.pdf",
+   "pdf_id": "6c935e8b0149fbaf",
+   "reused": false,
+   "parse_status": "pass",
+   "load_status": "pass",
+   "inserted": 3,
+   "error": null,
+   "seconds": 16.62
+  },
+  {
+   "relative_path": "第二轮渗透测试/国资委、科委和金融监管局团队/回归测试报告/一分中心国资委、科委和地方金融监管局团队上海市单用途预付卡协同监管服务平台渗透测试回归测试报告-202610-v1.0.pdf",
+   "pdf_id": "adf17b6a5761561e",
+   "reused": false,
+   "parse_status": "pass",
+   "load_status": "pass",
+   "inserted": 6,
+   "error": null,
+   "seconds": 25.02
+  },
+  {
+   "relative_path": "第二轮渗透测试/国资委、科委和金融监管局团队/回归测试报告/一分中心国资委、科委和地方金融监管局团队上海市科委分布式网上业务服务系统渗透测试回归测试报告-202610-v1.0.pdf",
+   "pdf_id": "45488c20acd0f001",
+   "reused": false,
+   "parse_status": "pending_review",
+   "load_status": "fail",
+   "inserted": 0,
+   "error": "pending_review",
+   "seconds": 5.05
+  },
+  {
+   "relative_path": "第二轮渗透测试/国资委、科委和金融监管局团队/回归测试报告/一分中心国资委、科委和地方金融监管局团队上海市科委门户网站渗透测试回归测试报告-202610-v1.0.pdf",
+   "pdf_id": "5f5a6a72348653eb",
+   "reused": false,
+   "parse_status": "pass",
+   "load_status": "pass",
+   "inserted": 3,
+   "error": null,
+   "seconds": 13.67
+  },
+  {
+   "relative_path": "第二轮渗透测试/国资委、科委和金融监管局团队/回归测试报告/一分中心国资委、科委和地方金融监管局团队上海市科技创新管理服务信息系统渗透测试回归测试报告-202610-v1.0.pdf",
+   "pdf_id": "786672660f90db85",
+   "reused": false,
+   "parse_status": "pending_review",
+   "load_status": "fail",
+   "inserted": 0,
+   "error": "pending_review",
+   "seconds": 99.37
+  },
+  {
+   "relative_path": "第二轮渗透测试/国资委、科委和金融监管局团队/回归测试报告/一分中心国资委、科委和地方金融监管局团队上海市科技管理信息系统渗透测试回归测试报告-202610-v1.0.pdf",
+   "pdf_id": "4413b31f3c3229f7",
+   "reused": false,
+   "parse_status": "pending_review",
+   "load_status": "fail",
+   "inserted": 0,
+   "error": "pending_review",
+   "seconds": 65.66
+  },
+  {
+   "relative_path": "第二轮渗透测试/国资委、科委和金融监管局团队/回归测试报告/一分中心国资委、科委和地方金融监管局团队地方金融监管信息系统渗透测试回归测试报告-202610-v1.0.pdf",
+   "pdf_id": "89adce2046fa621b",
+   "reused": false,
+   "parse_status": "pass",
+   "load_status": "pass",
+   "inserted": 3,
+   "error": null,
+   "seconds": 16.25
+  }
+ ]
+}

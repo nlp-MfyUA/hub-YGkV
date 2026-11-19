@@ -1,0 +1,15 @@
+# Web 服务
+fastapi
+uvicorn[standard]
+python-multipart
+
+# 配置
+python-dotenv
+pydantic
+
+# 图片处理
+pillow
+
+# LangChain（版本与环境一致：langchain 1.3.x / langchain-openai 1.4.x / langchain-core 1.5.x）
+langchain
+langchain-openai

@@ -1,0 +1,32 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "canonical_vuln_record.schema.json",
+  "title": "CanonicalVulnRecord",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "vuln_name",
+    "severity_raw",
+    "source_file",
+    "instance_index",
+    "extraction_method",
+    "confidence"
+  ],
+  "properties": {
+    "vuln_name": { "type": "string", "minLength": 1 },
+    "severity_raw": { "type": "string", "minLength": 1 },
+    "source_file": { "type": "string", "minLength": 1 },
+    "source_page": { "type": ["integer", "null"], "minimum": 1 },
+    "instance_index": { "type": "integer", "minimum": 1 },
+    "type_raw": { "type": ["string", "null"] },
+    "cvss_score": { "type": ["number", "null"], "minimum": 0, "maximum": 10 },
+    "component": { "type": ["string", "null"] },
+    "cwe_id": { "type": ["string", "null"], "pattern": "^CWE-\\d+$" },
+    "description_snippet": { "type": ["string", "null"], "maxLength": 303 },
+    "extraction_method": {
+      "type": "string",
+      "enum": ["table_row", "kv_block", "text_block"]
+    },
+    "confidence": { "type": "string", "enum": ["high", "medium", "low"] }
+  }
+}

@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#101418">
+<title>楼道消防安全风险识别</title>
+<link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+
+<header class="topbar">
+  <div class="brand">
+    <span class="dot"></span>
+    <h1>楼道消防安全识别</h1>
+  </div>
+  <span class="badge" id="providerBadge">--</span>
+</header>
+
+<main>
+
+  <!-- ===================== 操作区 ===================== -->
+  <section class="card">
+    <div class="preview" id="preview">
+      <div class="preview-empty" id="previewEmpty">
+        <svg viewBox="0 0 24 24" width="48" height="48" fill="none" stroke="currentColor" stroke-width="1.4">
+          <path d="M4 7h3l2-2h6l2 2h3v13H4z"/><circle cx="12" cy="13" r="3.5"/>
+        </svg>
+        <p>拍照或选择一张楼道照片</p>
+      </div>
+      <img id="previewImg" alt="待识别照片" hidden>
+    </div>
+
+    <div class="actions">
+      <!-- capture=environment 让手机直接拉起后置摄像头 -->
+      <label class="btn btn-primary" for="cameraInput">
+        <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8">
+          <path d="M4 7h3l2-2h6l2 2h3v13H4z"/><circle cx="12" cy="13" r="3.5"/>
+        </svg>
+        拍照
+      </label>
+      <input id="cameraInput" type="file" accept="image/*" capture="environment" hidden>
+
+      <label class="btn btn-ghost" for="albumInput">
+        <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8">
+          <path d="M4 5h16v14H4z"/><path d="M4 15l5-5 4 4 3-3 4 4"/>
+        </svg>
+        相册
+      </label>
+      <input id="albumInput" type="file" accept="image/*" hidden>
+    </div>
+
+    <div class="options">
+      <label class="switch">
+        <input type="checkbox" id="annotateToggle">
+        <span>标注隐患位置（多一次模型调用）</span>
+      </label>
+      <select id="providerSelect" aria-label="选择模型"></select>
+    </div>
+
+    <button class="btn btn-analyze" id="analyzeBtn" disabled>开始识别</button>
+  </section>
+
+  <!-- ===================== 结果区 ===================== -->
+  <section class="card result" id="resultCard" hidden>
+    <div class="risk-head" id="riskHead">
+      <div class="risk-level" id="riskLevel">--</div>
+      <div class="risk-score">
+        <span id="riskScore">0</span><small>分</small>
+      </div>
+    </div>
+    <div class="meter"><div class="meter-fill" id="meterFill"></div></div>
+
+    <p class="review-tip" id="reviewTip" hidden>分数处于分档临界区间，建议人工复核</p>
+
+    <dl class="meta">
+      <div><dt>是否楼道</dt><dd id="metaHallway">--</dd></div>
+      <div><dt>隐患元素</dt><dd id="metaHazards">--</dd></div>
+      <div><dt>模型 / 耗时</dt><dd id="metaModel">--</dd></div>
+    </dl>
+
+    <div class="block">
+      <h3>观察到的内容</h3>
+      <ul id="obsList"></ul>
+    </div>
+
+    <div class="block">
+      <h3>判定依据</h3>
+      <p id="reasonText"></p>
+    </div>
+
+    <div class="block" id="adviceBlock">
+      <h3>整改建议</h3>
+      <ul id="adviceList"></ul>
+    </div>
+  </section>
+
+  <!-- ===================== 历史 ===================== -->
+  <section class="card">
+    <div class="section-head">
+      <h2>最近识别</h2>
+      <button class="btn-link" id="refreshHistory">刷新</button>
+    </div>
+    <div class="history" id="historyList">
+      <p class="muted">暂无记录</p>
+    </div>
+  </section>
+
+  <p class="disclaimer">AI 识别结果仅供参考，不能替代消防部门的现场检查。</p>
+</main>
+
+<div class="loading" id="loading" hidden>
+  <div class="spinner"></div>
+  <p>正在识别…</p>
+  <small id="loadingHint">大模型推理通常需要 2-6 秒</small>
+</div>
+
+<div class="toast" id="toast" hidden></div>
+
+<script src="/static/app.js"></script>
+</body>
+</html>

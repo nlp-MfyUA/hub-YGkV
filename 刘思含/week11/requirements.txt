@@ -1,0 +1,32 @@
+# Core
+python-dotenv==1.0.1
+pydantic==2.14.3
+pyyaml==6.0.2
+
+# SQLite & 数据处理
+pandas==2.2.3
+
+# PDF 解析
+pdfplumber==0.11.4
+reportlab==4.2.5
+
+# OCR（默认 PaddleOCR；若改用 Tesseract，删掉 paddleocr/paddlepaddle/numpy/opencv-python 四行）
+paddleocr==2.9.1
+paddlepaddle==2.6.2
+numpy==1.26.4
+opencv-python==4.11.0.86
+
+# 图片处理
+Pillow==11.0.0
+
+# ChatBI（已验证组合：openai 1.109.1 + openai-agents 0.1.0 + pydantic 2.14.3 兼容）
+openai==1.109.1
+openai-agents==0.1.0
+
+# 测试与代码质量
+pytest==8.3.3
+pytest-cov==6.0.0
+pytest-asyncio==0.24.0
+jsonschema==4.23.0
+ruff==0.7.3
+mypy==1.13.0
