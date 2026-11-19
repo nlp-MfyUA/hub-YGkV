@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="zh-CN"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>PDF 多模态问答 · 运行演示</title>
+<style>
+body{font:16px/1.7 system-ui,"Microsoft YaHei",sans-serif;margin:auto;max-width:1100px;padding:28px;background:#f3f5fa;color:#1d2f47}
+h1{margin:0 0 4px}h2{font-size:18px;margin:0 0 12px}
+section{background:#fff;padding:20px 24px;border:1px solid #d9e1ec;border-radius:14px;margin:18px 0;box-shadow:0 1px 2px rgba(20,40,80,.04)}
+button{background:#2b59d1;color:#fff;border:0;padding:8px 16px;border-radius:8px;cursor:pointer}
+small{color:#52647c}img{max-width:100%;border:1px solid #d9e1ec;border-radius:8px}
+ol{margin:0;padding-left:22px}li{margin:8px 0}code{background:#eef2f8;padding:1px 6px;border-radius:4px}
+a{color:#2b59d1}
+</style>
+<h1>PDF 多模态问答系统 · 运行演示</h1>
+<p><small>本页按操作顺序列出实际运行时的截图，配合“截图说明.md”阅读。<a href="/app">打开正在运行的问答页面（/app）</a></small></p>
+
+<section><h2>1. 服务启动</h2>
+<img src="screens/01_服务启动.png" alt="API 与 worker 启动">
+<ol>
+<li>Kafka 主题 <code>pdf.parse.v1</code> 已建好（单分区单副本）。</li>
+<li>API 监听 127.0.0.1:8000；解析 worker 作为独立进程加入消费组。</li>
+</ol></section>
+
+<section><h2>2. 作业1：Kafka 传递消息</h2>
+<img src="screens/02_kafka演示.png" alt="Kafka 生产与消费">
+<ol>
+<li>生产者发送 5 条任务到 <code>demo.task.v1</code>。</li>
+<li>消费者先于第二批发送启动，逐条处理并把结果写回 <code>demo.result.v1</code>。</li>
+<li>重复投递的任务由 Redis SETNX 判重后跳过，体现业务幂等。</li>
+</ol></section>
+
+<section><h2>3. 作业1：Redis 存储对话历史</h2>
+<img src="screens/03_redis演示.png" alt="Redis 对话历史">
+<ol>
+<li>每轮问答以 JSON 追加到 <code>chat:history:&lt;会话号&gt;</code> 这个 List。</li>
+<li><code>LTRIM</code> 只保留最近若干条，<code>EXPIRE</code> 设置过期时间。</li>
+<li>历史按会话号读取，可拼进下一次请求的 messages。</li>
+</ol></section>
+
+<section><h2>4. 上传后待解析</h2>
+<img src="screens/04_上传后_待解析.png" alt="上传后待解析">
+<ol>
+<li>上传 1 份 PDF，接口返回 202，页面显示“待解析”。</li>
+<li>任务已在 Kafka 中，由 worker 按顺序消费。</li>
+</ol></section>
+
+<section><h2>5. 解析中</h2>
+<img src="screens/05_解析中.png" alt="解析中">
+<ol>
+<li>worker 接手后状态变为“解析中（含图片描述和索引）”。</li>
+<li>页面每 2 秒轮询，刷新浏览器状态不会丢。</li>
+</ol></section>
+
+<section><h2>6. 解析完成</h2>
+<img src="screens/06_解析完成.png" alt="解析完成">
+<ol>
+<li>文字块、图片和向量都写入后才显示“解析完成”。</li>
+<li>只有“解析完成”的文档参与检索。</li>
+</ol></section>
+
+<section><h2>7. 多文件上传</h2>
+<img src="screens/07b_多文件追加_解析中.png" alt="多文件追加">
+<ol>
+<li>一次追加两份 PDF（其中一份文件名带空格和括号）也能正常入队。</li>
+<li>单 worker 按顺序解析，先完成的先变为“解析完成”。</li>
+</ol></section>
+
+<section><h2>8. MinerU 解析输出</h2>
+<img src="screens/10_mineru输出.png" alt="MinerU 输出">
+<ol>
+<li>worker 调用 MinerU 生成 Markdown 内容，保留页码、标题、表格。</li>
+<li>图片以定位符返回，再由 worker 调 <code>mineru read</code> 取出图片存到 <code>data/media/</code>。</li>
+</ol></section>
+
+<section><h2>9. 纯文字提问</h2>
+<img src="screens/08_文字问答.png" alt="文字问答"></section>
+
+<section><h2>10. 图问 + 文问，图文混排回答</h2>
+<img src="screens/09_带图提问与图文混排回答.png" alt="图文混排">
+<ol>
+<li>问题与提问图片一起提交；图片先转文字描述参与检索，原图随证据一起送视觉模型。</li>
+<li>回答按“文字 → 文档原图 → 文字”的顺序混排，图片标出来源并给页码链接。</li>
+<li>回答中的图片来自上传的 PDF，不是模型生成。</li>
+</ol></section>
+
+<section><h2>12. 测试</h2>
+<img src="screens/13_测试.png" alt="测试输出">
+<ol>
+<li>后端 12 个用例覆盖切块、上传原子性、状态流转、重试、图文请求、middle.json 解析与 Kafka 提交顺序。</li>
+<li>端到端冒烟覆盖“上传 → Kafka → worker → MinerU → 问答”。</li>
+</ol></section>
