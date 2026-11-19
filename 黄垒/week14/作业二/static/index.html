@@ -1,0 +1,162 @@
+<!doctype html>
+<html lang="zh-CN" data-theme="dark">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<title>多模态 RAG · Kafka 解析流水线</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%235b8cff'/%3E%3Ctext x='16' y='22' font-size='13' font-family='sans-serif' font-weight='bold' fill='white' text-anchor='middle'%3ER%3C/text%3E%3C/svg%3E" />
+<link rel="stylesheet" href="/static/style.css" />
+</head>
+<body>
+<div class="app">
+
+  <!-- ============================ 顶栏 ============================ -->
+  <header class="topbar">
+    <button class="icon-btn only-mobile" id="btnSidebar" title="文档库" aria-label="打开文档库">
+      <svg viewBox="0 0 24 24" width="18" height="18"><path d="M3 6h18M3 12h18M3 18h18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+    </button>
+
+    <div class="brand">
+      <span class="brand-mark">RAG</span>
+      <div class="brand-text">
+        <strong>多模态文档问答</strong>
+        <small>Kafka 异步解析 · MinerU 版面还原 · VLM 图文作答</small>
+      </div>
+    </div>
+
+    <div class="pipeline" id="pipeline" title="点击查看 Kafka 管道详情">
+      <span class="dot" id="pipeDot"></span>
+      <span class="pipe-text" id="pipeText">连接中…</span>
+    </div>
+
+    <button class="icon-btn" id="btnTheme" title="切换深浅色" aria-label="切换主题">
+      <svg viewBox="0 0 24 24" width="18" height="18" class="ico-moon"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z" fill="currentColor"/></svg>
+      <svg viewBox="0 0 24 24" width="18" height="18" class="ico-sun"><circle cx="12" cy="12" r="4.5" fill="currentColor"/><path d="M12 2v2.5M12 19.5V22M2 12h2.5M19.5 12H22M4.9 4.9l1.8 1.8M17.3 17.3l1.8 1.8M19.1 4.9l-1.8 1.8M6.7 17.3l-1.8 1.8" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+    </button>
+  </header>
+
+  <div class="body">
+
+    <!-- ============================ 侧栏 ============================ -->
+    <aside class="sidebar" id="sidebar">
+      <div class="side-head only-mobile">
+        <strong>文档库</strong>
+        <button class="icon-btn" id="btnSidebarClose" aria-label="关闭">
+          <svg viewBox="0 0 24 24" width="16" height="16"><path d="M6 6l12 12M18 6L6 18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+        </button>
+      </div>
+
+      <!-- 上传 -->
+      <section class="upload" id="dropzone">
+        <input type="file" id="fileInput" accept="application/pdf,.pdf" multiple hidden />
+        <div class="upload-inner">
+          <svg viewBox="0 0 24 24" width="26" height="26" class="upload-ico">
+            <path d="M12 16V4m0 0L7.5 8.5M12 4l4.5 4.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+            <path d="M4 15v3.5A2.5 2.5 0 0 0 6.5 21h11A2.5 2.5 0 0 0 20 18.5V15" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" fill="none"/>
+          </svg>
+          <p class="upload-title">拖入 PDF，或 <span class="link">选择文件</span></p>
+          <p class="upload-hint">支持一次多个 · 上传后进入 Kafka 队列异步解析</p>
+        </div>
+      </section>
+
+      <!-- 文档列表 -->
+      <section class="docs">
+        <div class="docs-head">
+          <span>文档库 <em id="docCount">0</em></span>
+          <button class="text-btn" id="btnRefresh" title="刷新">刷新</button>
+        </div>
+        <div class="docs-scope">
+          <label class="checkline">
+            <input type="checkbox" id="scopeAll" checked />
+            <span>在全部文档中检索</span>
+          </label>
+        </div>
+        <ul class="doc-list" id="docList"></ul>
+        <p class="docs-empty" id="docsEmpty">还没有文档，先上传几个 PDF 吧。</p>
+      </section>
+
+      <!-- 管道状态 -->
+      <section class="pipe-panel">
+        <div class="pipe-row"><span>解析任务 topic</span><code id="pipeTopic">—</code></div>
+        <div class="pipe-row"><span>消费组</span><code id="pipeGroup">—</code></div>
+        <div class="pipe-row"><span>分区堆积</span><code id="pipeLag">—</code></div>
+        <div class="pipe-row"><span>解析引擎</span><code id="pipeEngine">—</code></div>
+      </section>
+    </aside>
+
+    <!-- ============================ 对话区 ============================ -->
+    <main class="chat">
+      <div class="thread" id="thread">
+        <div class="empty" id="empty">
+          <div class="empty-art">
+            <svg viewBox="0 0 120 90" width="150" height="112">
+              <rect x="8" y="12" width="52" height="64" rx="6" fill="none" stroke="currentColor" stroke-opacity=".35" stroke-width="2"/>
+              <path d="M8 30h52" stroke="currentColor" stroke-opacity=".25" stroke-width="2"/>
+              <circle cx="18" cy="21" r="2.4" fill="currentColor" fill-opacity=".4"/>
+              <circle cx="26" cy="21" r="2.4" fill="currentColor" fill-opacity=".25"/>
+              <rect x="18" y="40" width="32" height="3.4" rx="1.7" fill="currentColor" fill-opacity=".22"/>
+              <rect x="18" y="48" width="24" height="3.4" rx="1.7" fill="currentColor" fill-opacity=".18"/>
+              <rect x="18" y="56" width="28" height="3.4" rx="1.7" fill="currentColor" fill-opacity=".15"/>
+              <rect x="18" y="64" width="14" height="3.4" rx="1.7" fill="currentColor" fill-opacity=".12"/>
+              <rect x="70" y="26" width="42" height="30" rx="6" fill="none" stroke="currentColor" stroke-opacity=".4" stroke-width="2"/>
+              <circle cx="80" cy="36" r="3.6" fill="none" stroke="currentColor" stroke-opacity=".45" stroke-width="1.8"/>
+              <path d="M72 52l10-9 7 6 6-5 10 8" fill="none" stroke="currentColor" stroke-opacity=".4" stroke-width="1.8" stroke-linejoin="round"/>
+              <path d="M112 41l-8 18" stroke="currentColor" stroke-opacity=".25" stroke-width="2" stroke-linecap="round"/>
+            </svg>
+          </div>
+          <h2>上传文档，然后开始提问</h2>
+          <p>解析完成后可以直接问内容，也可以上传一张图问「这张图和文档里的流程图有什么不同」。</p>
+          <div class="samples">
+            <button class="sample" data-q="文档里介绍了哪五种问答范式？分别适用于什么场景？">文档里介绍了哪五种问答范式？</button>
+            <button class="sample" data-q="表格问答支持哪些问法？请结合文档里的表格说明。">表格问答支持哪些问法？</button>
+            <button class="sample" data-q="FAQ 匹配式问答的流程图说明了什么？见图说明。">FAQ 的流程图说明了什么？</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- 输入区 -->
+      <div class="composer-wrap">
+        <div class="composer" id="composer">
+          <div class="attach-preview" id="attachPreview"></div>
+          <textarea id="input" rows="1" placeholder="问点什么…（Enter 发送，Shift+Enter 换行）"></textarea>
+          <div class="composer-bar">
+            <div class="left">
+              <input type="file" id="imgInput" accept="image/*" multiple hidden />
+              <button class="icon-btn ghost" id="btnAttach" title="上传图片一起提问">
+                <svg viewBox="0 0 24 24" width="18" height="18"><rect x="3" y="4" width="18" height="16" rx="3" fill="none" stroke="currentColor" stroke-width="1.8"/><circle cx="8.5" cy="9.5" r="1.6" fill="currentColor"/><path d="M4 17l5-4.5 4 3.5 3-2.5 4 3.5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg>
+              </button>
+              <span class="scope-hint" id="scopeHint">全部文档</span>
+            </div>
+            <div class="right">
+              <span class="kbd-hint">Enter 发送</span>
+              <button class="send-btn" id="btnSend" aria-label="发送">
+                <svg viewBox="0 0 24 24" width="17" height="17" class="ico-send"><path d="M4 12l16-8-6 8 6 8z" fill="currentColor"/></svg>
+                <svg viewBox="0 0 24 24" width="14" height="14" class="ico-stop"><rect x="6" y="6" width="12" height="12" rx="2" fill="currentColor"/></svg>
+              </button>
+            </div>
+          </div>
+        </div>
+        <p class="disclaimer">答案由本地 Qwen3.5-0.8B 生成，可能不准确；引用编号可点击查看原文。</p>
+      </div>
+    </main>
+  </div>
+
+  <div class="backdrop" id="backdrop"></div>
+</div>
+
+<!-- 管道详情弹层 -->
+<div class="modal" id="modal" hidden>
+  <div class="modal-card">
+    <div class="modal-head">
+      <strong>Kafka 管道</strong>
+      <button class="icon-btn" id="btnModalClose" aria-label="关闭">
+        <svg viewBox="0 0 24 24" width="16" height="16"><path d="M6 6l12 12M18 6L6 18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+      </button>
+    </div>
+    <pre class="modal-body" id="modalBody">加载中…</pre>
+  </div>
+</div>
+
+<script src="/static/app.js"></script>
+</body>
+</html>

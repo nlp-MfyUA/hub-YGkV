@@ -1,0 +1,10 @@
+# 运行时依赖（本机 conda 环境 py312 已全部预装，此文件用于换机器时重建）
+# 注意：mineru / vllm 依赖 torch，建议单独装，不要和这两个混在一个环境里反复升降级
+fastapi>=0.110
+uvicorn>=0.27
+python-multipart>=0.0.9
+httpx>=0.27
+kafka-python>=2.0
+redis>=5.0
+PyMySQL>=1.1
+Pillow>=10.0
