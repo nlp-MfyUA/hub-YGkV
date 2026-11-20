@@ -1,3 +1,18 @@
+'''前端网页
+  ↓（上传PDF，提交任务）
+FastAPI后端
+  ↓（写入Kafka topic: pdf_upload_topic）
+Kafka
+  ↓（独立消费进程 consumer.py）
+MinerU 解析PDF
+  ↓（提取文本、图片、图片路径）
+Redis：任务状态（pending / running / success / failed）
+向量库（Chroma）：图文分片Embedding，图片单独存本地，索引存入向量库
+  ↓
+问答接口：用户输入文本 + 可选上传图片 → 检索图文片段 → 送入Qwen-VL多模态LLM → 返回图文混排结果
+'''
+
+
 # config.py
 KAFKA_BOOTSTRAP_SERVERS = "127.0.0.1:9092"
 KAFKA_TOPIC_PDF = "pdf_upload_topic"
