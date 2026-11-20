@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>Kafka-MinerU多模态RAG</title>
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <style>
+        .box{margin:20px;padding:16px;border:1px solid #ccc;border-radius:8px;max-width:1100px}
+        .status-pending{color:#999}
+        .status-running{color:#217ad9}
+        .status-success{color:#28a745}
+        .status-failed{color:#dc3545}
+        .task-item{margin:8px 0;padding:8px;background:#f7f7f7}
+        textarea{width:100%;height:120px;padding:8px;box-sizing:border-box}
+        #answer{margin-top:12px;padding:12px;background:#fafafa;white-space:pre-wrap}
+        img{max-width:100%;border-radius:4px}
+    </style>
+</head>
+<body>
+    <h2>Kafka + MinerU 多模态RAG问答</h2>
+    <div class="box">
+        <h3>📄 批量上传PDF</h3>
+        <input type="file" id="pdfInput" multiple accept=".pdf">
+        <button onclick="uploadPdf()">提交解析</button>
+        <div id="taskList"></div>
+    </div>
+    <div class="box">
+        <h3>💬 多模态问答（支持图文一起提问）</h3>
+        <textarea id="question" placeholder="输入你的问题..."></textarea>
+        <br>
+        <input type="file" id="imgInput" accept="image/*">
+        <button onclick="sendChat()">发送提问</button>
+        <div id="answer"></div>
+    </div>
+
+    <script>
+        let taskMap = {};
+        async function uploadPdf(){
+            const files = document.getElementById("pdfInput").files;
+            for(let f of files){
+                const fd = new FormData();
+                fd.append("file", f);
+                const res = await fetch("/upload_pdf", {method:"POST", body:fd});
+                const data = await res.json();
+                taskMap[data.task_id] = data;
+                renderTask();
+                pollStatus(data.task_id);
+            }
+        }
+        function renderTask(){
+            const wrap = document.getElementById("taskList");
+            wrap.innerHTML = "";
+            Object.values(taskMap).forEach(t=>{
+                const dom = document.createElement("div");
+                dom.className = "task-item";
+                let cls = "status-pending";
+                let txt = "待解析";
+                if(t.status==="running"){cls="status-running";txt="解析中"}
+                if(t.status==="success"){cls="status-success";txt="解析完成"}
+                if(t.status==="failed"){cls="status-failed";txt="解析失败"}
+                dom.innerHTML = `${t.filename} | <span class="${cls}">${txt}</span>`
+                wrap.appendChild(dom);
+            })
+        }
+        async function pollStatus(tid){
+            while(true){
+                const res = await fetch(`/task_status/${tid}`);
+                const data = await res.json();
+                taskMap[tid].status = data.status;
+                renderTask();
+                if(["success","failed"].includes(data.status)) break;
+                await sleep(1500);
+            }
+        }
+        function sleep(ms){return new Promise(r=>setTimeout(r,ms))}
+        async function sendChat(){
+            const q = document.getElementById("question").value;
+            const img = document.getElementById("imgInput").files[0];
+            const fd = new FormData();
+            fd.append("question", q);
+            if(img) fd.append("image", img);
+            const res = await fetch("/mm_chat", {method:"POST", body:fd});
+            const ret = await res.json();
+            document.getElementById("answer").innerHTML = marked.parse(ret.answer);
+        }
+    </script>
+</body>
+</html>
