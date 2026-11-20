@@ -1,0 +1,2 @@
+1.分别使用langgraph 和 openai-agents实现指定的逻辑（前端可以动态切换实现方案）
+2.使用Docker和DockerFile来构建应用以及部署
