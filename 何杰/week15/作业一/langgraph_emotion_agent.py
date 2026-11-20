@@ -9,7 +9,7 @@ app = FastAPI(title="LangGraph 情感Agent")
 
 # 大模型配置
 llm = ChatOpenAI(
-    api_key=os.getenv("LLM_API_KEY", "your-key"),
+    api_key=os.getenv("LLM_API_KEY", "sk-2748ea51bf574999aeadd7a81130beeb"),
     base_url=os.getenv("LLM_BASE_URL", "https://dashscope.aliyuncs.com/compatible-mode/v1"),
     model="qwen-turbo"
 )
