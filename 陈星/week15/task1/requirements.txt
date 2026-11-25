@@ -1,0 +1,8 @@
+langgraph==1.2.24
+langchain-openai==1.8.5
+openai-agents==0.26.0
+fastapi>=0.115,<1
+uvicorn>=0.32,<1
+httpx[socks]>=0.28,<1
+pydantic>=2.10,<3
+pytest>=8,<10

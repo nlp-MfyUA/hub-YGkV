@@ -1,0 +1,6 @@
+openai-agents==0.26.0
+openai==3.59.0
+fastapi==0.165.0
+uvicorn==0.54.0
+httpx[socks]==0.28.1
+pydantic==2.14.4

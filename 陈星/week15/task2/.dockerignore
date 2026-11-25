@@ -1,0 +1,10 @@
+.git
+.venv
+.pytest_cache
+**/__pycache__
+**/*.py[cod]
+**/.env
+**/.env.*
+*.tar
+*.tar.gz
+*.zip
