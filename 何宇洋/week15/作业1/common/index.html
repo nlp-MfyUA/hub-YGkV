@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="zh-CN">
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>情感识别与回应</title>
+<style>
+body{font-family:system-ui,sans-serif;background:#f4f6f9;color:#243049;margin:0;padding:40px 20px}
+main{max-width:720px;margin:auto;background:white;padding:32px;border-radius:16px;box-shadow:0 8px 35px #24304910}
+h1{font-size:26px}p{line-height:1.7;color:#526078}textarea{box-sizing:border-box;width:100%;height:150px;border:1px solid #aab6c9;border-radius:8px;padding:14px;font:inherit;resize:vertical}
+button{background:#315cc6;color:white;border:0;border-radius:8px;padding:12px 22px;font:inherit;cursor:pointer;margin-top:14px}button:disabled{opacity:.5;cursor:wait}
+#result{margin-top:24px;border-top:1px solid #dde3ec;padding-top:16px;white-space:pre-wrap;line-height:1.8}#error{color:#b42318}small{color:#65718b}
+</style>
+<main><small>{{framework}} · 四进程情感助手</small><h1>说说你此刻的心情</h1>
+<p>输入一段文字，助手将识别情感，并给予鼓励或帮助你排解情绪。</p>
+<form id="form"><label for="text">你的分享</label><textarea id="text" maxlength="2000" required placeholder="例如：今天终于完成了一个很难的任务！"></textarea>
+<button id="submit">发送</button><p id="status" role="status"></p><p id="error" role="alert"></p></form>
+<section id="result" aria-live="polite" hidden></section></main>
+<script>
+const form=document.querySelector('#form'),button=document.querySelector('#submit'),result=document.querySelector('#result'),error=document.querySelector('#error'),statusEl=document.querySelector('#status');
+form.addEventListener('submit',async event=>{
+ event.preventDefault();const text=document.querySelector('#text').value.trim();if(!text){error.textContent='请输入非空内容';return;}
+ button.disabled=true;error.textContent='';result.hidden=true;statusEl.textContent='正在识别情感并生成回应…';
+ try{const response=await fetch('/api/chat',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({text})});
+ const data=await response.json();if(!response.ok)throw new Error(typeof data.detail==='string'?data.detail:'输入无效或服务请求失败');
+ result.textContent=`情感：${data.analysis.sentiment==='positive'?'正向':'负面'}\n依据：${data.analysis.reason}\n回应策略：${data.strategy==='encourage'?'鼓励':'排解'}\n\n${data.reply}`;result.hidden=false;
+ }catch(e){error.textContent=e.message;}finally{button.disabled=false;statusEl.textContent='';}
+});
+</script></html>

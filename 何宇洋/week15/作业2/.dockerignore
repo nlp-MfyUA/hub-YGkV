@@ -1,0 +1,13 @@
+**/__pycache__
+**/*.pyc
+.env
+.env.*
+.git
+.venv
+*.log
+README.md
+验证记录.md
+verify.py
+verify_container.py
+验证结果.json
+build.ps1

@@ -1,0 +1,98 @@
+[
+  {
+    "id": "M01",
+    "title": "生态环境部气候政策行动报告发布",
+    "url": "https://www.mee.gov.cn/ywgz/ydqhbh/wsqtkz/202610/t20261021_1183474.shtml",
+    "publisher": "生态环境部",
+    "published_date": "2026-10-21",
+    "event_date": "2026-10-21",
+    "verification": "full_text",
+    "section": "政策",
+    "note": "当月新发布；报告是政策进展梳理",
+    "retrieved_date": "2026-11-26"
+  },
+  {
+    "id": "M02",
+    "title": "气候应用指南与九项行业指南征求意见",
+    "url": "https://bgt.mof.gov.cn/zhuantilanmu/rdwyh/czyw/202609/t20260929_3998329.htm",
+    "publisher": "财政部办公厅",
+    "published_date": "2026-09-30",
+    "event_date": "2026-10-26",
+    "verification": "full_text",
+    "section": "标准",
+    "note": "9月发布、10月意见截止；征求意见不等于生效",
+    "retrieved_date": "2026-11-26"
+  },
+  {
+    "id": "M03",
+    "title": "自然相关披露征求意见函",
+    "url": "https://kjs.mof.gov.cn/gongzuotongzhi/202611/t20261109_4004283.htm",
+    "publisher": "财政部会计司",
+    "published_date": "2026-11-09",
+    "event_date": "2026-10-22",
+    "verification": "full_text",
+    "section": "标准",
+    "note": "11月网页追溯10月事件，仅作期后核验；函署11月6日",
+    "retrieved_date": "2026-11-26"
+  },
+  {
+    "id": "M04",
+    "title": "中国神华2026年三季报",
+    "url": "https://static.cninfo.com.cn/finalpage/2026-10-24/1225620903.PDF",
+    "publisher": "中国神华",
+    "published_date": "2026-10-24",
+    "event_date": "2026-09-30",
+    "verification": "full_text",
+    "section": "公司",
+    "note": "当月新披露、报告期为前三季度；未经审计",
+    "retrieved_date": "2026-11-26"
+  },
+  {
+    "id": "M05",
+    "title": "收购煤制气50%股权关联交易",
+    "url": "https://paper.cnstock.com/html/2026-10/24/content_2280574.htm",
+    "publisher": "中国神华/指定披露报刊",
+    "published_date": "2026-10-24",
+    "event_date": "2026-10-23",
+    "verification": "official_index",
+    "section": "公司",
+    "note": "正文抓取超时；6.18亿元仅作待核验金额",
+    "retrieved_date": "2026-11-26"
+  },
+  {
+    "id": "M06",
+    "title": "华能熔盐储能耦合发电示范开工",
+    "url": "https://www.chng.com.cn/detail_jtyw/-/article/ccgb60va5Gwc/v/1324914.html",
+    "publisher": "中国华能集团",
+    "published_date": "2026-09-16",
+    "event_date": "2026-09-16",
+    "verification": "official_index",
+    "section": "行业与对标",
+    "note": "9月历史背景，搜索索引可见开工信息；未打开原文",
+    "retrieved_date": "2026-11-26"
+  },
+  {
+    "id": "M07",
+    "title": "宝武与必和必拓续签降碳合作",
+    "url": "https://www.csm.org.cn/col/col6371/art/2026/art_997ee326c921921f68da275a9552ef1f.html",
+    "publisher": "中国金属学会刊载/中国冶金报",
+    "published_date": "2026-09-28",
+    "event_date": null,
+    "verification": "full_text",
+    "section": "对标",
+    "note": "已打开原文，9月历史背景；实际签署日期仅称近日",
+    "retrieved_date": "2026-11-26"
+  },
+  {
+    "id": "M08",
+    "title": "CNESA储能采招观察",
+    "url": "https://www.cnesa.org/information/detail/?column_id=58&id=8668",
+    "publisher": "中关村储能产业技术联盟",
+    "published_date": null,
+    "event_date": "2026-09-30",
+    "verification": "official_index",
+    "section": "行业",
+    "note": "打开页面但本次未完整定位正文发布日期，日期待核验",
+    "retrieved_date": "2026-11-26"
+  }
+]

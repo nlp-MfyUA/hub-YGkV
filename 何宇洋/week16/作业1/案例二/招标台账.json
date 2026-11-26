@@ -1,0 +1,62 @@
+[
+  {
+    "id": "T01",
+    "title": "哈尔滨市华能集中供热有限公司碳排放管控服务项目",
+    "buyer": "哈尔滨市华能集中供热有限公司",
+    "project_id": "哈产委采﹝2026﹞第1044号",
+    "lot": "ALL",
+    "notice_type": "tender",
+    "published_date": "2026-11-25",
+    "verification": "full_text",
+    "relevant": true,
+    "budget_raw": "95000元",
+    "deadline": "2026-12-04T13:30:00+08:00",
+    "registration_deadline": "2026-12-01T16:00:00+08:00",
+    "url": "https://hrbggzy.harbin.gov.cn/cqjy/003008/003008001/20261125/465c7647-511f-4ec4-9383-2c8865cdaaca.html"
+  },
+  {
+    "id": "T02",
+    "title": "江苏银行2026-2028年ESG数据采购",
+    "buyer": "江苏银行股份有限公司",
+    "project_id": "待核验-T02",
+    "lot": "ALL",
+    "notice_type": "tender",
+    "published_date": "2026-11-20",
+    "verification": "search_only",
+    "relevant": true,
+    "budget_raw": "260万元",
+    "deadline": "2026-12-09T09:00:00+08:00",
+    "registration_deadline": "2026-11-27T17:00:00+08:00",
+    "url": "https://www.qianlima.com/bid-649699891.html"
+  },
+  {
+    "id": "T03",
+    "title": "粤海置地ESG报告顾问第二次采购",
+    "buyer": "粤海置地控股有限公司",
+    "project_id": "待核验-T03",
+    "lot": "ALL",
+    "notice_type": "tender",
+    "published_date": "2026-11-24",
+    "verification": "search_only",
+    "relevant": true,
+    "budget_raw": null,
+    "deadline": "2026-12-04T09:30:00+08:00",
+    "url": "https://440106.bidcenter.com.cn/bidinfo-1-a0f73512c37219a9c181963b3cdb5aa64be9d187eea3b288.html"
+  },
+  {
+    "id": "T04",
+    "title": "工业领域重点用能行业碳排放统计核算及能效（碳效）诊断",
+    "buyer": "福建省节能中心",
+    "project_id": "[350001]FJRF[GK]2026004",
+    "lot": "ALL",
+    "notice_type": "tender",
+    "published_date": "2026-11-05",
+    "verification": "official_index",
+    "relevant": true,
+    "budget_raw": "288万元",
+    "deadline": "2026-11-26T09:00:00+08:00",
+    "registration_deadline": "2026-11-12T23:59:00+08:00",
+    "url": "https://www.ccgp.gov.cn/cggg/dfgg/gkzb/202611/t20261105_27629675.htm"
+  }
+]
+
