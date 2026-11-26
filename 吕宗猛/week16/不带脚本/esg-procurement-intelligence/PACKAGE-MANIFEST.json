@@ -1,0 +1,46 @@
+{
+  "package": "esg-procurement-intelligence",
+  "variant": "without_scripts",
+  "frozen_at": "2026-11-26T22:45:00+08:00",
+  "file_count": 6,
+  "total_bytes": 26449,
+  "has_executable_files": false,
+  "files": [
+    {
+      "path": "agents/openai.yaml",
+      "bytes": 442,
+      "sha256": "60da761b0fcd3b76927993882428d0fd9c5bf28f7f5cc21a3efa84366fd94a73",
+      "executable": false
+    },
+    {
+      "path": "references/data-contract.md",
+      "bytes": 9371,
+      "sha256": "45491a93d1cb0a54680645a64feb59fa1614b7dfa2953308288fb275f69985c0",
+      "executable": false
+    },
+    {
+      "path": "references/reporting.md",
+      "bytes": 3869,
+      "sha256": "fb04f61d80149b5de05a9586cd450b2c7f32c0cb953371eb49524515a1d36669",
+      "executable": false
+    },
+    {
+      "path": "references/research.md",
+      "bytes": 5648,
+      "sha256": "13eb5420366382bad0650002b02713fd2d0788e0e82a5cc4ede01152b63877fe",
+      "executable": false
+    },
+    {
+      "path": "SKILL.md",
+      "bytes": 7063,
+      "sha256": "fd5f2ff1e310043bc67fab546301d5b224f46f545a142082b36b683c48bcad35",
+      "executable": false
+    },
+    {
+      "path": "VERSION",
+      "bytes": 56,
+      "sha256": "499db6d81a91e9aa08c168df7c51d1a648e921ce27685cb7bd7f0da67d3a374d",
+      "executable": false
+    }
+  ]
+}

@@ -1,0 +1,94 @@
+{
+  "package": "esg-procurement-intelligence",
+  "variant": "with_scripts",
+  "frozen_at": "2026-11-26T22:45:00+08:00",
+  "file_count": 14,
+  "total_bytes": 153334,
+  "has_executable_files": true,
+  "files": [
+    {
+      "path": "agents/openai.yaml",
+      "bytes": 442,
+      "sha256": "60da761b0fcd3b76927993882428d0fd9c5bf28f7f5cc21a3efa84366fd94a73",
+      "executable": false
+    },
+    {
+      "path": "references/data-contract.md",
+      "bytes": 9371,
+      "sha256": "45491a93d1cb0a54680645a64feb59fa1614b7dfa2953308288fb275f69985c0",
+      "executable": false
+    },
+    {
+      "path": "references/reporting.md",
+      "bytes": 3869,
+      "sha256": "fb04f61d80149b5de05a9586cd450b2c7f32c0cb953371eb49524515a1d36669",
+      "executable": false
+    },
+    {
+      "path": "references/research.md",
+      "bytes": 6011,
+      "sha256": "53eefc2617d38a1e6607595f03aea93dec52b234210ed0ef104549632e05c01b",
+      "executable": false
+    },
+    {
+      "path": "scripts/_notifications/__init__.py",
+      "bytes": 538,
+      "sha256": "f7f58d9657e0dd1a48c1e71c7cd57d328542ab7bb4f9ad90c7cfe6009486c3fd",
+      "executable": true
+    },
+    {
+      "path": "scripts/_notifications/core.py",
+      "bytes": 28083,
+      "sha256": "d3dc299411875e54cb0d1d9d732d3cd7b4794a1718ec7f31f3738d775af6c5ad",
+      "executable": true
+    },
+    {
+      "path": "scripts/_notifications/secrets.py",
+      "bytes": 5322,
+      "sha256": "f50bc0f3eb4664cb70ae5d50f16956c0ea4877b6a43c7ab3196516417b946da5",
+      "executable": true
+    },
+    {
+      "path": "scripts/fetch_sources.py",
+      "bytes": 15222,
+      "sha256": "2c936158b044f3fe5184a4f30011ab3649091d326626c2e1f94e630f9952de91",
+      "executable": true
+    },
+    {
+      "path": "scripts/notify_report.py",
+      "bytes": 3647,
+      "sha256": "4036acfe4a0ead397e64d35a6eebe4501519159809330b1145adc9030cb3038f",
+      "executable": true
+    },
+    {
+      "path": "scripts/procurement_data.py",
+      "bytes": 40100,
+      "sha256": "7de421dd21a94307111be75fdb2282c2abb84a54aa6c31050158fbefec6820ad",
+      "executable": true
+    },
+    {
+      "path": "scripts/search_web.py",
+      "bytes": 17133,
+      "sha256": "a06342033ada42e6f64e1398b1809ffcde44dee01d1986543b515262e98bb32e",
+      "executable": true
+    },
+    {
+      "path": "SKILL.md",
+      "bytes": 6702,
+      "sha256": "e108615b12ce95ce6218680dca7111e887edcca58c0461024fe1ff1873e29827",
+      "executable": false
+    },
+    {
+      "path": "tests/test_procurement_data.py",
+      "bytes": 16841,
+      "sha256": "7b7b76ec877bd76a2e1581dbeb214300dcec28b6f78c1de3751182190df81c01",
+      "executable": true
+    },
+    {
+      "path": "VERSION",
+      "bytes": 53,
+      "sha256": "a53779861207b0c25cbe64414bb3decb61b12b72e8229fc0f396e287ed3c5e5a",
+      "executable": false
+    }
+  ]
+}
