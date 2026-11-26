@@ -1,0 +1,4 @@
+interface:
+  display_name: "ESG 月报研究"
+  short_description: "自主检索并核验政策、公司和同行信息，形成可追溯的技术向 ESG 月报"
+  default_prompt: "使用 $esg-monthly-report 为中国神华能源股份有限公司生成上一自然月的技术向 ESG 月报，自主联网研究并交付 Markdown 与证据台账。"

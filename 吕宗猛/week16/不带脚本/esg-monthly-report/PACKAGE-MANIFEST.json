@@ -1,0 +1,52 @@
+{
+  "package": "esg-monthly-report",
+  "variant": "without_scripts",
+  "frozen_at": "2026-11-26T22:45:00+08:00",
+  "file_count": 7,
+  "total_bytes": 23049,
+  "has_executable_files": false,
+  "files": [
+    {
+      "path": "agents/openai.yaml",
+      "bytes": 355,
+      "sha256": "45ad856a2d7636438f3d4449b97619ba45369a310f456610fb7d73a18969cfe6",
+      "executable": false
+    },
+    {
+      "path": "references/evidence-format.md",
+      "bytes": 6863,
+      "sha256": "912af29b3146206f5f449e76f417080e84482b01224acee282fb971fe5d3c2f8",
+      "executable": false
+    },
+    {
+      "path": "references/report-quality.md",
+      "bytes": 3406,
+      "sha256": "c2bad264e56cdd4a043977c32d1b726a233d498946207aa35bde2d65a46a75f7",
+      "executable": false
+    },
+    {
+      "path": "references/research-method.md",
+      "bytes": 4387,
+      "sha256": "d9873bb6d6a83dd4567eecc9cfe2d3a9dd7fdccd3a9d619b1b6e9d7fbd503160",
+      "executable": false
+    },
+    {
+      "path": "references/shenhua-profile.md",
+      "bytes": 2608,
+      "sha256": "3469bdf88e55bc6113da874c55ee6512edf8c965bfc7aa023405243ab1723e1f",
+      "executable": false
+    },
+    {
+      "path": "SKILL.md",
+      "bytes": 5374,
+      "sha256": "f1ac85c9dc6ecbaf4ba50f2a85919c6f9d736a749dd6e3a400015dacd86c36f0",
+      "executable": false
+    },
+    {
+      "path": "VERSION",
+      "bytes": 56,
+      "sha256": "499db6d81a91e9aa08c168df7c51d1a648e921ce27685cb7bd7f0da67d3a374d",
+      "executable": false
+    }
+  ]
+}

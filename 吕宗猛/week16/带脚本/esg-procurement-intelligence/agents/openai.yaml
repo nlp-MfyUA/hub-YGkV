@@ -1,0 +1,6 @@
+interface:
+  display_name: "ESG 招投标研究与监控"
+  short_description: "自主检索全国 ESG、双碳与环保工程公告，形成证据可追溯的分层中标研究及增量日报"
+  default_prompt: "使用 $esg-procurement-intelligence 自主检索全国过去24个月的 ESG、双碳、节能改造和环保工程中标信息，核验原文并生成分层统计和 Markdown 报告。"
+policy:
+  allow_implicit_invocation: true
