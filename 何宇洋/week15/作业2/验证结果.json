@@ -1,0 +1,30 @@
+{
+  "image": "sentiment-agents:hw2",
+  "image_id": "sha256:3c6582732f94ba2ec260037b0d996f4ae73b49330a09b36a404f5841e6400e77",
+  "health": "healthy",
+  "user": "app",
+  "four_service_processes": true,
+  "stop_exit_code": 0,
+  "results": [
+    {
+      "reply": "太棒了！完成一个难任务的那一刻，那种如释重负的开心是实打实的，值得好好享受一下。你愿意多说说这个任务难在哪里吗？我挺好奇你是怎么一步步攻下来的。",
+      "text": "今天终于完成了一个很难的任务，特别开心！",
+      "analysis": {
+        "sentiment": "positive",
+        "reason": "表达了完成任务后的开心情绪"
+      },
+      "framework": "openai-agents",
+      "strategy": "encourage"
+    },
+    {
+      "reply": "接连出错又顶着压力，难过很正常。可以先把手头任务停一停，列出最急的一两件，先完成一件小的找回掌控感；下班后做十分钟散步或深呼吸，让紧绷缓一缓。",
+      "text": "最近工作接连出错，我很难过，感觉压力很大。",
+      "analysis": {
+        "sentiment": "negative",
+        "reason": "表达了接连出错后的难过和高压力感受"
+      },
+      "framework": "openai-agents",
+      "strategy": "comfort"
+    }
+  ]
+}

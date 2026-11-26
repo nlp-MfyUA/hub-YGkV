@@ -1,0 +1,7 @@
+fastapi==0.139.0
+uvicorn==0.50.2
+httpx==0.28.1
+pydantic==2.13.4
+openai==2.47.0
+openai-agents==0.19.1
+langgraph==1.2.12
