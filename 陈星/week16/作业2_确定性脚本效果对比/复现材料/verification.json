@@ -1,0 +1,64 @@
+{
+  "monthly": {
+    "runs_equal": 3,
+    "count": 14,
+    "counts": {
+      "duplicate": 1,
+      "included": 4,
+      "out_of_window": 3,
+      "review": 6
+    },
+    "priced": 0,
+    "sum": null,
+    "initial_priced": 0,
+    "initial_sum": null,
+    "sha256": "3c008469c4735aa1001dc5b369ff71775f093f2e1b2fdd19e20c3bf8b5da771f"
+  },
+  "awards": {
+    "runs_equal": 3,
+    "count": 13,
+    "counts": {
+      "duplicate": 1,
+      "included": 8,
+      "not_in_scope": 2,
+      "review": 2
+    },
+    "priced": 7,
+    "sum": "50785299.00",
+    "initial_priced": 5,
+    "initial_sum": "40098500",
+    "sha256": "b1a5dd5c3fee06dd9fac82adfcb514749fc3ac01b86d232068925f18b2962ae4"
+  },
+  "monthly-live": {
+    "candidate_count": 29,
+    "open_attempted": 18,
+    "opened_count": 17,
+    "queries": 7,
+    "counts": {
+      "included": 7,
+      "not_in_scope": 1,
+      "out_of_window": 1,
+      "review": 9
+    },
+    "amount": null
+  },
+  "tender-live": {
+    "candidate_count": 24,
+    "open_attempted": 16,
+    "opened_count": 10,
+    "queries": 5,
+    "counts": {
+      "included": 1,
+      "not_in_scope": 5,
+      "out_of_window": 1,
+      "review": 9
+    },
+    "amount": "325000.00"
+  },
+  "edge_checks": 16,
+  "status_accuracy": {
+    "baseline": 27,
+    "initial": 26,
+    "revised": 27
+  }
+}

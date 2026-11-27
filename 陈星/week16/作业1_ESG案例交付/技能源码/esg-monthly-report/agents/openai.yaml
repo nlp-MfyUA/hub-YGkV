@@ -1,0 +1,13 @@
+interface:
+  display_name: ESG月报
+  short_description: 从公开资料自动核查政策、行业和企业动态，生成带证据和行动建议的 ESG 月报
+  default_prompt: 用 $esg-monthly-report 为中国神华生成最近一个完整自然月的 ESG 月报。
+  icon_small: assets/icon.svg
+  icon_large: assets/icon.svg
+policy:
+  products:
+  - chatgpt
+  - codex
+  - api
+  - atlas
+  allow_implicit_invocation: true
