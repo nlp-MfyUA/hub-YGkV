@@ -1,0 +1,278 @@
+{
+  "profile": "monthly",
+  "mode": "awards",
+  "window": [
+    "2026-10-01",
+    "2026-10-31"
+  ],
+  "counts": {
+    "duplicate": 1,
+    "included": 4,
+    "out_of_window": 3,
+    "review": 6
+  },
+  "query_count": 0,
+  "query_failures": [],
+  "priced": 0,
+  "amount_total_yuan": null,
+  "cards": [
+    {
+      "id": "M01",
+      "title": "国家能源局关于推动煤电与新能源融合发展的实施意见",
+      "url": "https://www.nea.gov.cn/20261021/fbd5cb3be4584be88f63046ffb0155fc/c.html",
+      "published": null,
+      "date_source": null,
+      "lane": "",
+      "ref": null,
+      "amount_yuan": null,
+      "topics": [
+        "煤电与新能源"
+      ],
+      "signals": [],
+      "status": "review",
+      "reason": "缺少可核实的发布日期"
+    },
+    {
+      "id": "M02",
+      "title": "上市公司可持续发展报告电子化规范等3项行业标准",
+      "url": "https://www.csrc.gov.cn/csrc/c101954/c7667691/content.shtml",
+      "published": null,
+      "date_source": null,
+      "lane": "",
+      "ref": null,
+      "amount_yuan": null,
+      "topics": [
+        "气候披露",
+        "ESG报告与鉴证"
+      ],
+      "signals": [
+        "推荐性标准",
+        "正式公告"
+      ],
+      "status": "review",
+      "reason": "缺少可核实的发布日期"
+    },
+    {
+      "id": "M03",
+      "title": "财政部关于征求气候准则应用指南及煤炭等行业应用指南意见的函",
+      "url": "https://bgt.mof.gov.cn/zhuantilanmu/rdwyh/czyw/202609/t20260929_3998329.htm",
+      "published": "2026-09-30",
+      "date_source": "正文发布字段",
+      "lane": "",
+      "ref": null,
+      "amount_yuan": null,
+      "topics": [
+        "气候披露"
+      ],
+      "signals": [
+        "征求意见"
+      ],
+      "status": "out_of_window",
+      "reason": "发布日超出观察期"
+    },
+    {
+      "id": "M04",
+      "title": "中国神华2026年10月份主要运营数据公告",
+      "url": "https://money.finance.sina.com.cn/corp/view/vCB_AllBulletinDetail.php?id=12705587&stockid=601088",
+      "published": "2026-11-14",
+      "date_source": "正文发布字段",
+      "lane": "",
+      "ref": null,
+      "amount_yuan": null,
+      "topics": [
+        "公司运营与资本变动"
+      ],
+      "signals": [
+        "口径调整"
+      ],
+      "status": "out_of_window",
+      "reason": "发布日超出观察期"
+    },
+    {
+      "id": "M05",
+      "title": "华能察右中旗灵活性改造配置新能源项目并网",
+      "url": "https://www.chng.com.cn/detail_yxxw/-/article/2vMCKgtLDZqb/v/1327362.html",
+      "published": null,
+      "date_source": null,
+      "lane": "",
+      "ref": null,
+      "amount_yuan": null,
+      "topics": [
+        "煤电与新能源",
+        "ESG报告与鉴证"
+      ],
+      "signals": [
+        "并网"
+      ],
+      "status": "review",
+      "reason": "缺少可核实的发布日期"
+    },
+    {
+      "id": "M06",
+      "title": "IFRS ISSB Update October 2026",
+      "url": "https://www.ifrs.org/news-and-events/updates/issb/2026/issb-update-october-2026/",
+      "published": null,
+      "date_source": null,
+      "lane": "",
+      "ref": null,
+      "amount_yuan": null,
+      "topics": [
+        "气候披露"
+      ],
+      "signals": [
+        "初步决定"
+      ],
+      "status": "review",
+      "reason": "缺少可核实的发布日期"
+    },
+    {
+      "id": "M07",
+      "title": "中国神华2026年9月份主要运营数据公告",
+      "url": "https://static.cninfo.com.cn/finalpage/2026-10-15/1225605126.PDF",
+      "published": "2026-10-15",
+      "date_source": "巨潮披露路径",
+      "lane": "",
+      "ref": null,
+      "amount_yuan": null,
+      "topics": [
+        "公司运营与资本变动"
+      ],
+      "signals": [
+        "口径调整"
+      ],
+      "facts": [
+        "商品煤产量 44.5 百万吨（公告表首个期间）",
+        "总发电量 24.69 十亿千瓦时（公告表首个期间）"
+      ],
+      "status": "included",
+      "reason": "发布期与证据门槛通过"
+    },
+    {
+      "id": "M08",
+      "title": "China Shenhua Energy Co. Ltd. | S&P Global",
+      "url": "https://www.spglobal.com/sustainable1/en/scores/results?cid=4230011",
+      "published": null,
+      "date_source": null,
+      "lane": "",
+      "ref": null,
+      "amount_yuan": null,
+      "topics": [
+        "ESG评级与治理"
+      ],
+      "signals": [],
+      "status": "review",
+      "reason": "缺少可核实的发布日期"
+    },
+    {
+      "id": "M09",
+      "title": "国家能源局举行新闻发布会 介绍前三季度电力市场交易情况",
+      "url": "https://www.nea.gov.cn/20261030/87abaee3b6634409b11694697eafca18/c.html",
+      "published": "2026-10-30",
+      "date_source": "正文发布字段",
+      "lane": "",
+      "ref": null,
+      "amount_yuan": null,
+      "topics": [
+        "煤电与新能源"
+      ],
+      "signals": [],
+      "facts": [
+        "全国绿电交易 2492 亿千瓦时，同比增长 6.1%"
+      ],
+      "status": "included",
+      "reason": "发布期与证据门槛通过"
+    },
+    {
+      "id": "M10",
+      "title": "探寻平朔集团亿吨级煤炭基地的绿色化、智能化转型之路",
+      "url": "https://www.cs.com.cn/esg/2026/10/08/detail_2026100810043182.html",
+      "published": null,
+      "date_source": null,
+      "lane": "",
+      "ref": null,
+      "amount_yuan": null,
+      "topics": [
+        "煤电与新能源",
+        "绿色矿山"
+      ],
+      "signals": [],
+      "status": "review",
+      "reason": "发布者需核验"
+    },
+    {
+      "id": "M11",
+      "title": "推动煤电与新能源融合发展 以系统协同促进绿色低碳转型",
+      "url": "https://www.nea.gov.cn/20261021/42676e4ebaf046299337ee12abf2e6c9/c.html",
+      "published": "2026-10-21",
+      "date_source": "正文发布字段",
+      "lane": "",
+      "ref": null,
+      "amount_yuan": null,
+      "topics": [
+        "煤电与新能源",
+        "碳市场与核算",
+        "公司运营与资本变动"
+      ],
+      "signals": [],
+      "facts": [
+        "所列融合场景的年度减排鼓励目标为至少 5%，力争至少 10%"
+      ],
+      "status": "included",
+      "reason": "发布期与证据门槛通过"
+    },
+    {
+      "id": "M12",
+      "title": "中国神华获香港会计师公会2026年度最佳企业管治及ESG奖",
+      "url": "https://www.ceic.com/gjnyjtww/newCE0302/202611/c9bf52ab91424c22940a5912ff86b189.shtml",
+      "published": "2026-11-11",
+      "date_source": "正文发布字段",
+      "lane": "",
+      "ref": null,
+      "amount_yuan": null,
+      "topics": [
+        "ESG评级与治理",
+        "ESG报告与鉴证"
+      ],
+      "signals": [],
+      "status": "out_of_window",
+      "reason": "发布日超出观察期"
+    },
+    {
+      "id": "M13",
+      "title": "中国神华能源股份有限公司2026年第三季度报告",
+      "url": "https://static.cninfo.com.cn/finalpage/2026-10-24/1225620903.PDF",
+      "published": "2026-10-24",
+      "date_source": "巨潮披露路径",
+      "lane": "",
+      "ref": null,
+      "amount_yuan": null,
+      "topics": [
+        "公司运营与资本变动"
+      ],
+      "signals": [
+        "口径调整"
+      ],
+      "facts": [
+        "报告披露纳入合并范围的标的公司 11 家"
+      ],
+      "status": "included",
+      "reason": "发布期与证据门槛通过"
+    },
+    {
+      "id": "M14",
+      "title": "国家能源局举行新闻发布会 介绍前三季度电力市场交易情况",
+      "url": "https://www.nea.gov.cn/20261030/87abaee3b6634409b11694697eafca18/c.html?utm_source=fixture",
+      "published": "2026-10-30",
+      "date_source": "正文发布字段",
+      "lane": "",
+      "ref": null,
+      "amount_yuan": null,
+      "topics": [
+        "煤电与新能源"
+      ],
+      "signals": [],
+      "status": "duplicate",
+      "reason": "同一原文 URL"
+    }
+  ]
+}

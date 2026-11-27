@@ -1,0 +1,13 @@
+interface:
+  display_name: ESG投标情报
+  short_description: 从公开公告分析近两年 ESG 中标项目与金额分布，并监测新增和变更的招标机会
+  default_prompt: 用 $esg-tender-intelligence 生成近两年 ESG 中标分析和今日招标快报。
+  icon_small: assets/icon.svg
+  icon_large: assets/icon.svg
+policy:
+  products:
+  - chatgpt
+  - codex
+  - api
+  - atlas
+  allow_implicit_invocation: true

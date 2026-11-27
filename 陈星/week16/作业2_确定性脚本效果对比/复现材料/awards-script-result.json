@@ -1,0 +1,245 @@
+{
+  "profile": "tender",
+  "mode": "awards",
+  "window": [
+    "2025-01-01",
+    "2026-11-26"
+  ],
+  "counts": {
+    "duplicate": 1,
+    "included": 8,
+    "not_in_scope": 2,
+    "review": 2
+  },
+  "query_count": 0,
+  "query_failures": [],
+  "priced": 7,
+  "amount_total_yuan": "50785299.00",
+  "cards": [
+    {
+      "id": "A01",
+      "title": "2025-2027年度碳排放核查中标公告",
+      "url": "https://www.ccgp.gov.cn/cggg/dfgg/zbgg/202602/t20260205_26153076.htm",
+      "published": null,
+      "date_source": null,
+      "lane": "",
+      "ref": null,
+      "amount_yuan": null,
+      "topics": [
+        "碳市场与核算"
+      ],
+      "signals": [],
+      "status": "review",
+      "reason": "原文正文未取得"
+    },
+    {
+      "id": "A02",
+      "title": "2025-2027年度碳排放核查中标公告",
+      "url": "https://jsggzy.jszwfw.gov.cn/jyxx/003004/003004006/20260205/3b2cfa576c3d4539b896582a9fc18bc8.html",
+      "published": "2026-02-05",
+      "date_source": "正文发布字段",
+      "lane": "",
+      "ref": null,
+      "amount_yuan": "38979000.00",
+      "topics": [
+        "碳市场与核算"
+      ],
+      "signals": [],
+      "project_number": "JSZC-320000-SCZX-G2025-0837",
+      "amount_basis": "结果表 11 个标包合计",
+      "status": "included",
+      "reason": "发布期与证据门槛通过"
+    },
+    {
+      "id": "A03",
+      "title": "金华市“双碳”领域全过程咨询服务项目中标(成交)结果公告",
+      "url": "https://www.ccgp.gov.cn/cggg/dfgg/zbgg/202609/t20260917_27343721.htm",
+      "published": "2026-09-17",
+      "date_source": "正文发布字段",
+      "lane": "",
+      "ref": null,
+      "amount_yuan": "9700000.00",
+      "topics": [],
+      "signals": [],
+      "project_number": "330700263073010000011-YG2026-FW8807-ZFCG137",
+      "amount_basis": "公告项目总额",
+      "status": "included",
+      "reason": "发布期与证据门槛通过"
+    },
+    {
+      "id": "A04",
+      "title": "中国中车2025年度ESG报告项目 采购结果公告",
+      "url": "https://www.crrcgc.cc/zl/2026-01/05/article_2026010508380067220.html",
+      "published": "2026-01-05",
+      "date_source": "正文发布字段",
+      "lane": "",
+      "ref": null,
+      "amount_yuan": "220000",
+      "topics": [
+        "ESG报告与鉴证"
+      ],
+      "signals": [],
+      "project_number": null,
+      "amount_basis": "明确成交价字段",
+      "status": "included",
+      "reason": "发布期与证据门槛通过"
+    },
+    {
+      "id": "A05",
+      "title": "中国中车2025年度墨西哥可持续发展报告编制项目 采购结果公告",
+      "url": "https://www.crrcgc.cc/zl/2026-01/05/article_2026010508474080728.html",
+      "published": "2026-01-05",
+      "date_source": "正文发布字段",
+      "lane": "",
+      "ref": null,
+      "amount_yuan": "189500",
+      "topics": [
+        "ESG报告与鉴证"
+      ],
+      "signals": [],
+      "project_number": null,
+      "amount_basis": "明确成交价字段",
+      "status": "included",
+      "reason": "发布期与证据门槛通过"
+    },
+    {
+      "id": "A06",
+      "title": "深圳市环境水务集团有限公司2024年ESG报告与年度报告编制项目中标候选人公示",
+      "url": "https://cg.sz-water.com.cn/hfcjhxrgs/60181.jhtml",
+      "published": "2025-04-15",
+      "date_source": "正文发布字段",
+      "lane": "",
+      "ref": null,
+      "amount_yuan": null,
+      "topics": [
+        "ESG报告与鉴证"
+      ],
+      "signals": [],
+      "status": "not_in_scope",
+      "reason": "主题或公告阶段不符"
+    },
+    {
+      "id": "A07",
+      "title": "南方电网人工智能科技有限公司绿色低碳产品数据资源池与场景化服务能力建设项目招标公告",
+      "url": "https://www.bidding.csg.cn/zbgg/1200451686.jhtml",
+      "published": "2026-11-25",
+      "date_source": "正文发布字段",
+      "lane": "",
+      "ref": null,
+      "amount_yuan": null,
+      "topics": [
+        "产品碳足迹"
+      ],
+      "signals": [],
+      "status": "not_in_scope",
+      "reason": "主题或公告阶段不符"
+    },
+    {
+      "id": "A08",
+      "title": "榆林市重点碳排放单位十五五碳基数核算服务项目中标(成交)结果公告",
+      "url": "https://www.ccgp.gov.cn/cggg/dfgg/zbgg/202611/t20261102_27602200.htm",
+      "published": null,
+      "date_source": null,
+      "lane": "",
+      "ref": null,
+      "amount_yuan": null,
+      "topics": [
+        "碳市场与核算"
+      ],
+      "signals": [],
+      "status": "review",
+      "reason": "原文正文未取得"
+    },
+    {
+      "id": "A09",
+      "title": "陕西省特色产品碳足迹核算与碳标签推广研究项目成交结果公告",
+      "url": "https://www.ccgp-shaanxi.gov.cn/freecms/site/shaanxi/ggxx/info/2025/8a69c7c2967256de0196859aa7f45419.html",
+      "published": "2025-04-30",
+      "date_source": "正文发布字段",
+      "lane": "",
+      "ref": null,
+      "amount_yuan": "986799.00",
+      "topics": [
+        "ESG评级与治理",
+        "产品碳足迹"
+      ],
+      "signals": [],
+      "project_number": "DRZB2025-ZC-112",
+      "amount_basis": "结果表 3 个标包合计",
+      "status": "included",
+      "reason": "发布期与证据门槛通过"
+    },
+    {
+      "id": "A10",
+      "title": "深圳碳市场2024履约年碳排放核查服务项目D标段中标(成交)结果公示",
+      "url": "https://www.szyd11.com/tender/win/detail?TenderId=19629",
+      "published": "2025-03-25",
+      "date_source": "正文发布字段",
+      "lane": "",
+      "ref": null,
+      "amount_yuan": null,
+      "topics": [
+        "碳市场与核算",
+        "ESG评级与治理"
+      ],
+      "signals": [
+        "征求意见"
+      ],
+      "project_number": "SZDL2025000339",
+      "amount_basis": "未识别到唯一固定总额",
+      "status": "included",
+      "reason": "发布期与证据门槛通过"
+    },
+    {
+      "id": "A11",
+      "title": "常州市生态环境局碳足迹管理体系和碳交易能力建设项目成交公告",
+      "url": "https://zfcg.changzhou.gov.cn/html/ns/dlcg_cjgg/490938818587391.html",
+      "published": "2025-10-20",
+      "date_source": "正文发布字段",
+      "lane": "",
+      "ref": null,
+      "amount_yuan": "480000.00",
+      "topics": [
+        "碳市场与核算",
+        "产品碳足迹"
+      ],
+      "signals": [],
+      "project_number": "JSZC-320400-CZRB-C2025-0041",
+      "amount_basis": "成交表固定金额",
+      "status": "included",
+      "reason": "发布期与证据门槛通过"
+    },
+    {
+      "id": "A12",
+      "title": "深圳市环境水务集团有限公司2024年ESG报告与年度报告编制项目结果公告",
+      "url": "https://cg.sz-water.com.cn/hfcgjggg/60411.jhtml",
+      "published": "2025-04-18",
+      "date_source": "正文发布字段",
+      "lane": "",
+      "ref": null,
+      "amount_yuan": "230000.00",
+      "topics": [
+        "ESG报告与鉴证"
+      ],
+      "signals": [],
+      "project_number": null,
+      "amount_basis": "明确成交价字段",
+      "status": "included",
+      "reason": "发布期与证据门槛通过"
+    },
+    {
+      "id": "A13",
+      "title": "金华市“双碳”领域全过程咨询服务项目中标(成交)结果公告",
+      "url": "https://www.ccgp.gov.cn/cggg/dfgg/zbgg/202609/t20260917_27343721.htm?utm_source=fixture",
+      "published": "2026-09-17",
+      "date_source": "正文发布字段",
+      "lane": "",
+      "ref": null,
+      "amount_yuan": null,
+      "topics": [],
+      "signals": [],
+      "status": "duplicate",
+      "reason": "同一原文 URL"
+    }
+  ]
+}
