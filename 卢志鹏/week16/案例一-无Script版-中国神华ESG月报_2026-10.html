@@ -1,0 +1,627 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>中国神华能源股份有限公司 ESG 月报（2026 年 10 月）</title>
+<style>
+:root{
+  --bg:#f5f7f6;
+  --card:#ffffff;
+  --text:#1f2a26;
+  --muted:#5f6f69;
+  --primary:#0f766e;
+  --primary-soft:#eaf2f0;
+  --line:#e2e8e6;
+  --font:system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue","Microsoft YaHei","PingFang SC","Hiragino Sans GB","Noto Sans CJK SC","Source Han Sans SC",sans-serif;
+  --mono:"Cascadia Code",Consolas,"SF Mono",Menlo,monospace;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--text);font-family:var(--font);font-size:15.5px;line-height:1.75;-webkit-font-smoothing:antialiased}
+a{color:var(--primary);text-decoration:none;border-bottom:1px solid rgba(15,118,110,.28)}
+a:hover{border-bottom-color:var(--primary)}
+
+/* 封面：报告标题 + 元信息卡片 */
+.cover{max-width:1280px;margin:32px auto 0;padding:0 32px}
+.cover-inner{background:var(--card);border:1px solid var(--line);border-top:4px solid var(--primary);border-radius:14px;padding:40px 48px 32px}
+.cover h1{margin:0 0 22px;font-size:30px;line-height:1.35;font-weight:700}
+.meta-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin:0;padding:0}
+.meta-item{min-width:0;background:#f5f8f7;border:1px solid var(--line);border-radius:8px;padding:9px 14px}
+.meta-item dt{margin:0 0 1px;font-size:12.5px;line-height:1.5;color:var(--muted)}
+.meta-item dd{margin:0;font-size:14.5px;font-weight:600;line-height:1.5;overflow-wrap:anywhere}
+
+/* "指标 / 数值"表：数字卡片，宽屏一行四到五个，窄屏自动换行；数值过长的一张占满一行 */
+.kpis{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:12px;margin:18px 0}
+.kpi{display:flex;flex-direction:column;gap:2px;min-width:0;padding:12px 16px;background:#f5f8f7;border:1px solid var(--line);border-radius:8px}
+.kpi-label{font-size:12.5px;line-height:1.5;color:var(--muted)}
+.kpi-value{font-size:22px;line-height:1.3;font-weight:700;color:var(--primary);font-variant-numeric:tabular-nums;overflow-wrap:anywhere}
+.kpi-wide{grid-column:1 / -1}
+.kpi-wide .kpi-value{font-size:15px;color:var(--text)}
+
+/* 布局：宽屏时目录固定在左侧，正文栏最宽约 860px */
+.layout{max-width:1280px;margin:28px auto 0;padding:0 32px;display:grid;grid-template-columns:240px minmax(0,860px);justify-content:center;align-items:start;gap:40px}
+.layout.no-toc{grid-template-columns:minmax(0,860px)}
+.toc{position:sticky;top:24px;max-height:calc(100vh - 48px);overflow:auto;padding:4px 0;font-size:13.5px;line-height:1.6}
+.toc-title{margin:0 0 8px 14px;font-size:12.5px;font-weight:700;letter-spacing:.12em;color:var(--muted)}
+.toc ol{list-style:none;margin:0;padding:0}
+.toc a{display:block;padding:5px 12px;color:var(--muted);border:0;border-left:2px solid transparent;border-radius:0 6px 6px 0}
+.toc a:hover{color:var(--primary);background:var(--primary-soft)}
+.toc a.active{color:var(--primary);border-left-color:var(--primary);background:var(--primary-soft);font-weight:600}
+.toc ol ol{margin:2px 0 6px 12px;font-size:12.5px}
+.content{min-width:0;background:var(--card);border:1px solid var(--line);border-radius:14px;padding:36px 48px 44px}
+
+/* 标题与文字 */
+.content h1,.content h2,.content h3,.content h4,.content h5,.content h6{font-weight:700;line-height:1.4;scroll-margin-top:24px}
+.content h1{margin:40px 0 16px;font-size:26px}
+.content h2{margin:44px 0 18px;padding-left:14px;font-size:22px;border-left:4px solid var(--primary)}
+.content h3{margin:30px 0 12px;font-size:17.5px}
+.content h4{margin:22px 0 8px;font-size:15.5px}
+.content h5,.content h6{margin:18px 0 8px;font-size:14px;color:var(--muted)}
+.content > :first-child{margin-top:0}
+.content > :last-child{margin-bottom:0}
+p{margin:0 0 14px}
+ul,ol{margin:0 0 16px;padding-left:1.6em}
+li{margin:3px 0}
+li > ul,li > ol{margin:4px 0 6px}
+blockquote{margin:18px 0;padding:10px 20px;color:var(--muted);background:#fafbfa;border-left:3px solid var(--line);border-radius:0 8px 8px 0}
+blockquote > :last-child{margin-bottom:0}
+hr{margin:32px 0;border:0;border-top:1px solid var(--line)}
+code{padding:1px 5px;font-family:var(--mono);font-size:.9em;color:#0b5c56;background:#f1f4f3;border-radius:4px}
+pre{margin:18px 0;padding:16px 20px;overflow:auto;line-height:1.6;background:#f6f8f7;border:1px solid var(--line);border-radius:8px}
+pre code{padding:0;font-size:13.5px;color:var(--text);background:none}
+img{display:block;max-width:100%;height:auto;margin:12px auto;border-radius:6px}
+.date{white-space:nowrap}
+
+/* 来源角标、星级、箭头 */
+sup.cite{margin-left:1px;font-size:11px;line-height:0;vertical-align:super}
+sup.cite + sup.cite{margin-left:0}
+sup.cite a{padding:0 2px;border:0;color:var(--primary)}
+.stars{font-size:13px;letter-spacing:1px;white-space:nowrap;color:var(--primary)}
+.stars.s2{opacity:.8}
+.stars.s1{opacity:.55}
+.arr{display:inline-block;min-width:18px;height:18px;margin:0 1px;line-height:18px;text-align:center;vertical-align:1px;font-size:12px;font-weight:700;border-radius:50%}
+.arr.up{color:var(--primary);background:#e6f2f0}
+.arr.down{color:#dc2626;background:#fdecec}
+.arr.flat{color:var(--muted);background:#eef1f0}
+
+/* 提示框：左侧色条、浅色底、标题加粗 */
+.callout{position:relative;margin:20px 0;padding:14px 20px 14px 22px;background:var(--tint);border-left:4px solid var(--accent);border-radius:0 10px 10px 0}
+.callout > :last-child,.callout ul:last-child,.callout ol:last-child{margin-bottom:0}
+.callout-title{margin:0 0 8px;font-weight:700;color:var(--accent)}
+.callout-note{--accent:#2563eb;--tint:#eff6ff}
+.callout-tip{--accent:#16a34a;--tint:#f0fdf4}
+.callout-important{--accent:#7c3aed;--tint:#f5f3ff}
+.callout-warning{--accent:#d97706;--tint:#fffbeb}
+.callout-caution{--accent:#dc2626;--tint:#fef2f2}
+
+/* 表格：隔行浅底色，表头加粗并在滚动容器内吸顶，宽表可横向滚动 */
+.table-wrap{max-height:max(320px,calc(100vh - 120px));margin:18px 0;overflow:auto;background:var(--card);border:1px solid var(--line);border-radius:10px}
+table{width:100%;font-size:14px;line-height:1.65;border-spacing:0;border-collapse:separate}
+.cols{table-layout:fixed}
+th,td{padding:9px 14px;text-align:left;vertical-align:top;border-bottom:1px solid var(--line);overflow-wrap:anywhere}
+thead th{position:sticky;top:0;z-index:1;font-weight:700;white-space:nowrap;color:var(--text);background:#f3f6f5;border-bottom:2px solid #d5dedb}
+.cols thead th{white-space:normal}
+tbody tr:nth-child(even){background:#f8faf9}
+tbody tr:hover{background:#f1f6f4}
+th.num,td.num{text-align:right;white-space:nowrap;font-variant-numeric:tabular-nums}
+
+/* 可折叠区块：<details class="fold"> 和图旁的数据表 */
+details.fold > summary,details.chart-data > summary{display:inline-block;list-style:none;cursor:pointer;user-select:none;margin:0 0 12px;padding:4px 14px 4px 11px;font-size:14px;font-weight:600;color:var(--primary);background:var(--card);border:1px solid #cfe0dc;border-radius:999px}
+details.fold > summary::-webkit-details-marker,details.chart-data > summary::-webkit-details-marker{display:none}
+details.fold > summary::before,details.chart-data > summary::before{content:"";display:inline-block;width:0;height:0;margin-right:8px;vertical-align:2px;border-left:5px solid currentColor;border-top:4px solid transparent;border-bottom:4px solid transparent;transition:transform .2s}
+details[open] > summary::before{transform:rotate(90deg)}
+details.fold > summary:hover,details.chart-data > summary:hover{color:#fff;background:var(--primary);border-color:var(--primary)}
+details.fold{margin:18px 0}
+details.chart-data{margin:0 0 22px}
+details.chart-data .table-wrap{margin:0}
+
+/* 图表：纯 CSS 画 */
+.chart{margin:24px 0;padding:20px 24px 22px;background:#fafbfa;border:1px solid var(--line);border-radius:12px}
+.chart figcaption{margin:0 0 16px;font-size:14.5px;font-weight:700}
+.chart-fallback{margin:0 0 8px;font-size:13px;color:var(--muted)}
+.bars{display:flex;align-items:flex-end;gap:10px}
+.bar-col{flex:1 1 0;min-width:0;display:flex;flex-direction:column;align-items:center}
+.bar-track{width:100%;height:200px;display:flex;align-items:flex-end;justify-content:center;border-bottom:1px solid #d5dedb}
+.bar{position:relative;width:72%;max-width:76px;height:var(--h,0%);background:linear-gradient(180deg,#14b8a6 0%,var(--primary) 100%);border-radius:4px 4px 0 0;transition:height .4s ease}
+.bar-value{position:absolute;left:50%;bottom:100%;margin-bottom:4px;font-size:12.5px;font-weight:600;white-space:nowrap;font-variant-numeric:tabular-nums;transform:translateX(-50%)}
+.bar-label{margin-top:8px;font-size:12.5px;line-height:1.4;text-align:center;color:var(--muted)}
+.donut-wrap{display:flex;flex-wrap:wrap;align-items:center;gap:32px}
+.ring{position:relative;flex:0 0 auto;width:200px;height:200px;border-radius:50%}
+.ring::after{content:"";position:absolute;inset:27%;border-radius:50%;background:#fafbfa}
+.ring-center{position:absolute;inset:27%;z-index:1;display:flex;flex-direction:column;align-items:center;justify-content:center;line-height:1.25}
+.ring-total{font-size:26px;font-weight:700;font-variant-numeric:tabular-nums}
+.ring-caption{font-size:12px;color:var(--muted)}
+.legend{flex:1 1 280px;display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:6px 24px;margin:0;padding:0;font-size:14px;list-style:none}
+.legend li{display:grid;grid-template-columns:12px minmax(0,1fr) auto 52px;align-items:center;gap:10px}
+.swatch{width:12px;height:12px;border-radius:3px}
+.legend-name{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.legend-value{font-weight:600;font-variant-numeric:tabular-nums}
+.legend-pct{font-variant-numeric:tabular-nums;text-align:right;color:var(--muted)}
+.timeline{margin:0;padding:0;list-style:none}
+.tl-item{display:grid;grid-template-columns:110px 22px minmax(0,1fr);gap:0 14px;padding:6px 0}
+.tl-date{padding-top:2px;font-size:13.5px;text-align:right;color:var(--muted);font-variant-numeric:tabular-nums}
+.tl-axis{position:relative;display:flex;justify-content:center}
+.tl-line{position:absolute;top:0;bottom:0;left:50%;width:2px;margin-left:-1px;background:#d5dedb}
+.tl-item:first-child .tl-line{top:13px}
+.tl-item:last-child .tl-line{bottom:calc(100% - 13px)}
+.tl-dot{position:relative;z-index:1;width:12px;height:12px;margin-top:7px;border-radius:50%;background:var(--primary);box-shadow:0 0 0 3px #e0eeeb}
+.tl-events{padding-top:1px}
+.tl-event{margin:0 0 4px}
+.tl-event:last-child{margin-bottom:0}
+
+/* 快速导航 */
+.quicknav{display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin:0 0 26px;padding:12px 0;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.quicknav-label{margin-right:4px;font-size:13px;font-weight:700;color:var(--muted)}
+.quicknav .chip{display:inline-block;padding:3px 12px;font-size:13.5px;line-height:1.6;color:var(--primary);background:#f3f8f7;border:1px solid #cfe0dc;border-radius:999px}
+.quicknav .chip:hover{color:#fff;background:var(--primary);border-color:var(--primary)}
+
+/* 页脚 */
+.foot{max-width:1280px;margin:0 auto;padding:20px 32px 48px;font-size:12.5px;text-align:center;color:var(--muted)}
+
+/* 窄屏：目录移到正文上方 */
+@media (max-width:1100px){
+  .layout{grid-template-columns:minmax(0,1fr);gap:20px}
+  .toc{position:static;max-height:none;overflow:visible;padding:14px 16px;background:var(--card);border:1px solid var(--line);border-radius:12px}
+  .toc > ol{columns:2;column-gap:28px}
+  .toc li{break-inside:avoid}
+}
+@media (max-width:640px){
+  .cover,.layout{padding-left:16px;padding-right:16px}
+  .cover-inner{padding:26px 20px 22px}
+  .cover h1{font-size:23px}
+  .content{padding:22px 18px 28px}
+  .toc > ol{columns:2}       /* 手机上目录只列二级标题，免得占满一屏 */
+  .toc ol ol{display:none}
+  .donut-wrap{justify-content:center}
+  .tl-item{grid-template-columns:92px 20px minmax(0,1fr);gap:0 10px}
+  .bars{gap:6px}
+}
+@media (max-width:420px){
+  .toc > ol{columns:1}
+}
+
+/* 打印：隐藏目录和快速导航，表格和提示框内部不分页 */
+@page{margin:14mm 16mm}
+@media print{
+  html{scroll-behavior:auto}
+  body{font-size:11pt;line-height:1.6;background:#fff}
+  .toc,.quicknav{display:none !important}
+  .cover,.layout,.foot{max-width:none;margin:0;padding:0}
+  .layout{display:block}
+  .cover-inner,.content{padding:0;border:0;border-radius:0}
+  .cover-inner{margin-bottom:18px;padding-bottom:14px;border-bottom:2px solid var(--primary)}
+  .content h2,.content h3,.content h4{break-after:avoid}
+  table,.callout,.chart,.meta-item,.bar-col,.tl-item,.kpi{break-inside:avoid}
+  tr,li{break-inside:avoid}
+  .table-wrap{max-height:none;overflow:visible}
+  a{color:inherit;border:0}
+  sup.cite a{color:var(--primary)}
+}
+</style>
+</head>
+<body>
+<header class="cover"><div class="cover-inner">
+<h1 id="top">中国神华能源股份有限公司 ESG 月报（2026 年 10 月）</h1>
+<section class="meta">
+<dl class="meta-grid">
+<div class="meta-item"><dt>客户</dt><dd>中国神华能源股份有限公司</dd></div>
+<div class="meta-item"><dt>所属行业</dt><dd>煤炭、综合能源</dd></div>
+<div class="meta-item"><dt>报告期</dt><dd><span class="date">2026-10-01</span> 至 <span class="date">2026-10-31</span></dd></div>
+<div class="meta-item"><dt>信源数</dt><dd>37（一手 27）</dd></div>
+<div class="meta-item"><dt>生成日期</dt><dd><span class="date">2026-11-26</span></dd></div>
+</dl>
+</section>
+</div></header>
+<div class="layout">
+<nav class="toc" aria-label="目录"><p class="toc-title">目录</p><ol>
+<li><a href="#summary">一页速览</a></li>
+<li><a href="#policy">一、政策与监管动态</a>
+<ol>
+<li><a href="#sec-1">重点解读：碳市场有偿分配与扩围路径明确</a></li>
+<li><a href="#sec-2">重点解读：煤电与新能源融合有了场景清单</a></li>
+<li><a href="#sec-3">重点解读：可持续报告进入机读时代</a></li>
+<li><a href="#sec-4">重点解读：甲烷控排成为硬任务</a></li>
+<li><a href="#sec-5">本月到期节点</a></li>
+<li><a href="#sec-6">本月未检索到新动态的方面</a></li>
+</ol>
+</li>
+<li><a href="#rating">二、评级与标准动态</a>
+<ol>
+<li><a href="#sec-7">客户评级现状</a></li>
+<li><a href="#sec-8">本月评级动态</a></li>
+<li><a href="#sec-9">标准进展</a></li>
+<li><a href="#sec-10">背景：境内披露规则与客户的合规位置</a></li>
+<li><a href="#sec-11">本月未检索到新动态的方面</a></li>
+</ol>
+</li>
+<li><a href="#industry">三、行业动态与最佳实践</a>
+<ol>
+<li><a href="#sec-12">做法：兖矿能源两年期量化方案</a></li>
+<li><a href="#sec-13">做法：中煤能源 ESG 嵌入经营沟通</a></li>
+<li><a href="#sec-14">做法：陕煤张家峁牵头行业标准</a></li>
+<li><a href="#sec-15">本月未检索到新动态的方面</a></li>
+</ol>
+</li>
+<li><a href="#company">四、公司动态与 ESG 影响</a>
+<ol>
+<li><a href="#sec-16">重点解读：宝日希勒事故调查报告公布</a></li>
+<li><a href="#sec-17">重点解读：三季报营业外支出激增</a></li>
+<li><a href="#sec-18">重点解读：融资、收购与内控制度同批推进</a></li>
+<li><a href="#sec-19">重点解读：大柳塔煤矿一级安全标准化公示</a></li>
+<li><a href="#sec-20">本月未检索到新动态的方面</a></li>
+</ol>
+</li>
+<li><a href="#peers">五、对标企业关键行动</a>
+<ol>
+<li><a href="#sec-21">对客户的启示</a></li>
+<li><a href="#sec-22">本月未检索到新动态的方面</a></li>
+</ol>
+</li>
+<li><a href="#actions">六、建议清单</a></li>
+<li><a href="#method">附录一：方法与口径</a></li>
+<li><a href="#leads">附录二：待核实线索</a></li>
+<li><a href="#sources">附录三：来源清单</a></li>
+</ol></nav>
+<main class="content">
+<nav class="quicknav" aria-label="快速导航"><span class="quicknav-label">目录</span><a class="chip" href="#summary">一页速览</a><a class="chip" href="#policy">政策与监管</a><a class="chip" href="#rating">评级与标准</a><a class="chip" href="#industry">行业与最佳实践</a><a class="chip" href="#company">公司动态</a><a class="chip" href="#peers">对标行动</a><a class="chip" href="#actions">建议清单</a><a class="chip" href="#sources">来源</a></nav>
+<h2 id="summary">一页速览</h2>
+<aside class="callout callout-important">
+<p class="callout-title">本月三条核心结论</p>
+<ol>
+<li>安全与合规是本月最大风险点：宝日希勒露天煤矿"5·22"事故调查报告 <span class="date">2026-10-07</span> 公布，1 人死亡、直接经济损失 <strong>401.3 万元</strong>、事故后瞒报，12 名责任人员被提出处理建议 <sup class="cite"><a href="#src-32">32</a></sup><sup class="cite"><a href="#src-33">33</a></sup>；三季报营业外支出同比 <span class="arr up">↑</span> <strong>137.7%</strong>，公司解释为"滞纳金等增加"，性质未披露 <sup class="cite"><a href="#src-31">31</a></sup>。</li>
+<li>政策路径密集落地：碳市场明确 2027 年扩围与有偿分配方向 <sup class="cite"><a href="#src-2">2</a></sup>，煤电与新能源融合给出五类场景 <sup class="cite"><a href="#src-3">3</a></sup>，证监会可持续报告电子化规范公布即施行 <sup class="cite"><a href="#src-4">4</a></sup>，财政部煤炭等 9 项行业应用指南征求意见截止 <sup class="cite"><a href="#src-1">1</a></sup>——碳成本管理与披露数据治理都要提前。</li>
+<li>同行治理承诺已升级：兖矿能源发布两年期量化的"提质增效重回报"2.0 方案 <sup class="cite"><a href="#src-26">26</a></sup>，中煤能源把 ESG 嵌入月度经营沟通 <sup class="cite"><a href="#src-27">27</a></sup>；客户现行方案仍是 3 月年度版 <sup class="cite"><a href="#src-37">37</a></sup>，而大柳塔煤矿进入一级安全标准化公示名单是本月正面背书 <sup class="cite"><a href="#src-13">13</a></sup>。</li>
+</ol>
+</aside>
+<div class="table-wrap">
+<table>
+<thead>
+<tr><th>关键指标</th><th>本月情况</th><th>变化</th><th>对客户的意义</th></tr>
+</thead>
+<tbody>
+<tr><td>营业外支出（前三季度）</td><td>136,200 万元 <sup class="cite"><a href="#src-31">31</a></sup></td><td><span class="arr up">↑</span> 137.7%</td><td>滞纳金等增加，合规性质需年报前查清 <sup class="cite"><a href="#src-31">31</a></sup></td></tr>
+<tr><td>宝日希勒"5·22"事故</td><td>1 人死亡、损失 401.3 万元、瞒报 <sup class="cite"><a href="#src-32">32</a></sup></td><td>调查报告 <span class="date">2026-10-07</span> 公布</td><td>外委与无人驾驶区域管控需专项整改 <sup class="cite"><a href="#src-32">32</a></sup></td></tr>
+<tr><td>全国碳市场配额累计成交量</td><td>突破 10 亿吨 <sup class="cite"><a href="#src-2">2</a></sup></td><td><span class="arr up">↑</span></td><td>有偿分配比例将扩大，煤电碳成本上升 <sup class="cite"><a href="#src-2">2</a></sup></td></tr>
+<tr><td>煤电发电量占比（9 月底）</td><td>49.1% <sup class="cite"><a href="#src-25">25</a></sup></td><td><span class="arr down">↓</span></td><td>煤电电量空间收窄，融合改造紧迫 <sup class="cite"><a href="#src-25">25</a></sup></td></tr>
+<tr><td>秦皇岛 5500 大卡动力煤（<span class="date">2026-10-10</span>）</td><td>1,003 元/吨 <sup class="cite"><a href="#src-22">22</a></sup></td><td><span class="arr up">↑</span> 42.27%（同比）</td><td>煤价中枢抬升，保供稳价责任加重 <sup class="cite"><a href="#src-22">22</a></sup></td></tr>
+</tbody>
+</table>
+</div>
+<aside class="callout callout-warning">
+<p class="callout-title">需要关注</p>
+<ul>
+<li>宝日希勒事故存在瞒报，且上一年同矿已发生同类运输事故（<span class="date">2025-10-06</span>，1 人死亡），教训整改未闭环 <sup class="cite"><a href="#src-32">32</a></sup><sup class="cite"><a href="#src-19">19</a></sup>。</li>
+<li>维简费、安全生产费等境内外准则差异调整项由 355,600 万元降至 291,400 万元（<span class="arr down">↓</span> 18.1%），安全投入计提下降原因未披露 <sup class="cite"><a href="#src-31">31</a></sup>。</li>
+<li>评级现状存在缺口：MSCI、Sustainalytics、标普、中证四家官网本期无法核实，华证 AA 为 <span class="date">2025-07-31</span> 期媒体转述 <sup class="cite"><a href="#src-17">17</a></sup>。</li>
+<li>煤炭行业应用指南正式稿临近、电子化规范已施行，2026 年报披露准备时间紧 <sup class="cite"><a href="#src-1">1</a></sup><sup class="cite"><a href="#src-4">4</a></sup>。</li>
+</ul>
+</aside>
+<p><strong>最优先的五条行动</strong>（详见<a href="#actions">建议清单</a>）：</p>
+<ol>
+<li>宝日希勒事故专项整改与事故报告纪律自查（高）<sup class="cite"><a href="#src-32">32</a></sup>。</li>
+<li>查清滞纳金构成与维简安全费计提下降原因（高）<sup class="cite"><a href="#src-31">31</a></sup>。</li>
+<li>对照煤炭行业应用指南征求意见稿做差距盘点，布局电子化规范数据治理（高）<sup class="cite"><a href="#src-1">1</a></sup><sup class="cite"><a href="#src-4">4</a></sup>。</li>
+<li>筛选煤电机组评估融合改造试点，编制碳资产预算（高）<sup class="cite"><a href="#src-3">3</a></sup><sup class="cite"><a href="#src-2">2</a></sup>。</li>
+<li>升级"提质增效重回报"为两年期量化方案（中）<sup class="cite"><a href="#src-26">26</a></sup><sup class="cite"><a href="#src-37">37</a></sup>。</li>
+</ol>
+<h2 id="policy">一、政策与监管动态</h2>
+<aside class="callout callout-note">
+<p class="callout-title">本节要点</p>
+<ul>
+<li>碳市场释放"扩围 + 有偿分配"的明确信号：配额累计成交量突破 <strong>10 亿吨</strong>，2027 年扩围至石化、化工，逐步扩大有偿分配比例 <sup class="cite"><a href="#src-2">2</a></sup>。</li>
+<li>国家能源局公开煤电与新能源融合发展实施意见，给出五类场景和中央资金补助，客户煤电板块的改造路径明确 <sup class="cite"><a href="#src-3">3</a></sup>。</li>
+<li>证监会发布可持续发展报告电子化规范，公布即施行；财政部煤炭等 9 项行业应用指南征求意见于 <span class="date">2026-10-26</span> 截止 <sup class="cite"><a href="#src-4">4</a></sup><sup class="cite"><a href="#src-1">1</a></sup>。</li>
+<li>国家矿山安全监察局公示一级安全生产标准化煤矿名单，客户大柳塔煤矿在列 <sup class="cite"><a href="#src-13">13</a></sup>。</li>
+</ul>
+</aside>
+<div class="table-wrap">
+<table>
+<thead>
+<tr><th>日期</th><th>发布主体</th><th>动态</th><th>与客户的相关性</th><th>重要度</th><th>来源</th></tr>
+</thead>
+<tbody>
+<tr><td><span class="date">2026-10-16</span></td><td>国家矿山安全监察局</td><td>公开《煤矿安全监管监察行政处罚裁量权基准》（矿安〔2026〕89 号，成文 <span class="date">2026-09-30</span>），替代 2024 年版 <sup class="cite"><a href="#src-8">8</a></sup></td><td>统一煤矿安全处罚裁量尺度，直接约束客户所属煤矿</td><td><span class="stars s2">★★</span></td><td><sup class="cite"><a href="#src-8">8</a></sup></td></tr>
+<tr><td><span class="date">2026-10-20</span></td><td>国务院国资委研究中心（指导）、国新证券（牵头）</td><td>A+H 股央企控股上市公司 ESG 信息披露合规与管理体系优化研究课题研讨会于 <span class="date">2026-10-15</span> 召开，嘉实基金官网 <span class="date">2026-10-20</span> 发布 <sup class="cite"><a href="#src-6">6</a></sup></td><td>客户即 A+H 央企上市公司，课题将形成跨境披露合规指引</td><td><span class="stars s2">★★</span></td><td><sup class="cite"><a href="#src-6">6</a></sup></td></tr>
+<tr><td><span class="date">2026-10-21</span></td><td>生态环境部（国新办新闻发布会）</td><td>全国碳市场配额累计成交量突破 10 亿吨；2027 年扩围至石化、化工；逐步扩大有偿分配比例；非二氧化碳温室气体减排能力目标 3,000 万吨二氧化碳当量 <sup class="cite"><a href="#src-2">2</a></sup></td><td>煤电板块碳成本路径明确；煤矿甲烷控排与利用获政策支持</td><td><span class="stars s3">★★★</span></td><td><sup class="cite"><a href="#src-2">2</a></sup></td></tr>
+<tr><td><span class="date">2026-10-21</span></td><td>国家能源局</td><td>公开《关于推动煤电与新能源融合发展的实施意见》（国能发电力〔2026〕69 号，成文 <span class="date">2026-09-28</span>），提出五类融合场景 <sup class="cite"><a href="#src-3">3</a></sup></td><td>客户煤电机组改造有场景清单，融合项目弃电不纳入利用率考核</td><td><span class="stars s3">★★★</span></td><td><sup class="cite"><a href="#src-3">3</a></sup></td></tr>
+<tr><td><span class="date">2026-10-21</span></td><td>工业和信息化部</td><td>公开《加快构建工业和信息化领域碳排放双控工作体系实施方案（2026—2030 年）》（工信部节函〔2026〕343 号，成文 <span class="date">2026-09-30</span>）<sup class="cite"><a href="#src-7">7</a></sup></td><td>碳足迹、零碳工厂要求延伸至客户煤化工板块</td><td><span class="stars s2">★★</span></td><td><sup class="cite"><a href="#src-7">7</a></sup></td></tr>
+<tr><td><span class="date">2026-10-22</span></td><td>国际可持续准则理事会（ISSB）</td><td>发布自然相关披露实务公告征求意见稿，征求意见期 120 天，至 <span class="date">2027-02-19</span> <sup class="cite"><a href="#src-5">5</a></sup></td><td>矿业自然相关披露预期上升，H 股报告需跟踪</td><td><span class="stars s2">★★</span></td><td><sup class="cite"><a href="#src-5">5</a></sup></td></tr>
+<tr><td><span class="date">2026-10-26</span></td><td>中国证监会</td><td>发布《上市公司可持续发展报告电子化规范》（JR/T 0356—2026）等 3 项行业标准，自公布之日起施行 <sup class="cite"><a href="#src-4">4</a></sup></td><td>客户为强制披露公司，报告需满足电子化编制与报送要求</td><td><span class="stars s3">★★★</span></td><td><sup class="cite"><a href="#src-4">4</a></sup></td></tr>
+<tr><td><span class="date">2026-10-26</span></td><td>国家矿山安全监察局</td><td>公示拟命名达到安全生产标准化一级标准的 22 处煤矿名单，客户大柳塔煤矿在列 <sup class="cite"><a href="#src-13">13</a></sup></td><td>见第四节解读</td><td><span class="stars s3">★★★</span></td><td><sup class="cite"><a href="#src-13">13</a></sup></td></tr>
+</tbody>
+</table>
+</div>
+<h3 id="sec-1">重点解读：碳市场有偿分配与扩围路径明确，煤电碳成本要提前管理</h3>
+<p><span class="date">2026-10-21</span> 国新办发布会上，生态环境部介绍：全国碳市场管控二氧化碳排放量约 <strong>83 亿吨</strong>，占全国总量 65% 以上，配额累计成交量突破 10 亿吨；到 2027 年扩围至石化、化工等工业行业，落实覆盖行业单位产品碳排放下降 3% 左右的目标，稳妥推行免费和有偿相结合的配额分配方式、逐步扩大有偿分配比例 <sup class="cite"><a href="#src-2">2</a></sup>。"十四五"时期 1,100 多家火电重点排放单位获得减排收益约 360 亿元 <sup class="cite"><a href="#src-2">2</a></sup>。对客户而言，煤电板块已在碳市场覆盖范围内，强度目标叠加有偿分配意味着碳成本逐年上升，建议把碳资产预算纳入年度经营计划。背景方面，《碳排放权交易管理暂行条例》<span class="date">2024-01-25</span> 公布、<span class="date">2026-08-08</span> 修订，生态环境部网站 <span class="date">2026-10-10</span> 转载修订后文本 <sup class="cite"><a href="#src-10">10</a></sup>。</p>
+<h3 id="sec-2">重点解读：煤电与新能源融合有了场景清单，改造项目可争取降碳与中央补助</h3>
+<p>国家能源局 <span class="date">2026-10-21</span> 公开《关于推动煤电与新能源融合发展的实施意见》（国能发电力〔2026〕69 号，成文 <span class="date">2026-09-28</span>），提出近区新能源协同送出、热电联产清洁供热、海上风电沿海协同送出、自备煤电打捆利用、厂内直连绿色替代五类场景 <sup class="cite"><a href="#src-3">3</a></sup>。文件鼓励融合项目年度碳排放水平较融合前降低 <strong>5% 以上、力争 10% 以上</strong>，融合项目新能源弃电不纳入利用率统计与考核，符合条件的可获中央资金补助 <sup class="cite"><a href="#src-3">3</a></sup>。文件主送单位包括客户母公司国家能源投资集团。建议客户筛选具备条件的煤电机组评估融合改造试点，量化降碳收益与补助空间。</p>
+<h3 id="sec-3">重点解读：可持续报告进入机读时代，煤炭行业应用指南正式稿临近</h3>
+<p>证监会 <span class="date">2026-10-26</span> 以公告〔2026〕13 号发布《上市公司可持续发展报告电子化规范》（JR/T 0356—2026）等 3 项金融行业推荐性标准，自公布之日起施行 <sup class="cite"><a href="#src-4">4</a></sup>。客户作为强制披露公司，后续报告编制需满足统一的数据元素与电子化报送要求。同时，财政部办公厅气候准则应用指南及电力、煤炭等 9 项行业应用指南征求意见（财办会〔2026〕34 号，<span class="date">2026-09-30</span> 发布）已于 <span class="date">2026-10-26</span> 截止 <sup class="cite"><a href="#src-1">1</a></sup>。建议在正式稿印发前对照征求意见稿做差距盘点，并按电子化规范提前布局报告数据治理。</p>
+<h3 id="sec-4">重点解读：甲烷控排成为硬任务，煤矿监测数据质量是红线</h3>
+<p>同一场发布会提出，以推动形成 <strong>3,000 万吨</strong>二氧化碳当量减排能力为目标加强非二氧化碳温室气体管控，并已发布煤矿低浓度瓦斯利用等 6 项 CCER 方法学 <sup class="cite"><a href="#src-2">2</a></sup>。煤矿甲烷对客户既是排放源也是收益源：瓦斯利用可对接 CCER 市场，但数据质量是前提。国家矿山安全监察局 <span class="date">2026-09-30</span> 公布的第三批典型执法案例中，两起涉及甲烷传感器监测数据造假，相关责任人被移送公安机关 <sup class="cite"><a href="#src-12">12</a></sup>。建议客户对安全监控与碳排放数据的真实性开展专项自查。</p>
+<h3 id="sec-5">本月到期节点</h3>
+<div class="table-wrap">
+<table>
+<thead>
+<tr><th>日期</th><th>节点</th><th>原文件发布日期</th><th>来源</th></tr>
+</thead>
+<tbody>
+<tr><td><span class="date">2026-10-26</span></td><td>财政部气候准则应用指南及电力、煤炭等 9 项行业应用指南征求意见截止</td><td><span class="date">2026-09-30</span></td><td><sup class="cite"><a href="#src-1">1</a></sup></td></tr>
+<tr><td><span class="date">2026-10-31</span></td><td>省级生态环境主管部门公布 2027 年度发电、钢铁、水泥、铝冶炼行业重点排放单位名录（纳入门槛为年度直接排放量 2.6 万吨二氧化碳当量）</td><td><span class="date">2026-02-09</span></td><td><sup class="cite"><a href="#src-9">9</a></sup></td></tr>
+</tbody>
+</table>
+</div>
+<h3 id="sec-6">本月未检索到新动态的方面</h3>
+<ul>
+<li>国家发展改革委：<span class="date">2026-11-26</span> 搜索并读取其官网"通知"栏目页，10 月发布的消费基建、养老价格等文件均与 ESG 无直接关联，未见新的全国性 ESG 文件。《煤炭工业发展"十五五"规划》（发改能源〔2026〕979 号）<span class="date">2026-08-10</span> 发布，仅作背景 <sup class="cite"><a href="#src-14">14</a></sup>。</li>
+<li>国务院国资委：本月未见新的央企 ESG 监管文件，只有研究中心指导的课题研讨会（见上表 <sup class="cite"><a href="#src-6">6</a></sup>）。</li>
+<li>港交所：两次检索未见 2026 年 10 月新的 ESG 或气候披露动态。背景：新气候规定自 <span class="date">2025-01-01</span> 起分阶段生效，大型股发行人（恒生综合大型股指数成份股）范围 1、范围 2 排放自 2025 财年起强制披露，其余气候披露自 <span class="date">2026-01-01</span> 起强制；客户 H 股属大型股发行人范围 <sup class="cite"><a href="#src-15">15</a></sup>。</li>
+<li>欧盟：修订版欧洲可持续报告准则（ESRS）<span class="date">2026-07-03</span> 由欧委会通过，强制数据点削减逾 60%，10 月处于欧洲议会和理事会审查期，无当月新动作 <sup class="cite"><a href="#src-11">11</a></sup>。</li>
+<li>美国、英国：检索未见 2026 年 10 月发布的新动作；SEC 废除气候披露规则提案、英国 FCA 最终规则两条线索因官网访问受限未能核对原文，见附录二。</li>
+</ul>
+<h2 id="rating">二、评级与标准动态</h2>
+<aside class="callout callout-note">
+<p class="callout-title">本节要点</p>
+<ul>
+<li>评级现状：华证 AA（<span class="date">2025-07-31</span> 期，据证券之星报道）；MSCI、Sustainalytics、标普全球、中证四家官方渠道本期均受限，未能直接核实最新评级 <sup class="cite"><a href="#src-17">17</a></sup>。</li>
+<li>标准条线：温室气体核算体系（GHG Protocol）<span class="date">2026-10-16</span> 发布范围二市场法修订进展，影响客户外购电与绿电绿证的核算口径 <sup class="cite"><a href="#src-16">16</a></sup>。</li>
+<li>本月未检索到评级机构方法学调整或客户评级变动；证监会电子化规范、财政部行业指南征求意见截止、ISSB 自然相关披露征求意见三件事的解读见第一节 <sup class="cite"><a href="#src-4">4</a></sup><sup class="cite"><a href="#src-1">1</a></sup><sup class="cite"><a href="#src-5">5</a></sup>。</li>
+</ul>
+</aside>
+<h3 id="sec-7">客户评级现状</h3>
+<div class="table-wrap">
+<table>
+<thead>
+<tr><th>机构</th><th>当前评级</th><th>最近一次变化</th><th>日期</th><th>查过的位置</th></tr>
+</thead>
+<tbody>
+<tr><td>MSCI</td><td>未查到</td><td>—</td><td>—</td><td>官网 ESG 评级查询页被人机验证拦截（<span class="date">2026-11-26</span>）；公司 2025 年度 ESG 报告未列具体等级 <sup class="cite"><a href="#src-19">19</a></sup>；媒体线索见附录二</td></tr>
+<tr><td>晨星 Sustainalytics</td><td>未查到</td><td>—</td><td>—</td><td>官网公司评级页未公开返回数据（<span class="date">2026-11-26</span>）；公司报告未列 <sup class="cite"><a href="#src-19">19</a></sup></td></tr>
+<tr><td>标普全球</td><td>未查到</td><td>—</td><td>—</td><td>官网 ESG 评分页拒绝访问（<span class="date">2026-11-26</span>）；公司报告未列 <sup class="cite"><a href="#src-19">19</a></sup></td></tr>
+<tr><td>中证指数</td><td>未查到</td><td>—</td><td>—</td><td>官网 ESG 栏目动态加载无法读取（<span class="date">2026-11-26</span>）；公司报告未列 <sup class="cite"><a href="#src-19">19</a></sup></td></tr>
+<tr><td>华证指数</td><td>AA（<span class="date">2025-07-31</span> 期，据证券之星报道）</td><td><span class="date">2025-04-30</span> 期已为 AA，两期间无变化</td><td><span class="date">2025-10-12</span>（报道日期）</td><td>官网数据平台需登录；证券之星报道核对：E 81.22、S 82.8、G 90.51，行业 60 家中排第 3 <sup class="cite"><a href="#src-17">17</a></sup></td></tr>
+<tr><td>商道融绿</td><td>本期未查</td><td>—</td><td>—</td><td>本期未查</td></tr>
+</tbody>
+</table>
+</div>
+<aside class="callout callout-warning">
+<p class="callout-title">评级数据局限</p>
+<p>四家国际及国内机构官网本期无法直接访问，评级现状表存在信息缺口；华证 AA 为 <span class="date">2025-07-31</span> 期媒体转述，最新期次未直接核实。建议下期从公司 ESG 管理部门取数补齐 <sup class="cite"><a href="#src-17">17</a></sup><sup class="cite"><a href="#src-19">19</a></sup>。</p>
+</aside>
+<h3 id="sec-8">本月评级动态</h3>
+<p><span class="date">2026-11-26</span> 以 MSCI、华证、煤炭行业评级等关键词检索，并逐一尝试评级机构官网，未检索到 2026 年 10 月发布的评级方法学调整，也未见客户或对标企业当月的评级变动公告。同行背景：陕西煤业 MSCI ESG 评级 <span class="date">2026-07-08</span> 期为 CCC，2023 年以来各期均维持 CCC（新浪鹰眼 <span class="date">2026-07-09</span> 报道）<sup class="cite"><a href="#src-20">20</a></sup>。</p>
+<h3 id="sec-9">标准进展</h3>
+<figure class="chart chart-timeline">
+<figcaption>2026 年 10 月标准与准则进展</figcaption>
+<ol class="timeline">
+<li class="tl-item"><div class="tl-date"><span class="date">2026-10-16</span></div><div class="tl-axis"><span class="tl-line"></span><span class="tl-dot"></span></div><div class="tl-events"><p class="tl-event">GHG Protocol 范围二修订进展发布</p></div></li>
+<li class="tl-item"><div class="tl-date"><span class="date">2026-10-22</span></div><div class="tl-axis"><span class="tl-line"></span><span class="tl-dot"></span></div><div class="tl-events"><p class="tl-event">ISSB 自然相关披露征求意见</p></div></li>
+<li class="tl-item"><div class="tl-date"><span class="date">2026-10-26</span></div><div class="tl-axis"><span class="tl-line"></span><span class="tl-dot"></span></div><div class="tl-events"><p class="tl-event">证监会电子化规范发布施行</p><p class="tl-event">财政部行业应用指南征求意见截止</p></div></li>
+</ol>
+</figure>
+<details class="chart-data"><summary>数据表</summary>
+<div class="table-wrap">
+<table>
+<thead>
+<tr><th>日期</th><th>标准或文件</th><th>进展</th><th>与客户的相关性</th><th>来源</th></tr>
+</thead>
+<tbody>
+<tr><td><span class="date">2026-10-16</span></td><td>GHG Protocol 范围二指南修订</td><td>官方博客发布市场法修订进展：<span class="date">2025-10-20</span> 至 <span class="date">2026-01-31</span> 公众咨询的反馈已处理，技术工作组推进提案细化</td><td>外购电、绿电绿证的范围二核算口径可能调整</td><td><sup class="cite"><a href="#src-16">16</a></sup></td></tr>
+<tr><td><span class="date">2026-10-22</span></td><td>ISSB 自然相关披露实务公告</td><td>征求意见稿发布，见第一节解读</td><td>矿业自然相关披露预期上升</td><td><sup class="cite"><a href="#src-5">5</a></sup></td></tr>
+<tr><td><span class="date">2026-10-26</span></td><td>证监会《上市公司可持续发展报告电子化规范》</td><td>发布即施行，见第一节解读</td><td>报告电子化编制与报送</td><td><sup class="cite"><a href="#src-4">4</a></sup></td></tr>
+<tr><td><span class="date">2026-10-26</span></td><td>财政部气候准则应用指南及 9 项行业应用指南</td><td>征求意见截止，见第一节解读</td><td>煤炭、电力行业披露口径将统一</td><td><sup class="cite"><a href="#src-1">1</a></sup></td></tr>
+</tbody>
+</table>
+</div>
+</details>
+<h3 id="sec-10">背景：境内披露规则与客户的合规位置</h3>
+<p>上交所《上市公司自律监管指南第 4 号——可持续发展报告编制（2026 年 1 月修订）》（上证函〔2026〕484 号）<span class="date">2026-01-30</span> 发布，新增污染物排放、能源利用、水资源利用三项应用指南，自发布之日起施行 <sup class="cite"><a href="#src-18">18</a></sup>。客户作为上证 180 指数样本公司和 A+H 上市公司，已于 <span class="date">2026-03-31</span> 披露 2025 年度环境、社会和公司治理报告，毕马威华振对部分可持续发展信息执行有限保证鉴证 <sup class="cite"><a href="#src-19">19</a></sup>。</p>
+<h3 id="sec-11">本月未检索到新动态的方面</h3>
+<ul>
+<li>评级机构方法学：<span class="date">2026-11-26</span> 检索 MSCI、华证及煤炭行业评级关键词，未见 10 月方法学更新；MSCI 2026 评级模型更新的官方文件未能打开，线索见附录二。</li>
+<li>交易所编制指南：10 月无新修订，最新版本为 <span class="date">2026-01-30</span> <sup class="cite"><a href="#src-18">18</a></sup>。</li>
+<li>碳足迹国家标准：未检索到本月发布的煤炭、煤电相关碳足迹国家标准；检索到的其他产品碳足迹国标与客户主业相关性不足，未收录。</li>
+</ul>
+<h2 id="industry">三、行业动态与最佳实践</h2>
+<aside class="callout callout-note">
+<p class="callout-title">本节要点</p>
+<ul>
+<li>动力煤现货 10 月突破千元关口后高位企稳，现货与长协价差拉大，客户高长协占比的销售结构是盈利稳定器 <sup class="cite"><a href="#src-22">22</a></sup><sup class="cite"><a href="#src-21">21</a></sup>。</li>
+<li>国家能源局披露：9 月底煤电发电量占比降至 <strong>49.1%</strong>，光伏装机 13.1 亿千瓦，能源结构转型继续压缩煤电空间 <sup class="cite"><a href="#src-25">25</a></sup>。</li>
+<li>同行实践：兖矿能源发布"提质增效重回报"2.0 方案，中煤能源深化"两个联营"，陕煤张家峁牵头智能化煤矿数据行业标准 <sup class="cite"><a href="#src-26">26</a></sup><sup class="cite"><a href="#src-27">27</a></sup><sup class="cite"><a href="#src-29">29</a></sup>。</li>
+</ul>
+</aside>
+<div class="table-wrap">
+<table>
+<thead>
+<tr><th>日期</th><th>主体</th><th>动态</th><th>与客户的相关性</th><th>重要度</th><th>来源</th></tr>
+</thead>
+<tbody>
+<tr><td><span class="date">2026-10-19</span></td><td>中国能源报（榆林煤炭网转载）</td><td>截至 <span class="date">2026-10-10</span> 秦皇岛港 5500 大卡动力煤（山西产）平仓价 1,003 元/吨，同比 <span class="arr up">↑</span> 42.27%，突破千元创近两年新高；8 月全国规上原煤产量同比 <span class="arr down">↓</span> 7.7%</td><td>煤价中枢抬升利好煤炭板块盈利，但保供稳价责任同步加重</td><td><span class="stars s2">★★</span></td><td><sup class="cite"><a href="#src-22">22</a></sup></td></tr>
+<tr><td><span class="date">2026-10-26</span></td><td>陕煤集团（新浪财经转载）</td><td>张家峁矿业牵头起草的 MT/T 1381-2026《智能化煤矿数据分类指南》、MT/T 1382-2026《智能化煤矿数据架构设计指南》列入国家能源局 2026 年第 4 号公告，<span class="date">2026-10-09</span> 发布、<span class="date">2027-04-09</span> 实施</td><td>客户已建成 28 座智能化煤矿，数据治理需对照新行业标准</td><td><span class="stars s2">★★</span></td><td><sup class="cite"><a href="#src-29">29</a></sup></td></tr>
+<tr><td><span class="date">2026-10-28</span></td><td>BSPI 秦皇岛煤炭网（新浪财经转载）</td><td>报告期 <span class="date">2026-10-21</span> 至 <span class="date">2026-10-27</span> 环渤海动力煤价格指数 745 元/吨，环比持平；5500 大卡现货综合价 998 元/吨、长协综合价 717 元/吨</td><td>现货长协价差约 281 元/吨，长协履约与价格机制是客户经营关键</td><td><span class="stars s2">★★</span></td><td><sup class="cite"><a href="#src-21">21</a></sup></td></tr>
+<tr><td><span class="date">2026-10-30</span></td><td>国家能源局</td><td>发布会披露：9 月底煤电发电量占比降至 49.1%，光伏装机 13.1 亿千瓦，新型储能 1.67 亿千瓦（同比 <span class="arr up">↑</span> 63%）；今年累计核准大型现代化煤矿 12 处、产能储备 2,260 万吨/年</td><td>煤电电量空间收窄，客户煤电板块需加快融合改造；现代化煤矿核准利好产能接续</td><td><span class="stars s3">★★★</span></td><td><sup class="cite"><a href="#src-25">25</a></sup></td></tr>
+<tr><td><span class="date">2026-10-20</span></td><td>国家矿山安全监察局内蒙古局</td><td>石拉乌素煤矿"9·13"亡人事件核销公示（公示期 <span class="date">2026-10-21</span> 至 <span class="date">2026-10-31</span>）：经公安调查认定不属于生产安全事故；该矿属兖矿能源控股的昊盛煤业</td><td>对标企业安全事件处置参考；核销程序本身是行业安全管理信号</td><td><span class="stars s1">★</span></td><td><sup class="cite"><a href="#src-23">23</a></sup></td></tr>
+<tr><td><span class="date">2026-10-20</span></td><td>国家矿山安全监察局内蒙古局</td><td>门克庆煤矿"9·3"亡人事件核销公示：调查认定为从业人员突发疾病，不属于生产安全事故；该矿属中天合创（中煤能源参股 38.75%）</td><td>同上</td><td><span class="stars s1">★</span></td><td><sup class="cite"><a href="#src-24">24</a></sup></td></tr>
+</tbody>
+</table>
+</div>
+<h3 id="sec-12">做法：兖矿能源把"提质增效重回报"升级为两年期量化方案</h3>
+<p>兖矿能源 <span class="date">2026-10-31</span> 发布 2026 年度暨 2027 年度"提质增效重回报"2.0 行动方案，把经营、股东回报、规范治理三类指标全部量化：2027 年力争红隼煤矿贡献权益增量 360 万吨、五彩湾四号露天矿二期等贡献增量 600 至 1,000 万吨，降本增效 1 亿元，材料单耗同比 <span class="arr down">↓</span> 2%、电力单耗同比 <span class="arr down">↓</span> 3%；每年现金股利总额约占净利润的 50%，每年参加 ESG 评级申报不少于 3 次、组织或参加论坛不少于 4 次 <sup class="cite"><a href="#src-26">26</a></sup>。成效方面，公司 2025 年商品煤产量 1.82 亿吨、吨煤销售成本 321.09 元/吨（同比 <span class="arr down">↓</span> 4.3%），2026 年前三季度归母净利润 111 亿元（同比 <span class="arr up">↑</span> 56%）<sup class="cite"><a href="#src-26">26</a></sup>。对客户的启示：上交所"提质增效重回报"倡议已进入 2.0 阶段，两年期、可考核的方案比年度表态更能稳定投资者预期，建议客户对照升级现行方案。</p>
+<h3 id="sec-13">做法：中煤能源把 ESG 沟通嵌入月度生产经营说明会</h3>
+<p>中煤能源 <span class="date">2026-10-14</span> 举行月度生产经营情况说明会（<span class="date">2026-10-16</span> 披露记录单），ESG 管理及投关经理与证券事务部负责人共同出席，向机构和个人投资者说明"存量提效、增量转型"思路与煤炭煤电联营、煤电新能源联营的"两个联营"模式，并明确 2026 年电煤中长期合同签约量为自有资源的 75%、年度履约率不低于 90% <sup class="cite"><a href="#src-27">27</a></sup>。对客户的启示：把 ESG 议题（长协履约、绿色矿山、智能化）放进常态化经营沟通，比单独的路演更能让投资者把 ESG 与盈利质量联系起来；客户可借鉴这一机制。</p>
+<h3 id="sec-14">做法：陕煤张家峁牵头制定智能化煤矿数据行业标准</h3>
+<p>陕煤集团张家峁矿业牵头起草的 MT/T 1381-2026《智能化煤矿数据分类指南》与 MT/T 1382-2026《智能化煤矿数据架构设计指南》经国家能源局 2026 年第 4 号公告批准发布（<span class="date">2026-10-09</span> 发布，<span class="date">2027-04-09</span> 实施），针对煤矿数据异构、分类不统一、跨系统互通难等痛点补齐顶层标准 <sup class="cite"><a href="#src-29">29</a></sup>。对客户的启示：客户智能化煤矿规模行业领先（28 座省级以上智能化煤矿 <sup class="cite"><a href="#src-19">19</a></sup>），应跟踪这两项标准并在 <span class="date">2027-04-09</span> 实施前完成数据分类与架构对标，同时争取参与后续标准制定。</p>
+<h3 id="sec-15">本月未检索到新动态的方面</h3>
+<ul>
+<li>行业 ESG 评选：财联社 2026 ESG 可持续发展价值生态论坛 <span class="date">2026-10-30</span> 举行并颁发"致远奖"，但含客户获奖信息的报道均发布于 <span class="date">2026-11-03</span> 之后，按发布日期口径归期后事项，本期不收录（线索见筛选记录）。</li>
+<li>煤炭工业协会：未检索到协会 2026 年 10 月发布的新的 ESG 倡议或排名（<span class="date">2026-11-26</span> 检索）。</li>
+</ul>
+<h2 id="company">四、公司动态与 ESG 影响</h2>
+<aside class="callout callout-note">
+<p class="callout-title">本节要点</p>
+<ul>
+<li>宝日希勒露天煤矿"5·22"事故调查报告 <span class="date">2026-10-07</span> 公布：1 人死亡、直接经济损失 401.3 万元，认定生产安全责任事故且<strong>事故后瞒报</strong>，12 名责任人员被提出处理建议 <sup class="cite"><a href="#src-32">32</a></sup><sup class="cite"><a href="#src-33">33</a></sup>。</li>
+<li>三季报前三季度归母净利润 4,440,300 万元（<span class="arr up">↑</span> 3.8%），但营业外支出 136,200 万元（<span class="arr up">↑</span> 137.7%），公司解释为"滞纳金等增加"，性质待查清 <sup class="cite"><a href="#src-31">31</a></sup>。</li>
+<li>董事会 <span class="date">2026-10-23</span> 一次审议 11 项议案：300 亿元融资注册、收购煤制气公司 50% 股权、内控与风险管理制度系列修订 <sup class="cite"><a href="#src-30">30</a></sup><sup class="cite"><a href="#src-35">35</a></sup>。</li>
+<li>大柳塔煤矿进入一级安全生产标准化公示名单，安全治理获官方认可 <sup class="cite"><a href="#src-13">13</a></sup>。</li>
+</ul>
+</aside>
+<div class="table-wrap">
+<table>
+<thead>
+<tr><th>日期</th><th>事件</th><th>影响维度</th><th>方向</th><th>程度</th><th>依据</th></tr>
+</thead>
+<tbody>
+<tr><td><span class="date">2026-10-07</span></td><td>内蒙古局公布宝日希勒露天煤矿"5·22"一般运输事故调查报告：<span class="date">2026-05-22</span> 事故致 1 人死亡、直接经济损失 401.3 万元，认定违章作业导致的生产安全责任事故且事故后瞒报，司机移送公安机关，12 名责任人员提出处理建议 <sup class="cite"><a href="#src-32">32</a></sup><sup class="cite"><a href="#src-33">33</a></sup></td><td>S</td><td><span class="arr down">↓</span></td><td>高</td><td>官方调查报告 PDF 全文，凤凰网报道交叉验证</td></tr>
+<tr><td><span class="date">2026-10-22</span></td><td>公告将于 <span class="date">2026-10-30</span> 16:00–17:00 举行 2026 年第三季度业绩说明会 <sup class="cite"><a href="#src-34">34</a></sup></td><td>G</td><td><span class="arr flat">→</span></td><td>低</td><td>证券日报报道公司公告</td></tr>
+<tr><td><span class="date">2026-10-24</span></td><td>第六届董事会第二十三次会议（<span class="date">2026-10-23</span> 召开）决议公告：通过三季报、300 亿元债务融资工具及公司债注册发行、新疆能源受让煤制气公司 50% 股权（对价 61,767.40 万元，关联董事回避表决）、数科公司吸收合并信息技术公司、2026–2028 年内控监督评价工作规划及风险管理内控办法、"三重一大"权责清单（2026 版）等 11 项议案 <sup class="cite"><a href="#src-30">30</a></sup><sup class="cite"><a href="#src-35">35</a></sup></td><td>E/G</td><td><span class="arr flat">→</span></td><td>中</td><td>董事会决议公告与融资公告原文</td></tr>
+<tr><td><span class="date">2026-10-24</span></td><td>2026 年第三季度报告：前三季度营业收入 29,603,100 万元（<span class="arr up">↑</span> 9.0%）、归母净利润 4,440,300 万元（<span class="arr up">↑</span> 3.8%）、扣非净利润 4,280,800 万元（<span class="arr up">↑</span> 10.6%）；营业外支出 136,200 万元（<span class="arr up">↑</span> 137.7%，滞纳金等增加）；维简费、安全生产费等境内外准则差异调整项 291,400 万元（上年同期 355,600 万元，<span class="arr down">↓</span> 18.1%）<sup class="cite"><a href="#src-31">31</a></sup></td><td>S/G</td><td><span class="arr down">↓</span></td><td>中</td><td>三季报原文合并利润表及变动原因说明</td></tr>
+<tr><td><span class="date">2026-10-26</span></td><td>国家矿山安全监察局公示拟命名一级安全生产标准化煤矿 22 处，公司大柳塔煤矿列名单第 15 项 <sup class="cite"><a href="#src-13">13</a></sup></td><td>S</td><td><span class="arr up">↑</span></td><td>中</td><td>官方公示及附件名单</td></tr>
+</tbody>
+</table>
+</div>
+<h3 id="sec-16">重点解读：宝日希勒事故调查报告公布，瞒报与外委管控是整改焦点</h3>
+<p>调查报告认定：<span class="date">2026-05-22</span> 0 时 52 分，排土场工长未履行报备程序、未佩戴安全帽进入无人驾驶专属封闭作业区域步行巡查，被平地机碾压身亡；事故直接经济损失 <strong>401.3 万元</strong>，且事故发生后存在瞒报、私自处置、规避监管行为，<span class="date">2026-06-24</span> 内蒙古局会同呼伦贝尔市有关部门成立调查组并邀请纪委监委介入 <sup class="cite"><a href="#src-32">32</a></sup>。间接原因包括外委队伍安全监管履职不严、无人驾驶高危区域缺乏盲区预警与物理隔离技防设施、未深刻吸取本矿上一年同类运输事故教训——公司 2025 年度 ESG 报告已披露 <span class="date">2025-10-06</span> 宝日希勒能源露天煤矿车辆溜车致 1 名司机死亡事故 <sup class="cite"><a href="#src-19">19</a></sup><sup class="cite"><a href="#src-32">32</a></sup>。凤凰网 <span class="date">2026-10-31</span> 报道与官方报告一致（其所称 <span class="date">2026-10-27</span> 公布日期与官方页面 <span class="date">2026-10-07</span> 不符，以官方为准）<sup class="cite"><a href="#src-33">33</a></sup>。建议客户对外委队伍与无人驾驶作业区开展专项排查，重申事故报告纪律，并把同类事故教训整改闭环纳入安全考核。</p>
+<h3 id="sec-17">重点解读：三季报盈利增长，但营业外支出激增与维简安全费下降需要追问</h3>
+<p>前三季度营业收入 29,603,100 万元（<span class="arr up">↑</span> 9.0%）、归母净利润 4,440,300 万元（<span class="arr up">↑</span> 3.8%）、经营现金流净额 9,270,000 万元（<span class="arr up">↑</span> 23.1%），基本面稳健 <sup class="cite"><a href="#src-31">31</a></sup>。但营业外支出 136,200 万元，同比 <span class="arr up">↑</span> <strong>137.7%</strong>，公司仅解释为"本集团滞纳金等增加"，未披露性质与金额构成；同时维简费、安全生产费等境内外会计准则差异调整项由上年同期 355,600 万元降至 291,400 万元（<span class="arr down">↓</span> 18.1%）<sup class="cite"><a href="#src-31">31</a></sup>。滞纳金通常关联税费或行政义务逾期，属合规（G）信号；维简安全费计提下降关系安全投入（S）。建议在年报披露前向公司查清滞纳金对应事项、计提下降原因，并评估是否需要在 ESG 报告中作专项说明。</p>
+<h3 id="sec-18">重点解读：融资、收购与内控制度同批推进，治理与转型布局并行</h3>
+<p>董事会 <span class="date">2026-10-23</span> 批准的 300 亿元注册额度中，公司债券品种明确包括绿色公司债券、科技创新公司债券，募集资金可用于投资收购，为转型项目预留了融资工具 <sup class="cite"><a href="#src-35">35</a></sup>。新疆能源以 61,767.40 万元受让母公司西部能源所持煤制气公司 50% 股权，关联董事康凤伟、李新华回避表决，独立非执行董事事前认可，程序合规；收购将扩大煤化工业务边界，其碳排放与环保影响需纳入后续评估 <sup class="cite"><a href="#src-30">30</a></sup>。同批通过的 2026–2028 年内控监督评价工作规划、风险管理与内部控制管理办法、"三重一大"决策权责清单（2026 版），是治理（G）维度的制度性利好 <sup class="cite"><a href="#src-30">30</a></sup>。</p>
+<h3 id="sec-19">重点解读：大柳塔煤矿进入一级安全标准化公示名单</h3>
+<p>按《煤矿安全生产标准化定级办法》（矿安〔2026〕79 号），经现场检查 22 处煤矿达到一级标准并公示，公司大柳塔煤矿在列，公示期内接受社会监督 <sup class="cite"><a href="#src-13">13</a></sup>。一级标准化是煤矿安全管理的最高等级认定，利好公司安全声誉与评级叙事；建议跟踪公示结果并在 ESG 报告中披露。</p>
+<h3 id="sec-20">本月未检索到新动态的方面</h3>
+<ul>
+<li>行政处罚与诉讼：<span class="date">2026-11-26</span> 以"中国神华 处罚 罚款"加 2026 年 10 月时间锚检索，未见公司当月新增行政处罚或诉讼公告；检索到的处罚均为 2024–2025 年历史事项。</li>
+<li>董监高变动：未见当月新的董监高变动公告（董事会决议公告显示执行董事张长岩代行董事会秘书职责 <sup class="cite"><a href="#src-30">30</a></sup>）。</li>
+<li>ESG 报告与奖项：公司 2025 年度 ESG 报告已于 <span class="date">2026-03-31</span> 披露 <sup class="cite"><a href="#src-19">19</a></sup>；当月获奖报道（财联社致远奖）发布于 11 月，归期后事项，见第三节说明。</li>
+</ul>
+<h2 id="peers">五、对标企业关键行动</h2>
+<p>对标名单：国内中煤能源、兖矿能源、陕西煤业、山西焦煤、淮北矿业，国际嘉能可、英美资源、必和必拓（<span class="date">2026-11-26</span> 检索确认可比性）。</p>
+<div class="table-wrap">
+<table>
+<thead>
+<tr><th>企业</th><th>关键行动</th><th>影响维度</th><th>日期</th><th>来源</th></tr>
+</thead>
+<tbody>
+<tr><td>兖矿能源</td><td>发布 2026 年度暨 2027 年度"提质增效重回报"2.0 行动方案：2027 年增量扩能 600–1,000 万吨、降本增效 1 亿元，现金股利约占净利润 50%，每年 ESG 评级申报不少于 3 次</td><td>G</td><td><span class="date">2026-10-31</span></td><td><sup class="cite"><a href="#src-26">26</a></sup></td></tr>
+<tr><td>中煤能源</td><td>月度生产经营说明会由 ESG 管理及投关经理共同出席，深化煤炭煤电、煤电新能源"两个联营"，承诺 2026 年电煤长协签约量为自有资源 75%、履约率不低于 90%</td><td>E/G</td><td><span class="date">2026-10-16</span>（公告）</td><td><sup class="cite"><a href="#src-27">27</a></sup></td></tr>
+<tr><td>陕西煤业</td><td>2026 年半年度权益分派实施：每股 0.058 元、合计 56,231 万元，<span class="date">2026-10-22</span> 发放</td><td>G</td><td><span class="date">2026-10-14</span>（公告）</td><td><sup class="cite"><a href="#src-28">28</a></sup></td></tr>
+<tr><td>陕西煤业（张家峁矿业）</td><td>牵头起草的智能化煤矿数据分类、数据架构设计两项行业标准（MT/T 1381-2026、MT/T 1382-2026）获国家能源局批准发布</td><td>E/G</td><td><span class="date">2026-10-09</span>（发布）</td><td><sup class="cite"><a href="#src-29">29</a></sup></td></tr>
+<tr><td>英美资源</td><td>Q3 生产报告披露澳洲焦煤业务出售给 Dhilmar（现金对价最高 38.75 亿美元）预计 2027 年一季度完成；Q3 焦煤产量 290 万吨（<span class="arr up">↑</span> 53%）</td><td>E</td><td><span class="date">2026-10-20</span></td><td><sup class="cite"><a href="#src-36">36</a></sup></td></tr>
+</tbody>
+</table>
+</div>
+<h3 id="sec-21">对客户的启示</h3>
+<ol>
+<li>"提质增效重回报"已进入两年期量化阶段：兖矿 2.0 方案把经营、分红、ESG 评级申报全部写成可考核数字 <sup class="cite"><a href="#src-26">26</a></sup>；客户现行方案是 <span class="date">2026-03-30</span> 发布的年度版（商品煤产量目标 3.302 亿吨，已部署"规范信息披露和评级提升专项攻坚行动"）<sup class="cite"><a href="#src-37">37</a></sup>。建议客户在 2027 年初升级为两年期方案，并把安全投入、碳成本管理等 ESG 指标纳入量化目标。</li>
+<li>ESG 沟通要嵌入常态经营披露：中煤让 ESG 经理出席月度生产经营说明会，把长协履约、绿色矿山与盈利质量一起讲 <sup class="cite"><a href="#src-27">27</a></sup>。客户 <span class="date">2026-10-30</span> 已举行三季度业绩说明会 <sup class="cite"><a href="#src-34">34</a></sup>，可借鉴这一机制固定 ESG 议程。</li>
+<li>国际同行在加速剥离煤炭资产（英美资源焦煤业务出售 <sup class="cite"><a href="#src-36">36</a></sup>），国内央企则强化煤炭兜底保障与煤电融合 <sup class="cite"><a href="#src-3">3</a></sup><sup class="cite"><a href="#src-25">25</a></sup>。客户"煤炭 + 新能源"一体化路径需要同时讲好保供与转型两个叙事，煤电融合改造 <sup class="cite"><a href="#src-3">3</a></sup> 是国内政策提供的现成抓手。</li>
+</ol>
+<h3 id="sec-22">本月未检索到新动态的方面</h3>
+<ul>
+<li>山西焦煤、淮北矿业：<span class="date">2026-11-26</span> 检索未见两家公司 2026 年 10 月新的 ESG 相关公告或行动；检索到的淮北矿业 ESG 获奖、山西焦煤生态治理均为其他月份事项。</li>
+<li>嘉能可、必和必拓：未见 2026 年 10 月新的 ESG 行动发布；嘉能可保留煤炭业务的决定随 2026 年中期业绩披露、必和必拓 ESG 圆桌材料发布于 <span class="date">2026-09-16</span>，均作背景不列入本月对标表。</li>
+</ul>
+<h2 id="actions">六、建议清单</h2>
+<div class="table-wrap">
+<table>
+<thead>
+<tr><th>优先级</th><th>行动</th><th>对应动态</th><th>时间窗</th><th>建议牵头部门</th></tr>
+</thead>
+<tbody>
+<tr><td>高</td><td>宝日希勒"5·22"事故专项整改：外委队伍监管与无人驾驶作业区技防补强、事故报告纪律培训、上一年同类事故教训整改闭环核查</td><td><sup class="cite"><a href="#src-32">32</a></sup><sup class="cite"><a href="#src-33">33</a></sup><sup class="cite"><a href="#src-19">19</a></sup></td><td>2026-12 内完成</td><td>安全监察部门、煤炭生产部门</td></tr>
+<tr><td>高</td><td>查清三季报营业外支出"滞纳金等"的性质与金额构成、维简费与安全生产费计提下降原因，评估年报与 ESG 报告披露口径</td><td><sup class="cite"><a href="#src-31">31</a></sup></td><td>2026 年报披露前</td><td>财务部门、ESG 管理部门</td></tr>
+<tr><td>高</td><td>对照财政部煤炭行业应用指南征求意见稿做披露差距盘点，按证监会电子化规范建立报告数据元素台账与机读报送流程</td><td><sup class="cite"><a href="#src-1">1</a></sup><sup class="cite"><a href="#src-4">4</a></sup></td><td>正式指南印发前（预计 2026-12 内启动）</td><td>ESG 管理部门、财务部门</td></tr>
+<tr><td>高</td><td>筛选具备条件的煤电机组评估融合改造试点（五类场景），编制 2027 年碳资产预算与有偿分配压力测试</td><td><sup class="cite"><a href="#src-3">3</a></sup><sup class="cite"><a href="#src-2">2</a></sup></td><td>2026-12 启动，2027 年一季度形成方案</td><td>电力部门、碳资产管理</td></tr>
+<tr><td>中</td><td>升级"提质增效重回报"方案为 2026–2027 两年期版本，把 ESG 评级申报、安全投入、碳强度等写成可考核目标</td><td><sup class="cite"><a href="#src-26">26</a></sup><sup class="cite"><a href="#src-37">37</a></sup></td><td>2027 年一季度</td><td>董事会办公室、ESG 管理部门</td></tr>
+<tr><td>中</td><td>布局煤矿甲烷（瓦斯）利用与 CCER 项目储备，对接低浓度瓦斯利用方法学，开展监测数据真实性专项自查</td><td><sup class="cite"><a href="#src-2">2</a></sup><sup class="cite"><a href="#src-12">12</a></sup></td><td>2027 年上半年</td><td>煤炭生产部门、碳资产管理</td></tr>
+<tr><td>中</td><td>从公司取数补齐 MSCI、标普、中证、华证最新评级，衔接既有"评级提升专项攻坚行动"制定路线图</td><td><sup class="cite"><a href="#src-17">17</a></sup><sup class="cite"><a href="#src-37">37</a></sup></td><td>2026-12 内</td><td>ESG 管理部门</td></tr>
+<tr><td>低</td><td>在定期业绩说明会固定 ESG 议程，对标中煤能源 ESG 经理出席月度经营说明会的机制</td><td><sup class="cite"><a href="#src-27">27</a></sup><sup class="cite"><a href="#src-34">34</a></sup></td><td>下一次业绩说明会起</td><td>证券事务部门、ESG 管理部门</td></tr>
+</tbody>
+</table>
+</div>
+<h2 id="method">附录一：方法与口径</h2>
+<p><strong>时间窗</strong>：<span class="date">2026-10-01</span> 至 <span class="date">2026-10-31</span>，以信息的<strong>发布日期</strong>判定是否属于本月。成文日期与公开日期不一致的，按公开日期归月并在条目中注明成文日期（如国能发电力〔2026〕69 号成文 <span class="date">2026-09-28</span>、公开 <span class="date">2026-10-21</span>；矿安〔2026〕89 号成文 <span class="date">2026-09-30</span>、公开 <span class="date">2026-10-16</span>）。早先发布、本月到期的文件只进"本月到期节点"小表（财办会〔2026〕34 号、环办气候函〔2026〕32 号）。本月之后发布的信息一律不收录，例如：含中国神华获财联社致远奖的报道（<span class="date">2026-11-03</span> 至 <span class="date">2026-11-12</span> 发布）、公司 10 月主要运营数据公告（<span class="date">2026-11-14</span> 发布）、收购煤制气公司进展公告（<span class="date">2026-11-16</span> 发布）。</p>
+<p><strong>信源分级</strong>：A 为政府、监管、交易所、准则机构、公司公告原文；B 为权威媒体、行业机构、专业服务机构报道；C 为转载聚合页（只作线索）。本报告 37 条来源中 A 级 27 条、B 级 10 条，未使用 C 级来源支撑正文事实。</p>
+<p><strong>检索与核对</strong>：共执行联网搜索 44 次（拆题 1、政策 19、评级与标准 8、行业 9、公司 4、对标 3），另直接读取政府与公司页面约 40 次。进正文表格的条目均打开原文核对发布日期、发文主体、文号与关键数字；负面事件（宝日希勒事故）以官方调查报告 PDF 为准并用凤凰网报道交叉验证。工信部碳排放双控实施方案因官网列表动态加载无法读取，以中国有色金属工业网、中国低碳网两个独立全文转载核对文号与数字，来源按 B 级标注。</p>
+<p><strong>日期分歧处理</strong>：宝日希勒"5·22"事故调查报告，官方页面与栏目列表标注 <span class="date">2026-10-07</span>，部分媒体称 <span class="date">2026-10-27</span>，以官方为准；证监会公告〔2026〕13 号官网落款 <span class="date">2026-10-26</span>，部分媒体称 <span class="date">2026-10-30</span>，以官网为准。</p>
+<p><strong>单位口径</strong>：公司三季报原文单位为百万元，本报告统一换算为万元（1 百万元 = 100 万元）；煤价单位为元/吨；百分比保留一位小数。</p>
+<p><strong>局限与未能覆盖的渠道</strong>：</p>
+<ul>
+<li>本机网络策略拦截 WebFetch 的域名验证，全部原文改用 curl 直接抓取；SEC 官网返回限流页、FCA 官网返回反爬验证页，两处原文未能核对（见附录二）。</li>
+<li>MSCI 官网（reCAPTCHA）、标普全球 ESG 评分页（拒绝访问）、Sustainalytics 公司页（无公开数据）、中证指数 ESG 栏目（动态加载）、华证数据平台（需登录）均无法直接读取，评级现状表存在缺口。</li>
+<li>工信部官网政策列表、巨潮资讯与港交所披露易公告列表为动态加载，未能直接遍历，改用搜索加新浪公告频道、上海证券报等法定披露渠道核对单条公告。</li>
+<li>moomoo、钜亨网连接失败，东方财富移动端页面为脚本壳，相关报道未用作来源。</li>
+<li>本报告生成日期与检索基准日按用户指定为 <span class="date">2026-11-26</span>。</li>
+</ul>
+<h2 id="leads">附录二：待核实线索</h2>
+<p>以下线索有价值但未能打开原文核对，不进正文表格，留待下期或向公司取数核实。</p>
+<div class="table-wrap">
+<table>
+<thead>
+<tr><th>线索</th><th>还缺哪一步核对</th><th>链接</th></tr>
+</thead>
+<tbody>
+<tr><td>MSCI 中国神华评级维持 BB（<span class="date">2026-06-30</span> 报道标题，A 股同行业 18 家中第 5）</td><td>MSCI 官网评级页被人机验证拦截，需在官网或向公司确认最新评级与日期</td><td><a href="https://video.sina.cn/finance/2026-06-30/detail-inifcmee5100772.d.html?vt=4" target="_blank" rel="noopener">新浪视频页</a></td></tr>
+<tr><td>标普全球中国神华 ESG 评分 48 分（2025-10 更新，搜索摘要）</td><td>标普官网评分页拒绝访问，需换网络环境或向公司取数</td><td><a href="https://www.spglobal.com/sustainable1/en/scores/results?cid=4230011" target="_blank" rel="noopener">标普评分页</a></td></tr>
+<tr><td>MSCI 2026 评级模型 5.0 更新时间线（2025-10 公布、2026-03 切换，第三方转述）</td><td>MSCI 官方模型更新 PDF 未能打开，需核对官方原文</td><td><a href="https://www.msci.com/downloads/web/msci-com/discover-msci/events/event-assets/2025/october/MSCI%20ESG%20Ratings%202026%20Model%20Update/MSCI%20ESG%20Ratings%202026%20Model%20Update%20-%20Oct%2028%202025.pdf" target="_blank" rel="noopener">MSCI 模型更新 PDF</a></td></tr>
+<tr><td>美国 SEC 拟废除气候披露规则（<span class="date">2026-05-29</span> 提议、评论期至 <span class="date">2026-08-03</span>，搜索摘要）</td><td>SEC 官网限流，需核对新闻稿与联邦公报原文</td><td><a href="https://www.sec.gov/newsroom/press-releases/2026-49-sec-proposes-rescission-climate-related-disclosure-rules" target="_blank" rel="noopener">SEC 新闻稿</a></td></tr>
+<tr><td>英国 FCA 上市发行人可持续披露最终规则 PS26/19（2026 年秋季，搜索摘要）</td><td>FCA 官网反爬验证页，需核对政策声明原文与生效日期</td><td><a href="https://www.fca.org.uk/publications/policy-statements/ps26-19-aligning-listed-issuers-sustainability-disclosures-international-standards" target="_blank" rel="noopener">FCA PS26/19</a></td></tr>
+<tr><td>工信部 2026 年度绿色工厂推荐通知（省级推荐截止 <span class="date">2026-10-30</span>，媒体报道）</td><td>工信部官网原文未找到，需核对通知文号与截止要求</td><td><a href="https://finance.sina.com.cn/roll/2026-10-10/doc-iniutcvm6154812.shtml" target="_blank" rel="noopener">新浪报道</a></td></tr>
+<tr><td>华证指数中国神华最新期次评级（正文 AA 为 <span class="date">2025-07-31</span> 期媒体转述）</td><td>华证数据平台需登录，需向公司或平台确认 2026 年各期评级</td><td><a href="https://smartesg.chindices.com/" target="_blank" rel="noopener">华证 ESG 数据平台</a></td></tr>
+</tbody>
+</table>
+</div>
+<h2 id="sources">附录三：来源清单</h2>
+<div class="table-wrap">
+<table>
+<thead>
+<tr><th class="num">编号</th><th>标题</th><th>来源</th><th>发布日期</th><th>链接</th><th>可信等级</th></tr>
+</thead>
+<tbody>
+<tr id="src-1"><td class="num">1</td><td>关于征求《〈企业可持续披露准则第 1 号——气候（试行）〉应用指南（征求意见稿）》及电力等 9 项行业应用指南（征求意见稿）意见的函（财办会〔2026〕34 号）</td><td>财政部办公厅</td><td><span class="date">2026-09-30</span></td><td><a href="https://kjs.mof.gov.cn/gongzuotongzhi/202609/t20260929_3998329.htm" target="_blank" rel="noopener">原文</a></td><td>A</td></tr>
+<tr id="src-2"><td class="num">2</td><td>全文实录丨国新办举行新闻发布会 介绍中国积极应对气候变化、参与引领全球气候治理有关情况</td><td>生态环境部</td><td><span class="date">2026-10-21</span></td><td><a href="https://www.mee.gov.cn/ywdt/xwfb/202610/t20261021_1184298.shtml" target="_blank" rel="noopener">原文</a></td><td>A</td></tr>
+<tr id="src-3"><td class="num">3</td><td>国家能源局关于推动煤电与新能源融合发展的实施意见（国能发电力〔2026〕69 号，成文 <span class="date">2026-09-28</span>）</td><td>国家能源局</td><td><span class="date">2026-10-21</span></td><td><a href="https://www.nea.gov.cn/20261021/fbd5cb3be4584be88f63046ffb0155fc/c.html" target="_blank" rel="noopener">原文</a></td><td>A</td></tr>
+<tr id="src-4"><td class="num">4</td><td>【第 13 号公告】《〈上市公司可持续发展报告电子化规范〉等 3 项行业标准》（证监会公告〔2026〕13 号）</td><td>中国证监会</td><td><span class="date">2026-10-26</span></td><td><a href="https://www.csrc.gov.cn/csrc/c101954/c7667691/content.shtml" target="_blank" rel="noopener">原文</a></td><td>A</td></tr>
+<tr id="src-5"><td class="num">5</td><td>ISSB consults on its proposals for nature-related disclosures</td><td>IFRS 基金会</td><td><span class="date">2026-10-22</span></td><td><a href="https://www.ifrs.org/news-and-events/news/2026/10/issb-consults-on-proposals-nature-related-disclosures/" target="_blank" rel="noopener">原文</a></td><td>A</td></tr>
+<tr id="src-6"><td class="num">6</td><td>《A＋H 股央企控股上市公司 ESG 信息披露合规与管理体系优化研究》课题研讨会在京召开</td><td>嘉实基金</td><td><span class="date">2026-10-20</span></td><td><a href="https://www.jsfund.cn/main/a/20261020/484254.shtml" target="_blank" rel="noopener">原文</a></td><td>B</td></tr>
+<tr id="src-7"><td class="num">7</td><td>工业和信息化部印发《加快构建工业和信息化领域碳排放双控工作体系实施方案（2026—2030 年）》（含工信部节函〔2026〕343 号通知全文）</td><td>中国有色金属工业网</td><td><span class="date">2026-10-21</span></td><td><a href="https://www.chinania.org.cn/html/zcfg/zhengcefagui/2026/1021/62228.html" target="_blank" rel="noopener">原文</a></td><td>B</td></tr>
+<tr id="src-8"><td class="num">8</td><td>国家矿山安全监察局关于印发《煤矿安全监管监察行政处罚裁量权基准》的通知（矿安〔2026〕89 号，成文 <span class="date">2026-09-30</span>）</td><td>国家矿山安全监察局（内蒙古局网站）</td><td><span class="date">2026-10-16</span></td><td><a href="https://nmg.chinamine-safety.gov.cn/Item/16435.aspx" target="_blank" rel="noopener">原文</a></td><td>A</td></tr>
+<tr id="src-9"><td class="num">9</td><td>关于做好 2026 年全国碳排放权交易市场有关工作的通知（环办气候函〔2026〕32 号）</td><td>生态环境部办公厅</td><td><span class="date">2026-02-09</span></td><td><a href="https://www.mee.gov.cn/xxgk2018/xxgk/xxgk06/202602/t20260209_1143900.html" target="_blank" rel="noopener">原文</a></td><td>A</td></tr>
+<tr id="src-10"><td class="num">10</td><td>碳排放权交易管理暂行条例（<span class="date">2024-01-25</span> 公布，<span class="date">2026-08-08</span> 修订，网站转载）</td><td>生态环境部</td><td><span class="date">2026-10-10</span></td><td><a href="https://www.mee.gov.cn/zcwj/gwywj/202610/t20261010_1175967.shtml" target="_blank" rel="noopener">原文</a></td><td>A</td></tr>
+<tr id="src-11"><td class="num">11</td><td>Commission adopts revised sustainability reporting standards</td><td>欧盟委员会</td><td><span class="date">2026-07-03</span></td><td><a href="https://finance.ec.europa.eu/news/commission-adopts-revised-sustainability-reporting-standards-2026-07-03_en" target="_blank" rel="noopener">原文</a></td><td>A</td></tr>
+<tr id="src-12"><td class="num">12</td><td>国家矿山安全监察局公布 2026 年第三批典型执法案例（煤矿）</td><td>国家矿山安全监察局</td><td><span class="date">2026-09-30</span></td><td><a href="https://www.chinamine-safety.gov.cn/zfxxgk/fdzdgknr/tzgg/202609/t20260930_718035.shtml" target="_blank" rel="noopener">原文</a></td><td>A</td></tr>
+<tr id="src-13"><td class="num">13</td><td>公示拟命名达到安全生产标准化一级标准煤矿名单（附 22 处煤矿名单）</td><td>国家矿山安全监察局（内蒙古局网站）</td><td><span class="date">2026-10-26</span></td><td><a href="https://nmg.chinamine-safety.gov.cn/Item/16492.aspx" target="_blank" rel="noopener">原文</a></td><td>A</td></tr>
+<tr id="src-14"><td class="num">14</td><td>国家发展改革委"通知"栏目页（含《煤炭工业发展"十五五"规划》<span class="date">2026-08-10</span> 发布条目）</td><td>国家发展改革委</td><td>持续更新（<span class="date">2026-11-26</span> 访问）</td><td><a href="https://www.ndrc.gov.cn/xxgk/zcfb/tz/" target="_blank" rel="noopener">原文</a></td><td>A</td></tr>
+<tr id="src-15"><td class="num">15</td><td>联交所刊发有关气候信息披露规定的咨询总结</td><td>香港交易所</td><td><span class="date">2024-04-19</span></td><td><a href="https://www.hkex.com.hk/News/Regulatory-Announcements/2024/240419news?sc_lang=zh-hk" target="_blank" rel="noopener">原文</a></td><td>A</td></tr>
+<tr id="src-16"><td class="num">16</td><td>Scope 2 Market-based Method Update: From 2025-2026 Public Consultation to Current Status</td><td>温室气体核算体系（GHG Protocol）</td><td><span class="date">2026-10-16</span></td><td><a href="https://ghgprotocol.org/blog/scope-2-market-based-method-update-2025-2026-public-consultation-current-status" target="_blank" rel="noopener">原文</a></td><td>A</td></tr>
+<tr id="src-17"><td class="num">17</td><td>【ESG 动态】中国神华（601088.SH）获华证指数 ESG 最新评级 AA，行业排名第 3</td><td>证券之星（搜狐号）</td><td><span class="date">2025-10-12</span></td><td><a href="https://m.sohu.com/a/943080582_115377/" target="_blank" rel="noopener">原文</a></td><td>B</td></tr>
+<tr id="src-18"><td class="num">18</td><td>关于发布《上海证券交易所上市公司自律监管指南第 4 号——可持续发展报告编制（2026 年 1 月修订）》的通知（上证函〔2026〕484 号）</td><td>上海证券交易所</td><td><span class="date">2026-01-30</span></td><td><a href="https://www.sse.com.cn/lawandrules/guide/stock/zbxxpljg/ssgszljg/c/c_20250117_10770284.shtml" target="_blank" rel="noopener">原文</a></td><td>A</td></tr>
+<tr id="src-19"><td class="num">19</td><td>中国神华 2025 年度环境、社会和公司治理报告（全文）</td><td>中国神华（新浪财经公告频道）</td><td><span class="date">2026-03-31</span></td><td><a href="https://vip.stock.finance.sina.com.cn/corp/view/vCB_AllBulletinDetail.php?stockid=601088&amp;id=12048562" target="_blank" rel="noopener">原文</a></td><td>A</td></tr>
+<tr id="src-20"><td class="num">20</td><td>陕西煤业 MSCI ESG 评级维持 CCC（含 18 家同行评级表）</td><td>新浪财经鹰眼工作室（网易转载）</td><td><span class="date">2026-07-09</span></td><td><a href="https://www.163.com/dy/article/L1CDBAN605568W0A.html" target="_blank" rel="noopener">原文</a></td><td>B</td></tr>
+<tr id="src-21"><td class="num">21</td><td>【BSPI】环渤海动力煤价格指数 745 元/吨（报告期 <span class="date">2026-10-21</span> 至 <span class="date">2026-10-27</span>）</td><td>BSPI 秦皇岛煤炭网（新浪财经转载）</td><td><span class="date">2026-10-28</span></td><td><a href="https://www.sohu.com/a/1093868976_122014422" target="_blank" rel="noopener">原文</a></td><td>B</td></tr>
+<tr id="src-22"><td class="num">22</td><td>突破千元关口 煤市淡季不淡</td><td>中国能源报（榆林煤炭网转载）</td><td><span class="date">2026-10-19</span></td><td><a href="https://www.k0912.com/wap/newdetail.jsp?uuid=855190d884494f649f51986398fd6f5b" target="_blank" rel="noopener">原文</a></td><td>B</td></tr>
+<tr id="src-23"><td class="num">23</td><td>关于内蒙古昊盛煤业有限公司石拉乌素煤矿"9·13"事故核销情况的公示</td><td>国家矿山安全监察局内蒙古局</td><td><span class="date">2026-10-20</span></td><td><a href="https://nmg.chinamine-safety.gov.cn/Item/16439.aspx" target="_blank" rel="noopener">原文</a></td><td>A</td></tr>
+<tr id="src-24"><td class="num">24</td><td>关于中天合创能源有限责任公司门克庆煤矿"9·3"事故核销情况的公示</td><td>国家矿山安全监察局内蒙古局</td><td><span class="date">2026-10-20</span></td><td><a href="https://nmg.chinamine-safety.gov.cn/Item/16440.aspx" target="_blank" rel="noopener">原文</a></td><td>A</td></tr>
+<tr id="src-25"><td class="num">25</td><td>国家能源局新闻发布会文字实录（前三季度能源形势、可再生能源并网）</td><td>国家能源局</td><td><span class="date">2026-10-30</span></td><td><a href="https://www.nea.gov.cn/20261030/dd2b15f04b92441aa59f839a1a3413ba/c.html" target="_blank" rel="noopener">原文</a></td><td>A</td></tr>
+<tr id="src-26"><td class="num">26</td><td>兖矿能源集团股份有限公司关于 2026 年度暨 2027 年度"提质增效重回报"2.0 行动方案的公告</td><td>兖矿能源（上海证券报）</td><td><span class="date">2026-10-31</span></td><td><a href="https://paper.cnstock.com/html/2026-10/31/content_2285153.htm" target="_blank" rel="noopener">原文</a></td><td>A</td></tr>
+<tr id="src-27"><td class="num">27</td><td>中煤能源：投资者关系活动记录单（2026 年 10 月 14 日，编号 2026-10）</td><td>中煤能源（新浪财经公告频道）</td><td><span class="date">2026-10-16</span></td><td><a href="https://vip.stock.finance.sina.com.cn/corp/view/vCB_AllBulletinDetail.php?id=12646179&amp;stockid=601898" target="_blank" rel="noopener">原文</a></td><td>A</td></tr>
+<tr id="src-28"><td class="num">28</td><td>陕西煤业股份有限公司 2026 年半年度权益分派实施公告</td><td>陕西煤业（金股讯转载）</td><td><span class="date">2026-10-14</span></td><td><a href="https://www.jinguxun.com/article/news/10851762" target="_blank" rel="noopener">原文</a></td><td>B</td></tr>
+<tr id="src-29"><td class="num">29</td><td>陕煤集团两项煤炭行业标准获批发布（MT/T 1381-2026、MT/T 1382-2026）</td><td>陕煤集团（新浪财经转载）</td><td><span class="date">2026-10-26</span></td><td><a href="https://www.163.com/dy/article/LA6JMV6M05568W0A.html" target="_blank" rel="noopener">原文</a></td><td>B</td></tr>
+<tr id="src-30"><td class="num">30</td><td>中国神华：关于第六届董事会第二十三次会议决议的公告</td><td>中国神华（新浪财经公告频道）</td><td><span class="date">2026-10-24</span></td><td><a href="https://vip.stock.finance.sina.com.cn/corp/view/vCB_AllBulletinDetail.php?stockid=601088&amp;id=12657707" target="_blank" rel="noopener">原文</a></td><td>A</td></tr>
+<tr id="src-31"><td class="num">31</td><td>中国神华：2026 年第三季度报告</td><td>中国神华（新浪财经公告频道）</td><td><span class="date">2026-10-24</span></td><td><a href="https://money.finance.sina.com.cn/corp/view/vCB_AllBulletinDetail.php?id=12657705&amp;stockid=601088" target="_blank" rel="noopener">原文</a></td><td>A</td></tr>
+<tr id="src-32"><td class="num">32</td><td>国能宝日希勒能源有限公司露天煤矿"5·22"一般运输事故调查报告（官方页面及 PDF 全文）</td><td>国家矿山安全监察局内蒙古局</td><td><span class="date">2026-10-07</span></td><td><a href="https://nmg.chinamine-safety.gov.cn/Item/16488.aspx" target="_blank" rel="noopener">原文</a></td><td>A</td></tr>
+<tr id="src-33"><td class="num">33</td><td>一露天煤矿凌晨发生事故后瞒报被追责</td><td>凤凰网（大风号）</td><td><span class="date">2026-10-31</span></td><td><a href="https://feng.ifeng.com/c/8xfYZ8iQx4t" target="_blank" rel="noopener">原文</a></td><td>B</td></tr>
+<tr id="src-34"><td class="num">34</td><td>中国神华：关于举办 2026 年第三季度业绩说明会的公告</td><td>证券日报（搜狐号）</td><td><span class="date">2026-10-22</span></td><td><a href="https://www.sohu.com/a/1091328158_121857546" target="_blank" rel="noopener">原文</a></td><td>B</td></tr>
+<tr id="src-35"><td class="num">35</td><td>中国神华：关于拟注册发行债务融资工具和公司债券的公告</td><td>中国神华（新浪财经公告频道）</td><td><span class="date">2026-10-24</span></td><td><a href="https://vip.stock.finance.sina.com.cn/corp/view/vCB_AllBulletinDetail.php?stockid=601088&amp;id=12657706" target="_blank" rel="noopener">原文</a></td><td>A</td></tr>
+<tr id="src-36"><td class="num">36</td><td>Q3 2026 Production Report（含澳洲焦煤业务出售进展）</td><td>英美资源（Anglo American）</td><td><span class="date">2026-10-20</span></td><td><a href="https://www.angloamerican.com/media/press-releases/2026/20-10-2026" target="_blank" rel="noopener">原文</a></td><td>A</td></tr>
+<tr id="src-37"><td class="num">37</td><td>自愿公告 2026 年度「提质增效重回报」行动方案</td><td>中国神华（港交所披露易）</td><td><span class="date">2026-03-30</span></td><td><a href="https://www.hkexnews.hk/listedco/listconews/sehk/2026/0330/2026033004023_c.pdf" target="_blank" rel="noopener">原文</a></td><td>A</td></tr>
+</tbody>
+</table>
+</div>
+</main>
+</div>
+<footer class="foot">报告生成于 2026-11-26</footer>
+</body>
+</html>
